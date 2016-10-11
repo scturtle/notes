@@ -1,0 +1,1217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-10-11 Tue 11:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Note of cs231n</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="scturtle" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="org.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Note of cs231n</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline1">1. Classification</a></li>
+<li><a href="#orgheadline2">2. Linear Cliassify</a>
+<ul>
+<li><a href="#orgheadline3">2.1. Multiclass Support Vector Machine</a></li>
+<li><a href="#orgheadline4">2.2. Softmax classifier</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline5">3. Optimization</a></li>
+<li><a href="#orgheadline6">4. Neural Networks</a>
+<ul>
+<li><a href="#orgheadline7">4.1. Activation functions</a></li>
+<li><a href="#orgheadline8">4.2. PCA</a></li>
+<li><a href="#orgheadline9">4.3. Whitening</a></li>
+<li><a href="#orgheadline10">4.4. Weight initialization</a></li>
+<li><a href="#orgheadline11">4.5. Regularization</a></li>
+<li><a href="#orgheadline12">4.6. Loss functions</a></li>
+<li><a href="#orgheadline13">4.7. Summary</a></li>
+<li><a href="#orgheadline14">4.8. Gradient check</a></li>
+<li><a href="#orgheadline15">4.9. Ratio of weights:updates</a></li>
+<li><a href="#orgheadline16">4.10. Parameter updates</a></li>
+<li><a href="#orgheadline17">4.11. Hyperparameter optimization</a></li>
+<li><a href="#orgheadline18">4.12. Model Ensembles</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline19">5. Convolutional Networks</a>
+<ul>
+<li><a href="#orgheadline20">5.1. The Conv Layer</a></li>
+<li><a href="#orgheadline21">5.2. The Pooling Layer</a></li>
+<li><a href="#orgheadline22">5.3. Normalization Layer</a></li>
+<li><a href="#orgheadline23">5.4. FC-&gt;CONV conversion</a></li>
+<li><a href="#orgheadline24">5.5. ConvNet Architectures</a></li>
+<li><a href="#orgheadline25">5.6. Layer Sizing Patterns</a></li>
+<li><a href="#orgheadline26">5.7. Case studies</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Classification</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+L1 distance: \(d_1 (I_1, I_2) = \sum_{p} \left| I^p_1 - I^p_2 \right|\)
+</p>
+
+<p>
+L2 distance: \(d_2 (I_1, I_2) = \sqrt{\sum_{p} \left( I^p_1 - I^p_2 \right)^2}\)
+</p>
+
+<p>
+k-Nearest Neighbor (kNN) classifier
+</p>
+
+<p>
+<a href="http://homepage.tudelft.nl/19j49/t-SNE.html">t-SNE</a>
+</p>
+
+<p>
+If your data is very high-dimensional, consider using a dimensionality reduction technique
+such as PCA (<a href="https://www.wikiwand.com/en/Principal_component_analysis">wiki ref</a>, <a href="http://cs229.stanford.edu/notes/cs229-notes10.pdf">CS229ref</a>, <a href="http://cs229.stanford.edu/notes/cs229-notes10.pdf">blog ref</a>) or even <a href="http://scikit-learn.org/stable/modules/random_projection.html">Random Projections</a>.
+</p>
+
+<p>
+If your kNN classifier is running too long, consider using an Approximate Nearest Neighbor library
+(e.g. <a href="http://www.cs.ubc.ca/research/flann/">FLANN</a>) to accelerate the retrieval (at cost of some accuracy).
+</p>
+
+<p>
+Ref:
+</p>
+
+<p>
+<a href="http://homes.cs.washington.edu/~pedrod/papers/cacm12.pdf">A Few Useful Things to Know about Machine Learning</a>
+</p>
+
+<p>
+<a href="http://people.csail.mit.edu/torralba/shortCourseRLOC/index.html">Recognizing and Learning Object Categories</a>, ICCV 2005
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2"><span class="section-number-2">2</span> Linear Cliassify</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Linear classifier:
+</p>
+
+<p>
+\[f(x_i, W, b) =  W x_i + b\]
+</p>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">2.1</span> Multiclass Support Vector Machine</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+the score for the j-th class is the j-th element:
+</p>
+
+<p>
+\[s_j=f(x_i,W)_j\]
+</p>
+
+<p>
+loss for the i-th example:
+</p>
+
+<p>
+\[L_i = \sum_{j\neq y_i} \max(0, s_j - s_{y_i} + \Delta)\]
+</p>
+
+<p>
+vectorlize:
+</p>
+
+<p>
+\[f(x_i; W) =  W x_i\]
+</p>
+
+<p>
+\[L_i = \sum_{j\neq y_i} \max(0, w_j^T x_i - w_{y_i}^T x_i + \Delta)\]
+</p>
+
+
+<p>
+In summary, the SVM loss function wants the score of the correct class
+\(y_i\) to be larger than the incorrect class scores by at least by \(\Delta\).
+</p>
+
+<p>
+The setting of \(\Delta\) (1.0 is fine) is in some sense meaningless because the weights can shrink.
+</p>
+
+<p>
+The threshold at zero \(max(0,-)\) function is often called the <b>hinge loss</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">2.2</span> Softmax classifier</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+generalization of binary Logistic Regression classifier to multiple classes
+</p>
+
+<p>
+output normalized class probabilities and also has a probabilistic interpretation
+</p>
+
+<p>
+cross-entropy loss:
+</p>
+
+<p>
+\[L_i = -\log\left(\frac{e^{f_{y_i}}}{ \sum_j e^{f_j} }\right) \hspace{0.1in} \text{or equivalently} \hspace{0.1in} L_i = -f_{y_i} + \log\sum_j e^{f_j}\]
+</p>
+
+<p>
+\(f_i\) is the i-th element of the vector of class scores \(f\)
+</p>
+
+<p>
+softmax function:
+</p>
+
+<p>
+\[f_j(z) = \frac{e^{z_j}}{\sum_k e^{z_k}}\]
+</p>
+
+<p>
+Maximum Likelihood Estimation (MLE)
+</p>
+
+<p>
+Maximum a posteriori (MAP) (Gaussian prior?)
+</p>
+
+<p>
+The SVM classifier uses the hinge loss, or also sometimes called the max-margin loss. The Softmax classifier uses the cross-entropy loss.
+</p>
+
+<p>
+ref:
+<a href="http://arxiv.org/abs/1306.0239">Deep Learning using Linear Support Vector Machines</a>
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5"><span class="section-number-2">3</span> Optimization</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Gradient Descent
+</p>
+
+<p>
+backpropagation
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6"><span class="section-number-2">4</span> Neural Networks</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"><span class="section-number-3">4.1</span> Activation functions</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+sigmoid: \[\sigma(x) = 1/(1+e^{-x})\]
+</p>
+
+<ul class="org-ul">
+<li>(-) Sigmoids saturate and kill gradients.</li>
+<li>(-) Sigmoid outputs are not zero-centered.</li>
+</ul>
+
+<p>
+tanh non-linearity is always preferred to the sigmoid nonlinearity.
+</p>
+
+<p>
+ReLU: \[f(x) = \max(0, x)\]
+</p>
+
+<ul class="org-ul">
+<li>(+) Simple and fast.</li>
+<li>(-) Can be fragile during training and can “die”.</li>
+</ul>
+
+<p>
+Leaky ReLU : \[f(x) = \mathbb{1} (x < 0) (\alpha x) + \mathbb{1} (x>=0) (x)\]
+</p>
+
+<ul class="org-ul">
+<li><a href="http://arxiv.org/abs/1502.01852">Delving Deep into Rectifiers</a>, Kaiming He et al., 2015</li>
+<li>attempt to fix the “dying ReLU” problem</li>
+</ul>
+
+<p>
+Maxout: \[\max(w_1^Tx+b_1, w_2^Tx + b_2)\]
+</p>
+
+<ul class="org-ul">
+<li>by <a href="http://www-etud.iro.umontreal.ca/~goodfeli/maxout.html">Goodfellow et al.</a> that generalizes the ReLU and its leaky version</li>
+<li>(-) doubles the number of parameters</li>
+</ul>
+
+<p>
+TLDR:
+</p>
+<ul class="org-ul">
+<li><b>Use the ReLU non-linearity</b>, be careful with your learning rates and possibly monitor the fraction of “dead” units in a network.</li>
+<li>If this concerns you, give Leaky ReLU or Maxout a try.</li>
+<li>Never use sigmoid. Try tanh, but expect it to work worse than ReLU/Maxout.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">4.2</span> PCA</h3>
+<div class="outline-text-3" id="text-4-2">
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">Assume input data matrix X of size [N x D]</span>
+<span style="color: #715ab1;">X</span> -= np.mean(X, axis = <span style="color: #4e3163;">0</span>) <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">zero-center the data (important)</span>
+<span style="color: #715ab1;">cov</span> = np.dot(X.T, X) / X.shape[<span style="color: #4e3163;">0</span>] <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">get the data covariance matrix</span>
+<span style="color: #715ab1;">U</span>,<span style="color: #715ab1;">S</span>,<span style="color: #715ab1;">V</span> = np.linalg.svd(cov) <span style="color: #2aa1ae;">#  </span><span style="color: #2aa1ae;">SVD factorization</span>
+</pre>
+</div>
+
+<p>
+Columns of U are the eigenvectors and S is a 1-D array of the singular values
+(which are equal to the eigenvalues squared).
+</p>
+
+<p>
+projection and dimensionality reduction:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #715ab1;">Xrot</span> = np.dot(X, U) <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">decorrelate the data</span>
+<span style="color: #715ab1;">Xrot_reduced</span> = np.dot(X, U[:,:<span style="color: #4e3163;">100</span>]) <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">Xrot_reduced becomes [N x 100]</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9"><span class="section-number-3">4.3</span> Whitening</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+The whitening operation takes the data in the eigenbasis and
+divides every dimension by the eigenvalue to normalize the scale.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #715ab1;">Xwhite</span> = Xrot / np.sqrt(S + <span style="color: #4e3163;">1e</span>-<span style="color: #4e3163;">5</span>)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"><span class="section-number-3">4.4</span> Weight initialization</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+The recommended heuristic is to initialize each neuron’s weight vector as:
+<code>w = np.random.randn(n) / sqrt(n)</code>, where n is the number of its inputs.
+</p>
+
+<p>
+Another choice: \(\text{Var}(w) = 2/(n_{in} + n_{out})\).
+</p>
+
+<p>
+<a href="http://arxiv-web3.library.cornell.edu/abs/1502.01852">Recommend</a>: ReLU unit and <code>w = np.random.randn(n) * sqrt(2.0/n)</code>.
+</p>
+
+<p>
+<a href="http://arxiv.org/abs/1502.03167">Batch Normalization</a>: explicitly forcing the activations throughout a network
+to take on a unit gaussian distribution at the beginning of the training.
+Insert the BatchNorm layer immediately after fully connected layers
+(or convolutional layers), and before non-linearities.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11"><span class="section-number-3">4.5</span> Regularization</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+<b>L2 regularization</b> encouraging the network to use all of its inputs a little
+rather that some of its inputs a lot.
+</p>
+
+<p>
+<b>L1 regularization</b> leads the weight vectors to become sparse during optimization
+ (i.e. very close to exactly zero).
+Neurons end up using only a sparse subset of their most important inputs and
+ become nearly invariant to the “noisy” inputs.
+</p>
+
+<p>
+<b>Max norm constraints</b> enforce an absolute upper bound on the magnitude
+ of the weight vector. \(\Vert \vec{w} \Vert_2 < c\), c are on orders of 3 or 4.
+</p>
+
+<p>
+<a href="http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf">Dropout</a> is implemented by only keeping a neuron active with some probability
+ \(p\) (a hyperparameter), or setting it to zero otherwise.
+In the predict function we are not dropping anymore but performing a scaling.
+inverted dropout performs the scaling at train time,
+ leaving the forward pass at test time untouched.
+</p>
+
+<p>
+<b>In practice</b>: It is most common to use a single, global L2 regularization strength
+that is cross-validated.
+It is also common to combine this with dropout applied after all layers.
+The value of p=0.5.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12"><span class="section-number-3">4.6</span> Loss functions</h3>
+<div class="outline-text-3" id="text-4-6">
+</div><div id="outline-container-orgheadline27" class="outline-4">
+<h4 id="orgheadline27"><span class="section-number-4">4.6.1</span> Classification</h4>
+<div class="outline-text-4" id="text-4-6-1">
+<p>
+SVM:
+</p>
+
+<p>
+\[L_i = \sum_{j\neq y_i} \max(0, f_j - f_{y_i} + 1)\]
+</p>
+
+<p>
+Softmax classifier uses the cross-entropy loss:
+</p>
+
+<p>
+\[L_i = -\log\left(\frac{e^{f_{y_i}}}{ \sum_j e^{f_j} }\right)\]
+</p>
+
+<p>
+<a href="http://arxiv.org/pdf/1310.4546.pdf">Hierarchical Softmax</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline28" class="outline-4">
+<h4 id="orgheadline28"><span class="section-number-4">4.6.2</span> Attribute/Multiclass classification</h4>
+<div class="outline-text-4" id="text-4-6-2">
+<p>
+Binary classifier for each class:
+</p>
+
+<p>
+\[L_i = \sum_j \max(0, 1 - y_{ij} f_j)\]
+</p>
+
+<p>
+Logistic regression classifier for every class
+ and probability for class 1 is:
+</p>
+
+<p>
+\[P(y = 1 \mid x; w, b) = \frac{1}{1 + e^{-(w^Tx +b)}} = \sigma (w^Tx + b)\]
+</p>
+
+<p>
+The loss function then maximizes the log likelihood of this probability:
+</p>
+
+<p>
+\[L_i = \sum_j y_{ij} \log(\sigma(f_j)) + (1 - y_{ij}) \log(1 - \sigma(f_j))\]
+</p>
+
+<p>
+Gradient on \(f\):
+</p>
+
+<p>
+\[\partial{L_i} / \partial{f_j} = y_{ij} - \sigma(f_j)\]
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline29" class="outline-4">
+<h4 id="orgheadline29"><span class="section-number-4">4.6.3</span> Regression</h4>
+<div class="outline-text-4" id="text-4-6-3">
+<p>
+L2/L1.
+</p>
+
+<p>
+Word of caution:
+</p>
+
+<ol class="org-ol">
+<li>It is important to note that the L2 loss is much harder
+to optimize than a more stable loss such as Softmax.</li>
+
+<li>Additionally, the L2 loss is less robust because
+outliers can introduce huge gradients.</li>
+
+<li>When faced with a regression problem, first consider if it
+is absolutely inadequate to quantize the output into bins.</li>
+
+<li>the L2 is more fragile and applying dropout in the network
+(especially in the layer right before the L2 loss) is not a great idea.</li>
+</ol>
+
+<blockquote>
+<p>
+When faced with a regression task, first consider if it is absolutely necessary.
+Instead, have a strong preference to discretizing your outputs to bins and
+perform classification over them whenever possible.
+</p>
+</blockquote>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline30" class="outline-4">
+<h4 id="orgheadline30"><span class="section-number-4">4.6.4</span> Structured prediction</h4>
+<div class="outline-text-4" id="text-4-6-4">
+<p>
+The basic idea behind the structured SVM loss is to demand a margin
+ between the correct structure \(y_i\) and the highest-scoring incorrect structure.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline13" class="outline-3">
+<h3 id="orgheadline13"><span class="section-number-3">4.7</span> Summary</h3>
+<div class="outline-text-3" id="text-4-7">
+<ol class="org-ol">
+<li>The recommended preprocessing is to center the data to have mean of zero,
+and normalize its scale to [-1, 1] along each feature.</li>
+
+<li>Initialize the weights by drawing them from a gaussian distribution
+with standard deviation of \(\sqrt{2/n}\), where \(n\) is the number of inputs to the neuron.
+E.g. in numpy: <code>w = np.random.randn(n) * sqrt(2.0/n)</code>.</li>
+
+<li>Use L2 regularization and dropout (the inverted version).</li>
+
+<li>Use batch normalization.</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14"><span class="section-number-3">4.8</span> Gradient check</h3>
+<div class="outline-text-3" id="text-4-8">
+<p>
+\[\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h}\]
+</p>
+
+<p>
+\[\frac{\mid f'_a - f'_n \mid}{\max(\mid f'_a \mid, \mid f'_n \mid)}\]
+</p>
+
+<p>
+<a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html">“What Every Computer Scientist Should Know About Floating-Point Arithmetic”</a>
+</p>
+
+
+<p>
+<b>Kinks</b> refer to non-differentiable parts of an objective function.
+</p>
+
+<p>
+It is best to use a short burn-in time during which the network is allowed to
+ learn and perform the gradient check after the loss starts to go down.
+</p>
+
+<p>
+It is recommended to turn off regularization and check the data loss alone first,
+ and then the regularization term second and independently.
+</p>
+
+<p>
+Remember to turn off any non-deterministic effects in the network,
+ such as dropout, random data augmentations, etc.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15"><span class="section-number-3">4.9</span> Ratio of weights:updates</h3>
+<div class="outline-text-3" id="text-4-9">
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">assume parameter vector W and its gradient vector dW</span>
+<span style="color: #715ab1;">param_scale</span> = np.linalg.norm(W.ravel())
+<span style="color: #715ab1;">update</span> = -learning_rate*dW <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">simple SGD update</span>
+<span style="color: #715ab1;">update_scale</span> = np.linalg.norm(update.ravel())
+<span style="color: #715ab1;">W</span> += update <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">the actual update</span>
+<span style="color: #3a81c3; font-weight: bold;">print</span> update_scale / param_scale <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">want ~1e-3</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline16" class="outline-3">
+<h3 id="orgheadline16"><span class="section-number-3">4.10</span> Parameter updates</h3>
+<div class="outline-text-3" id="text-4-10">
+</div><div id="outline-container-orgheadline31" class="outline-4">
+<h4 id="orgheadline31"><span class="section-number-4">4.10.1</span> Momentum update</h4>
+<div class="outline-text-4" id="text-4-10-1">
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #715ab1;">v</span> = mu * v - learning_rate * dx <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">integrate velocity</span>
+<span style="color: #715ab1;">x</span> += v <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">integrate position</span>
+</pre>
+</div>
+
+<p>
+A typical setting is to start with momentum of about 0.5 and
+ anneal it to 0.99 or so over multiple epochs.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline32" class="outline-4">
+<h4 id="orgheadline32"><span class="section-number-4">4.10.2</span> Nesterov’s Accelerated Momentum (NAG)</h4>
+<div class="outline-text-4" id="text-4-10-2">
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #715ab1;">x_ahead</span> = x + mu * v
+<span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">evaluate dx_ahead (the gradient at x_ahead instead of at x)</span>
+<span style="color: #715ab1;">v</span> = mu * v - learning_rate * dx_ahead
+<span style="color: #715ab1;">x</span> += v
+</pre>
+</div>
+
+<p>
+Expressing the update in terms of x_ahead instead of x:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #715ab1;">v_prev</span> = v <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">back this up</span>
+<span style="color: #715ab1;">v</span> = mu * v - learning_rate * dx <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">velocity update stays the same</span>
+<span style="color: #715ab1;">x</span> += -mu * v_prev + (<span style="color: #4e3163;">1</span> + mu) * v <span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">position update changes form</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline33" class="outline-4">
+<h4 id="orgheadline33"><span class="section-number-4">4.10.3</span> Annealing the learning rate</h4>
+<div class="outline-text-4" id="text-4-10-3">
+<ol class="org-ol">
+<li>Step decay.</li>
+<li><b>Exponential decay</b>. has the mathematical form \(\alpha = \alpha_0 e^{-k t}\),
+where \(t\) is the iteration number/units of epochs.</li>
+<li><b>1/t decay</b> has the mathematical form \(\alpha = \alpha_0 / (1 + k t)\).</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline34" class="outline-4">
+<h4 id="orgheadline34"><span class="section-number-4">4.10.4</span> Second order methods</h4>
+<div class="outline-text-4" id="text-4-10-4">
+<p>
+Based on Newton’s method:
+</p>
+
+<p>
+\[x \leftarrow x - [H f(x)]^{-1} \nabla f(x)\]
+</p>
+
+<p>
+Here, \(H f(x)\) is the Hessian matrix, which is a square matrix
+ of second-order partial derivatives of the function.
+The term \(\nabla f(x)\) is the gradient vector, as seen in Gradient Descent.
+</p>
+
+<p>
+<a href="http://en.wikipedia.org/wiki/Limited-memory_BFGS">L-BFGS</a> uses the information in the gradients over time
+ to form the approximation implicitly.
+However it must be computed over the entire training set.
+</p>
+
+<p>
+<a href="http://arxiv.org/abs/1311.2115">SFO</a> algorithm strives to combine the advantages of SGD with advantages of L-BFGS.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline38" class="outline-4">
+<h4 id="orgheadline38"><span class="section-number-4">4.10.5</span> Per-parameter adaptive learning rate methods</h4>
+<div class="outline-text-4" id="text-4-10-5">
+</div><div id="outline-container-orgheadline35" class="outline-5">
+<h5 id="orgheadline35">Adagrad</h5>
+<div class="outline-text-5" id="text-orgheadline35">
+<p>
+originally proposed by <a href="http://jmlr.org/papers/v12/duchi11a.html">Duchi et al.</a>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #2aa1ae;"># </span><span style="color: #2aa1ae;">Assume the gradient dx and parameter vector x</span>
+<span style="color: #715ab1;">cache</span> += dx**<span style="color: #4e3163;">2</span>
+<span style="color: #715ab1;">x</span> += - learning_rate * dx / (np.sqrt(cache) + eps)
+</pre>
+</div>
+
+<p>
+A downside of Adagrad is that in case of Deep Learning,
+ the monotonic learning rate usually proves too aggressive and stops learning too early.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline36" class="outline-5">
+<h5 id="orgheadline36">RMSprop</h5>
+<div class="outline-text-5" id="text-orgheadline36">
+<p>
+<a href="http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf">Slide 29 of Lecture 6</a> of Geoff Hinton’s Coursera class.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #715ab1;">cache</span> = decay_rate * cache + (<span style="color: #4e3163;">1</span> - decay_rate) * dx**<span style="color: #4e3163;">2</span>
+<span style="color: #715ab1;">x</span> += - learning_rate * dx / (np.sqrt(cache) + eps)
+</pre>
+</div>
+
+<p>
+Here, <code>decay_rate</code> is a hyperparameter and typical values are [0.9, 0.99, 0.999].
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline37" class="outline-5">
+<h5 id="orgheadline37"><a href="http://arxiv.org/abs/1412.6980">Adam</a></h5>
+<div class="outline-text-5" id="text-orgheadline37">
+<p>
+A recently proposed update that looks a bit like RMSProp with momentum.
+ The simplified update looks as follows:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #715ab1;">m</span> = beta1*m + (<span style="color: #4e3163;">1</span>-beta1)*dx
+<span style="color: #715ab1;">v</span> = beta2*v + (<span style="color: #4e3163;">1</span>-beta2)*(dx**<span style="color: #4e3163;">2</span>)
+<span style="color: #715ab1;">x</span> += - learning_rate * m / (np.sqrt(v) + eps)
+</pre>
+</div>
+
+<p>
+Recommended values in the paper are eps = 1e-8, beta1 = 0.9, beta2 = 0.999.
+</p>
+
+<p>
+In practice Adam is currently <b>recommended as the default algorithm</b> to use,
+ and often works slightly better than RMSProp.
+</p>
+
+<p>
+However, it is often also worth trying <i>SGD+Nesterov Momentum</i> as an alternative.
+</p>
+
+<p>
+The full Adam update also includes a <i>bias correction</i> mechanism.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline17" class="outline-3">
+<h3 id="orgheadline17"><span class="section-number-3">4.11</span> Hyperparameter optimization</h3>
+<div class="outline-text-3" id="text-4-11">
+<p>
+Prefer one validation fold to cross-validation.
+</p>
+
+<p>
+Search for hyperparameters on log scale.
+</p>
+
+<p>
+Prefer random search to grid search.
+</p>
+
+<p>
+Bayesian Hyperparameter Optimization: <a href="https://github.com/JasperSnoek/spearmint">Spearmint</a>, <a href="http://www.cs.ubc.ca/labs/beta/Projects/SMAC/">SMAC</a>, and <a href="http://jaberg.github.io/hyperopt/">Hyperopt</a>.
+However, in practical settings with ConvNets it is still relatively
+ difficult to beat random search in a carefully-chosen intervals.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline18" class="outline-3">
+<h3 id="orgheadline18"><span class="section-number-3">4.12</span> Model Ensembles</h3>
+<div class="outline-text-3" id="text-4-12">
+<ol class="org-ol">
+<li>Same model, different initializations.</li>
+<li>Top models discovered during cross-validation.</li>
+<li>Different checkpoints of a single model.
+Taking different checkpoints of a single network over time
+(for example after every epoch).
+This works reasonably well in practice and is very cheap.</li>
+<li>Running average of parameters during training.
+Maintain a second copy of the network’s weights in memory that
+maintains an exponentially decaying sum of previous weights during training.
+A cheap way of almost always getting an extra percent or two of performance.</li>
+</ol>
+
+<p>
+Geoff Hinton on <a href="https://www.youtube.com/watch?v=EK61htlw8hY">“Dark Knowledge”</a>.
+</p>
+
+<p>
+ref:
+<a href="http://research.microsoft.com/pubs/192769/tricks-2012.pdf">SGD tips and tricks</a> from Leon Bottou
+<a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf">Efficient BackProp</a> (pdf) from Yann LeCun
+<a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf">Practical Recommendations for Gradient-Based Training of Deep Architectures</a> from Yoshua Bengio
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline19" class="outline-2">
+<h2 id="orgheadline19"><span class="section-number-2">5</span> Convolutional Networks</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20"><span class="section-number-3">5.1</span> The Conv Layer</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+\[(W - F + 2P)/S + 1\]
+</p>
+
+<ul class="org-ul">
+<li>\(W\): input volume size</li>
+<li>\(F\): the receptive field size of the Conv Layer neurons</li>
+<li>\(S\): the stride with which they are applied</li>
+<li>\(P\): the amount of zero padding used</li>
+</ul>
+
+<p>
+Notice that if all neurons in a single depth slice are using the same weight vector,
+ then the forward pass of the CONV layer can in each depth slice be computed as a
+ convolution of the neuron’s weights with the input volume (Hence the name: Convolutional Layer).
+</p>
+
+<p>
+To summarize:
+</p>
+
+<ul class="org-ul">
+<li>input volume size: \(W_1 \times W_1 \times D_1\)</li>
+<li>parameters:
+<ul class="org-ul">
+<li>Number of filters \(K\)</li>
+<li>their spatial extent \(F\)</li>
+<li>the stride \(S\)</li>
+<li>the amount of zero padding \(P\)</li>
+</ul></li>
+<li>output volume size: \(W_2 \times W_2 \times D_2\):
+<ul class="org-ul">
+<li>\(W_2 = (W_1 - F + 2P)/S + 1\)</li>
+<li>\(D_2 = K\)</li>
+</ul></li>
+</ul>
+
+<p>
+The backward pass for a convolution operation (for both the data and the weights)
+ is also a convolution (but with spatially-flipped filters).
+</p>
+
+<p>
+<a href="https://arxiv.org/abs/1511.07122">Dilated convolutions</a>.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline21" class="outline-3">
+<h3 id="orgheadline21"><span class="section-number-3">5.2</span> The Pooling Layer</h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li>input volume size: \(W_1 \times W_1 \times D_1\)</li>
+<li>parameters:
+<ul class="org-ul">
+<li>their spatial extent \(F\)</li>
+<li>the stride \(S\)</li>
+</ul></li>
+<li>output volume size: \(W_2 \times W_2 \times D_2\):
+<ul class="org-ul">
+<li>\(W_2 = (W_1 - F)/S + 1\)</li>
+<li>\(D_2 = D_1\)</li>
+</ul></li>
+</ul>
+
+<p>
+Average pooling was often used historically but has recently fallen out of favor
+ compared to the max pooling operation, which has been shown to work better in practice.
+</p>
+
+<p>
+The backward pass for a max(x, y) operation has a simple interpretation
+ as only routing the gradient to the input that had the highest value in the forward pass.
+ Hence, during the forward pass of a pooling layer it is common to keep track of
+ the index of the max activation (sometimes also called the switches).
+</p>
+
+<p>
+<b>Getting rid of pooling</b>: <a href="http://arxiv.org/abs/1412.6806">Striving for Simplicity: The All Convolutional Net</a>.
+ To reduce the size of the representation they suggest using larger stride in CONV layer once in a while.
+ Discarding pooling layers has also been found to be important in training good generative models,
+ such as variational autoencoders (VAEs) or generative adversarial networks (GANs).
+ It seems likely that future architectures will feature very few to no pooling layers.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline22" class="outline-3">
+<h3 id="orgheadline22"><span class="section-number-3">5.3</span> Normalization Layer</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Normalization layers have since fallen out of favor because
+ in practice their contribution has been shown to be minimal, if any.
+</p>
+
+<p>
+For various types of normalizations, see the discussion in <a href="http://code.google.com/p/cuda-convnet/wiki/LayerParams#Local_response_normalization_layer_(same_map)">cuda-convnet library API</a>.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline23" class="outline-3">
+<h3 id="orgheadline23"><span class="section-number-3">5.4</span> FC-&gt;CONV conversion</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+The ability to convert an FC layer to a CONV layer is particularly useful in practice.
+It turns out that this conversion allows us to “slide” the original ConvNet
+ very efficiently across many spatial positions in a larger image, <b>in a single forward pass</b>.
+</p>
+
+<p>
+It is common to resize an image to make it bigger, use a converted ConvNet
+ to evaluate the class scores at many spatial positions and then average the class scores.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline24" class="outline-3">
+<h3 id="orgheadline24"><span class="section-number-3">5.5</span> ConvNet Architectures</h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+<code>INPUT -&gt; [[CONV -&gt; RELU]*N -&gt; POOL?]*M -&gt; [FC -&gt; RELU]*K -&gt; FC</code>
+</p>
+
+<p>
+Usually N &lt;= 3 and K &lt; 3.
+</p>
+
+<p>
+Common ConvNet architectures:
+</p>
+
+<ul class="org-ul">
+<li><code>INPUT -&gt; FC</code>, implements a linear classifier.</li>
+<li><code>INPUT -&gt; CONV -&gt; RELU -&gt; FC</code>.</li>
+<li><code>INPUT -&gt; [CONV -&gt; RELU -&gt; POOL]*2 -&gt; FC -&gt; RELU -&gt; FC</code>.</li>
+<li><code>INPUT -&gt; [CONV -&gt; RELU -&gt; CONV -&gt; RELU -&gt; POOL]*3 -&gt; [FC -&gt; RELU]*2 -&gt; FC</code>.</li>
+</ul>
+
+<p>
+Multiple stacked CONV layers can develop more complex features
+ of the input volume before the destructive pooling operation.
+</p>
+
+<p>
+Stacking CONV layers with tiny filters as opposed to having one CONV layer with big filters
+ allows us to express more powerful features of the input, and with fewer parameters.
+</p>
+
+<p>
+As a practical disadvantage, we might need more memory to hold all the intermediate
+ CONV layer results if we plan to do backpropagation.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline25" class="outline-3">
+<h3 id="orgheadline25"><span class="section-number-3">5.6</span> Layer Sizing Patterns</h3>
+<div class="outline-text-3" id="text-5-6">
+<p>
+The input layer (that contains the image) should be divisible by 2 many times.
+ Common numbers include 32 (e.g. CIFAR-10), 64, 96 (e.g. STL-10), or 224 (e.g. common ImageNet ConvNets), 384, and 512.
+</p>
+
+<p>
+The conv layers should be using small filters (e.g. 3x3 or at most 5x5),
+ using a stride of \(S=1\), and <b>crucially</b>, zero-pad.
+</p>
+
+<p>
+It is only common to see bigger filter sizes (such as 7x7 or so) on the
+ very first conv layer that is looking at the input image.
+</p>
+
+<p>
+The most common setting for pooling layer is to use max-pooling
+ with 2x2 receptive fields, and with a stride of 2.
+ Another slightly less common setting is to use 3x3 receptive fields with a stride of 2.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline26" class="outline-3">
+<h3 id="orgheadline26"><span class="section-number-3">5.7</span> Case studies</h3>
+<div class="outline-text-3" id="text-5-7">
+<p>
+<a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf">LeNet</a>. The first successful applications of ConvNet.
+</p>
+
+<p>
+<a href="http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks">AlexNet</a>. The first work that popularized ConvNet. Winner of ILSVRC challenge in 2012.
+Featured Convolutional Layers <b>stacked</b> on top of each other.
+</p>
+
+<p>
+<a href="http://arxiv.org/abs/1311.2901">ZFNet</a>. The ILSVRC 2013 winner.
+</p>
+
+<p>
+<a href="http://arxiv.org/abs/1409.4842">GoogLeNet</a>. The ILSVRC 2014 winner.
+ <b>Inception Module</b> that dramatically reduced the number of parameters in the network.
+ <b>Average Pooling</b> instead of Fully Connected layers at the top of the ConvNet,
+ eliminating a large amount of parameters.
+ most recently <a href="http://arxiv.org/abs/1602.07261">Inception-v4</a>.
+</p>
+
+<p>
+<a href="http://www.robots.ox.ac.uk/~vgg/research/very_deep/">VGGNet</a>. Its main contribution was in showing that the depth of the network
+ is a critical component for good performance.
+ Their final best network contains <b>16 CONV/FC layers that only performs 3x3 convolutions and 2x2 pooling</b>.
+ Their <a href="http://www.robots.ox.ac.uk/~vgg/research/very_deep/">pretrained model</a> is available for plug and play use in Caffe.
+</p>
+
+<p>
+<a href="http://arxiv.org/abs/1512.03385">ResNet</a>. <b>State of the art</b> as of May 10, 2016. The winner of ILSVRC 2015.
+ It features special skip connections and a heavy use of <a href="http://arxiv.org/abs/1502.03167">batch normalization</a>. 
+ Kaiming’s presentation (<a href="https://www.youtube.com/watch?v=1PGLj-uKT1w">video</a>, <a href="http://research.microsoft.com/en-us/um/people/kahe/ilsvrc15/ilsvrc2015_deep_residual_learning_kaiminghe.pdf">slides</a>), and <a href="https://github.com/gcr/torch-residual-networks">reproduced in Torch</a>.
+ Also Kaiming He et al. <a href="https://arxiv.org/abs/1603.05027">Identity Mappings in Deep Residual Networks</a> (published March 2016).
+</p>
+
+<p>
+<a href="https://github.com/soumith/convnet-benchmarks">Soumith benchmarks for CONV performance</a>.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: scturtle</p>
+<p class="date">Created: 2016-10-11 Tue 11:03</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

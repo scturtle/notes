@@ -1,0 +1,509 @@
+#+TITLE: Note of STL
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="org.css" />
+#+OPTIONS: toc:nil num:3 H:4 ^:nil pri:t
+
+#+TOC: headlines 2
+
+* Snippets
+#+BEGIN_SRC c++
+std::copy(v.cbegin(), v.cend(), ostream_iterator<int>(cout, ", "));
+std::distance(v.begin(), result);
+#+END_SRC
+
+* Non-modifying sequence operations
+** all_of, any_of, none_of
+#+BEGIN_SRC c++
+  template <class InputIt, class UnaryPredicate>
+  bool all_of(InputIt first, InputIt last, UnaryPredicate p) {
+    return std::find_if_not(first, last, p) == last;
+  }
+
+  bool any_of(InputIt first, InputIt last, UnaryPredicate p) {
+    return std::find_if(first, last, p) != last;
+  }
+
+  bool none_of(InputIt first, InputIt last, UnaryPredicate p) {
+    return std::find_if(first, last, p) == last;
+  }
+
+  std::all_of(v.cbegin(), v.cend(), [](int i) { return i % 2 == 0; });
+#+END_SRC
+** for_each
+#+BEGIN_SRC c++
+  template <class InputIt, class UnaryFunction>
+  UnaryFunction for_each(InputIt first, InputIt last, UnaryFunction f) {
+    for (; first != last; ++first) {
+      f(*first);
+    }
+    return f;
+  }
+#+END_SRC
+** count, count_if
+#+BEGIN_SRC c++
+  template <class InputIt, class T>
+  int count(InputIt first, InputIt last, const T &value) {
+    int ret = 0;
+    for (; first != last; ++first) {
+      if (*first == value) {
+        ret++;
+      }
+    }
+    return ret;
+  }
+
+  int count_if(InputIt first, InputIt last, UnaryPredicate p);
+#+END_SRC
+** mismatch
+#+BEGIN_SRC c++
+
+  template <class InputIt1, class InputIt2>
+  std::pair<InputIt1, InputIt2>
+    mismatch(InputIt1 first1, InputIt1 last1, InputIt2 first2) {
+    while (first1 != last1 && *first1 == *first2) {
+      ++first1, ++first2;
+    }
+    return std::make_pair(first1, first2);
+  }
+
+  std::pair<InputIt1, InputIt2>
+    mismatch(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPredicate p);
+#+END_SRC
+** equal
+#+BEGIN_SRC c++
+  template <class InputIt1, class InputIt2>
+  bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2) {
+    for (; first1 != last1; ++first1, ++first2) {
+      if (!(*first1 == *first2)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPredicate p);
+#+END_SRC
+** find, find_if, find_if_not
+#+BEGIN_SRC c++
+  template <class InputIt, class T>
+  InputIt find(InputIt first, InputIt last, const T &value) {
+    for (; first != last; ++first) {
+      if (*first == value) {
+        return first;
+      }
+    }
+    return last;
+  }
+  InputIt find_if(InputIt first, InputIt last, UnaryPredicate p);
+  InputIt find_if_not(InputIt first, InputIt last, UnaryPredicate q);
+#+END_SRC
+** find_end
+find last range using =std::search=
+#+BEGIN_SRC c++
+  std::vector<int> v{1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4};
+  std::vector<int>::iterator result;
+  std::vector<int> t1{1, 2, 3};
+  result = std::find_end(v.begin(), v.end(), t1.begin(), t1.end());
+  // std::distance(v.begin(), result) == 8
+#+END_SRC
+** find_first_of
+find first one of ...
+#+BEGIN_SRC c++
+
+  std::vector<int> v{0, 2, 3, 25, 5};
+  std::vector<int> t{3, 19, 10, 2};
+  auto result = std::find_first_of(v.begin(), v.end(), t.begin(), t.end());
+  // *result == 2
+#+END_SRC
+** adjacent_find
+#+BEGIN_SRC c++
+  template <class ForwardIt>
+  ForwardIt adjacent_find(ForwardIt first, ForwardIt last);
+  template <class ForwardIt, class BinaryPredicate>
+  ForwardIt adjacent_find(ForwardIt first, ForwardIt last, BinaryPredicate p);
+
+  std::vector<int> v1{0, 1, 2, 3, 40, 40, 41, 41, 5};
+  auto i1 = std::adjacent_find(v1.begin(), v1.end());
+  // std::distance(v1.begin(), i1) == 4
+  auto i2 = std::adjacent_find(v1.begin(), v1.end(), std::greater<int>());
+  // std::distance(v1.begin(), i2) == 7
+#+END_SRC
+** search, search_n
+#+BEGIN_SRC c++
+  std::string cont = "why waste time learning, when ignorance is instantaneous?";
+  std::string s = "learning";
+  std::search(cont.begin(), cont.end(), s.begin(), s.end()) != cont.end();
+#+END_SRC
+=search_n= search for the first sequence of count identical elements.
+* Modifying sequence operations
+** copy, copy_if
+Copy [first, last) into [d_first, ...)
+#+BEGIN_SRC c++
+  template <class InputIt, class OutputIt>
+  OutputIt copy(InputIt first, InputIt last, OutputIt d_first) {
+    while (first != last) {
+      ,*d_first++ = *first++;
+    }
+    return d_first;
+  }
+  OutputIt copy_if(InputIt first, InputIt last, OutputIt d_first,
+                   UnaryPredicate pred);
+#+END_SRC
+** copy_n
+copy n elements start from =first= to =result=.
+#+BEGIN_SRC c++
+  template <class InputIt, class Size, class OutputIt>
+  OutputIt copy_n(InputIt first, Size count, OutputIt result) {
+    if (count > 0) {
+      ,*result++ = *first;
+      for (Size i = 1; i < count; ++i) {
+        ,*result++ = *++first;
+      }
+    }
+    return result;
+  }
+#+END_SRC
+** copy_backward
+Copy (last, first] into (..., d_first]
+#+BEGIN_SRC c++
+  template <class BidirIt1, class BidirIt2>
+  BidirIt2 copy_backward(BidirIt1 first, BidirIt1 last, BidirIt2 d_last) {
+    while (first != last) {
+      ,*(--d_last) = *(--last);
+    }
+    return d_last;
+  }
+#+END_SRC
+** move
+batch =move=, not really delete those in [first, last)
+#+BEGIN_SRC c++
+  template <class InputIt, class OutputIt>
+  OutputIt move(InputIt first, InputIt last, OutputIt d_first) {
+    while (first != last) {
+      ,*d_first++ = std::move(*first++);
+    }
+    return d_first;
+  }
+#+END_SRC
+** move_backward
+same as =copy_backward=
+** fill, fill_n
+#+BEGIN_SRC c++
+  template <class ForwardIt, class T>
+  void fill(ForwardIt first, ForwardIt last, const T &value) {
+    for (; first != last; ++first) {
+      ,*first = value;
+    }
+  }
+  OutputIt fill_n(OutputIt first, Size count, const T &value);
+#+END_SRC
+** transform
+applies a function to a range of elements
+#+BEGIN_SRC c++
+
+
+  template <class InputIt, class OutputIt, class UnaryOperation>
+  OutputIt transform(InputIt first1, InputIt last1, OutputIt d_first,
+                     UnaryOperation unary_op) {
+    while (first1 != last1) {
+      ,*d_first++ = unary_op(*first1++);
+    }
+    return d_first;
+  }
+  OutputIt transform(InputIt1 first1, InputIt1 last1, InputIt2 first2,
+                     OutputIt d_first, BinaryOperation binary_op);
+#+END_SRC
+** generate, generate_n
+saves the result of a function in a range
+saves the result of N applications of a function
+#+BEGIN_SRC c++
+  template <class ForwardIt, class Generator>
+  void generate(ForwardIt first, ForwardIt last, Generator g) {
+    while (first != last) {
+      ,*first++ = g();
+    }
+  }
+  OutputIt generate_n(OutputIt first, Size count, Generator g);
+#+END_SRC
+** remove, remove_if
+Removes all elements satisfying specific criteria from the range [first, last).
+Returns a past-the-end iterator for the new end of the range.
+Done by *shifting*.
+#+BEGIN_SRC c++
+  template <class ForwardIt, class T>
+  ForwardIt remove(ForwardIt first, ForwardIt last, const T &value) {
+    first = std::find(first, last, value);
+    if (first != last)
+      for (ForwardIt i = first; ++i != last;)
+        if (!(*i == value))
+          *first++ = std::move(*i);
+    return first;
+  }
+  ForwardIt remove_if(ForwardIt first, ForwardIt last, UnaryPredicate p);
+
+  std::string str1 = "Text with some   spaces";
+  str1.erase(std::remove(str1.begin(), str1.end(), ' '), str1.end());
+#+END_SRC
+** remove_copy, remove_copy_if
+copy and omit some
+** replace, replace_if
+#+BEGIN_SRC c++
+  template <class ForwardIt, class T>
+  void replace(ForwardIt first, ForwardIt last, const T &old_value,
+               const T &new_value) {
+    for (; first != last; ++first) {
+      if (*first == old_value) {
+        ,*first = new_value;
+      }
+    }
+  }
+  void replace_if(ForwardIt first, ForwardIt last, UnaryPredicate p,
+                  const T &new_value);
+#+END_SRC
+** replace_copy, replace_copy_if
+copy and replace some
+** swap, swap_ranges, iter_swap
+Swaps value / *container* a and b.
+#+BEGIN_SRC c++
+  int a = 5, b = 3;
+  std::swap(a, b);
+#+END_SRC
+#+BEGIN_SRC c++
+  template <class ForwardIt1, class ForwardIt2>
+  void iter_swap(ForwardIt1 a, ForwardIt2 b) {
+    using std::swap;
+    swap(*a, *b);
+  }
+  template <class ForwardIt1, class ForwardIt2>
+  ForwardIt2 swap_ranges(ForwardIt1 first1, ForwardIt1 last1, ForwardIt2 first2) {
+    while (first1 != last1) {
+      std::iter_swap(first1++, first2++);
+    }
+    return first2;
+  }
+#+END_SRC
+** reverse, reverse_copy
+just use *swap* on bidirectional iterators
+#+BEGIN_SRC c++
+  template <class BidirIt> void reverse(BidirIt first, BidirIt last) {
+    while ((first != last) && (first != --last)) {
+      std::iter_swap(first++, last);
+    }
+  }
+  template <class BidirIt, class OutputIt>
+  OutputIt reverse_copy(BidirIt first, BidirIt last, OutputIt d_first) {
+    while (first != last) {
+      ,*(d_first++) = *(--last);
+    }
+    return d_first;
+  }
+#+END_SRC
+** rotate, rotate_copy
+#+BEGIN_SRC c++
+  template <class ForwardIt>
+  ForwardIt rotate(ForwardIt first, ForwardIt n_first, ForwardIt last) {
+    ForwardIt next = n_first;
+    while (first != next) {
+      std::iter_swap(first++, next++);
+      if (next == last) {
+        next = n_first;
+      } else if (first == n_first) {
+        n_first = next;
+      }
+    }
+    return next;
+  }
+
+  std::vector<int> v{2, 4, 2, 0, 5, 10, 7, 3, 7, 1};
+  // simple rotation to the left
+  std::rotate(v.begin(), v.begin() + 1, v.end());
+  // simple rotation to the right
+  std::rotate(v.rbegin(), v.rbegin() + 1, v.rend());
+  // insertion sort
+  for (auto i = v.begin(); i != v.end(); ++i) {
+    std::rotate(std::upper_bound(v.begin(), i, *i), i, i + 1);
+  }
+#+END_SRC
+** random_shuffle, shuffle
+#+BEGIN_SRC c++
+  template <class RandomIt> void random_shuffle(RandomIt first, RandomIt last) {
+    typename std::iterator_traits<RandomIt>::difference_type i, n;
+    n = last - first;
+    for (i = n - 1; i > 0; --i) {
+      using std::swap;
+      swap(first[i], first[std::rand() % (i + 1)]);
+    }
+  }
+#+END_SRC
+** unique, unique_copy
+Removes all *consecutive duplicate elements* from the range [first, last).
+Returns a past-the-end iterator for the new logical end of the range.
+#+BEGIN_SRC c++
+  template <class ForwardIt> ForwardIt unique(ForwardIt first, ForwardIt last) {
+    if (first == last)
+      return last;
+    ForwardIt result = first;
+    while (++first != last) {
+      if (!(*result == *first) && ++result != first) {
+        ,*result = std::move(*first);
+      }
+    }
+    return ++result;
+  }
+#+END_SRC
+* Partitioning operations
+#+BEGIN_SRC c++
+  template <class BidirIt, class UnaryPredicate>
+  BidirIt partition(BidirIt first, BidirIt last, UnaryPredicate p) {
+    while (1) {
+      while ((first != last) && p(*first)) {
+        ++first;
+      }
+      if (first == last--)
+        break;
+      while ((first != last) && !p(*last)) {
+        --last;
+      }
+      if (first == last)
+        break;
+      std::iter_swap(first++, last);
+    }
+    return first;
+  }
+  bool is_partitioned(InputIt first, InputIt last, UnaryPredicate p);
+  BidirIt stable_partition(BidirIt first, BidirIt last, UnaryPredicate p);
+  ForwardIt partition_point(ForwardIt first, ForwardIt last, UnaryPredicate p);
+#+END_SRC
+* Sorting operations
+#+BEGIN_SRC c++
+
+  // reverse sort
+  std::sort(s.begin(), s.end(), std::greater<int>());
+  std::sort(s.begin(), s.end(), [](int a, int b) { return b < a; });
+  // partial sort
+  std::array<int, 10> s{5, 7, 4, 2, 8, 6, 1, 9, 0, 3};
+  std::partial_sort(s.begin(), s.begin() + 3, s.end());
+  // n-th element
+  std::vector<int> v{5, 6, 4, 3, 2, 6, 7, 9, 3};
+  std::nth_element(v.begin(), v.begin() + v.size() / 2, v.end());
+  // others
+  bool is_sorted(ForwardIt first, ForwardIt last);
+  void stable_sort(RandomIt first, RandomIt last);
+#+END_SRC
+* Binary search operations (on sorted ranges)
+#+BEGIN_SRC c++
+  bool binary_search(ForwardIt first, ForwardIt last, const T &value);
+  // the first that is no less than
+  ForwardIt lower_bound(ForwardIt first, ForwardIt last, const T &value);
+  // the first that is greater than
+  ForwardIt lower_bound(ForwardIt first, ForwardIt last, const T &value);
+  // range containing all elements equivalent to value
+  std::pair<ForwardIt,ForwardIt>
+    equal_range( ForwardIt first, ForwardIt last, const T& value );
+#+END_SRC
+* Set operations (on sorted ranges)
+just copy
+#+BEGIN_SRC c++
+  OutputIt merge(InputIt1 first1, InputIt1 last1,
+                 InputIt2 first2, InputIt2 last2, OutputIt d_first);
+  void inplace_merge(BidirIt first, BidirIt middle, BidirIt last);
+  // if [first1, last1) includes all elms in [first2, last2)
+  bool includes(InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2);
+  // [first1, last1) - [first2, last2)
+  OutputIt set_difference(InputIt1 first1, InputIt1 last1,
+                          InputIt2 first2, InputIt2 last2, OutputIt d_first);
+  // [first1, last1) & [first2, last2)
+  OutputIt set_intersection(InputIt1 first1, InputIt1 last1,
+                            InputIt2 first2, InputIt2 last2, OutputIt d_first);
+  // in either of the ranges, but not in both of them
+  OutputIt set_symmetric_difference(InputIt1 first1, InputIt1 last1,
+                                    InputIt2 first2, InputIt2 last2,
+                                    OutputIt d_first);
+  // in both, without duplicates
+  OutputIt set_union(InputIt1 first1, InputIt1 last1,
+                     InputIt2 first2, InputIt2 last2, OutputIt d_first);
+#+END_SRC
+* Heap operations
+the default is a max heap
+#+BEGIN_SRC c++
+  bool is_heap(RandomIt first, RandomIt last);
+  void make_heap(RandomIt first, RandomIt last);
+  // insert the elem at last-1 into the max heap [first, last-1)
+  void push_heap(RandomIt first, RandomIt last);
+  // that elem is at position last-1 now
+  void pop_heap(RandomIt first, RandomIt last);
+  // max heap to sorted range
+  void sort_heap(RandomIt first, RandomIt last);
+#+END_SRC
+* Minimum/maximum operations
+#+BEGIN_SRC c++
+  const T &max(const T &a, const T &b);
+  T max(std::initializer_list<T> ilist);
+  ForwardIt max_element(ForwardIt first, ForwardIt last);
+
+  std::pair<const T &, const T &> minmax(const T &a, const T &b);
+  std::pair<T, T> minmax(std::initializer_list<T> ilist);
+  std::pair<ForwardIt, ForwardIt> minmax_element(ForwardIt first, ForwardIt last);
+#+END_SRC
+
+string/list compasion
+#+BEGIN_SRC c++
+  bool lexicographical_compare(InputIt1 first1, InputIt1 last1,
+                               InputIt2 first2, InputIt2 last2);
+#+END_SRC
+
+permutation
+#+BEGIN_SRC c++
+  // if [first1, last1) is a permutation of [first2,last2)
+  bool is_permutation(ForwardIt1 first1, ForwardIt1 last1, ForwardIt2 first2);
+
+  bool next_permutation(BidirIt first, BidirIt last);
+  bool prev_permutation(BidirIt first, BidirIt last);
+#+END_SRC
+* Numeric operations (<numeric>)
+range()
+#+BEGIN_SRC c++
+  std::list<int> l(10);
+  std::iota(l.begin(), l.end(), -4);
+  // -4 -3 -2 -1 0 1 2 3 4 5
+#+END_SRC
+
+sum()
+#+BEGIN_SRC c++
+  T accumulate(InputIt first, InputIt last, T init);
+#+END_SRC
+
+inner_product, adjacent_difference, partial_sum
+* C library (<cstdlib>)
+1. ptr - pointer to the array to sort
+2. count - number of elements in the array
+3. size - size of each element in the array in bytes
+4. comp - comparison function which returns ​a
+   *negative integer value if the first argument is less than the second*,
+   *a positive integer value if the first argument is greater than the second*
+   *and zero if the arguments are equal*.
+
+#+BEGIN_SRC c++
+  void qsort(void *ptr, std::size_t count, std::size_t size,
+             int (*comp)(const void *, const void *));
+
+  int a[] = {-2, 99, 0, -743, 2, INT_MIN, 4};
+  constexpr std::size_t size = sizeof a / sizeof *a;
+
+  std::qsort(a, size, sizeof *a, [](const void *a, const void *b) {
+    int arg1 = *static_cast<const int *>(a);
+    int arg2 = *static_cast<const int *>(b);
+    if (arg1 < arg2) return -1;
+    if (arg1 > arg2) return 1;
+    return 0;
+    // return (arg1 > arg2) - (arg1 < arg2); // possible shortcut
+    // return arg1 - arg2; // erroneous shortcut (fails if INT_MIN is present)
+  });
+#+END_SRC
+
+#+BEGIN_SRC c++
+  void *bsearch(const void *key, const void *ptr, std::size_t count,
+                std::size_t size, int (*comp)(const void *, const void *));
+
+  const int SIZE = 8; int key1 = 4;
+  int arr[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8};
+  int *p1 = (int *)std::bsearch(&key1, arr, SIZE, sizeof(arr[0]), compare);
+#+END_SRC
