@@ -1,0 +1,20 @@
+#+TITLE: Notes
+#+OPTIONS: toc:nil num:nil H:4 ^:nil pri:t
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css" />
+
+Notes for sharing.
+
+* export options
+
+| Option | Usage                                           |
+| toc    | list how many levels of headlines in TOC        |
+| num    | number how many levels of headlines             |
+| H      | below that level, headlines become list items   |
+| ^      | toggle TeX-like syntax for sub- and superscript |
+| pri    | toggle inclusion of priority cookies            |
+
+* Reference
+
+- [[https://gongzhitaao.org/orgcss][OrgCSS]]
+- [[https://github.com/fniessen/refcard-org-mode][Org Mode Refcard]]
+- [[https://orgmode.org/manual/Export-Settings.html][Org Mode Export Setting]]

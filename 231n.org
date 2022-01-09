@@ -1,8 +1,7 @@
 #+TITLE: Note of cs231n
-#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="org.css" />
-#+OPTIONS: toc:nil num:3 H:4 ^:nil pri:t
+#+OPTIONS: toc:2 num:3 H:4 ^:nil pri:t
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css" />
 
-#+TOC: headlines 2
 
 * Classification
 L1 distance: $d_1 (I_1, I_2) = \sum_{p} \left| I^p_1 - I^p_2 \right|$

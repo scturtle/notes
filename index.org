@@ -1,0 +1,10 @@
+#+TITLE: Notes
+#+OPTIONS: toc:nil num:nil H:4 ^:nil pri:t
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css" />
+
+
+* Archive
+
+- [[file:cpp.org][Note of "A Tour of C++"]]
+- [[file:stl.org][Note of STL]]
+- [[file:231n.org][Note of cs231n]]
