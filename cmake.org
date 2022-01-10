@@ -1,0 +1,286 @@
+#+TITLE: Note of Mordern CMake
+#+OPTIONS: toc:2 num:3 H:4 ^:nil pri:t
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css" />
+
+* how to run
+
+** 初始化
+
+指定代码根目录和构建目录：
+#+begin_src plain
+$ cmake -S . -B build
+#+end_src
+
+=-DXXX=yyy= 用来 override 一些变量。
+
+最常用的 =-DCMAKE_BUILD_TYPE=Relase/Debug/RelWithDebInfo/MinSizeRel= 开启优化，分别对应：
+| Release        | -O3 -DNDEBUG    |
+| Debug          | -O0 -g          |
+| RelWithDebInfo | -O2 -g -DNDEBUG |
+| MinSizeRel     | -Os -DNDEBUG    |
+
+=-DCMAKE_INSTALL_PREFIX== 安装到哪里，默认为 =/usr/local= 。
+
+=-DCMAKE_EXPORT_COMPILE_COMMANDS=1= 用来生成 =compile_commands.json= 。
+
+=-GNinja= 使用 ninja 替代 make。
+
+** 构建
+
+#+begin_src plain
+$ cmake --build build
+#+end_src
+
+=-jN= 并行。
+
+=-v= 相当于 =VERBOSE=1 make= 或 =ninja -v= 。
+
+=--target install= 或 =--install= 构建并安装到 =CMAKE_INSTALL_PREFIX= 所指向的目录下。
+
+** 指定编译器
+
+一种方法是：
+#+begin_src plain
+$ CC=clang CXX=clang++ cmake ..
+#+end_src
+
+另一种：
+#+begin_src plain
+$ cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
+#+end_src
+
+重新生效需要删除 =build/CMakeCache.txt= 。
+
+* 语法
+
+** 基础
+
+第一行：
+#+begin_src cmake
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
+#+end_src
+
+第二行：
+#+begin_src cmake
+project(YourFancyProjectName LANGUAGES CXX)
+#+end_src
+
+添加可执行程序的 target:
+#+begin_src cmake
+add_executable(main main.cc)
+#+end_src
+
+添加静态库或动态库的 target:
+#+begin_src cmake
+add_library(mylib STATIC mylib.cc)
+add_library(mylib DYNAMIC mylib.cc)
+#+end_src
+
+不指定则根据 =BUILD_SHARED_LIBS= 变量选择。
+
+添加 include 目录：
+#+begin_src cmake
+target_include_directories(main PUBLIC include)
+#+end_src
+
+| PUBLIC    | 传播到链接此 target 的任何 target |
+| PRIVATE   | 仅影响当前 target，不影响依赖项   |
+| INTERFACE | 仅影响依赖项                      |
+
+对于系统库或者第三方库的头文件不报 warning：
+#+begin_src cmake
+target_include_directories(main SYSTEM PRIVATE ...)
+#+end_src
+
+添加链接库：
+#+begin_src cmake
+target_link_libraries(main PUBLIC mylib)
+#+end_src
+
+指定编译功能：
+#+begin_src cmake
+target_compile_features(main PUBLIC cxx_std_11)
+#+end_src
+
+编译选项：
+#+begin_src cmake
+target_compile_options(main PRIVATE -Werror)
+#+end_src
+
+Definitions: =target_compile_definitions=.
+
+** 变量
+
+#+begin_src cmake
+set(VARIABLE "value")
+#+end_src
+
+Debug 的时候常用：
+#+begin_src cmake
+message(STATUS "MY_VARIABLE=${MY_VARIABLE}")
+
+include(CMakePrintHelpers)
+cmake_print_variables(MY_VARIABLE)
+#+end_src
+
+列表默认以 =;= 分割, =set(MY_LIST "one" "two")= 相当于 ="one;two"= 。
+
+TODO: 字符串和列表相关函数。
+
+定义选项常用：
+#+begin_src cmake
+option(MY_OPTION "This is settable from the command line" OFF)
+#+end_src
+
+使选项依赖其他选项：
+#+begin_src cmake
+include(CMakeDependentOption)
+cmake_dependent_option(BUILD_TESTS "Build your tests" ON "VAL1;VAL2" OFF)
+#+end_src
+
+属性：
+#+begin_src cmake
+set_target_properties(TargetName PROPERTIES CXX_STANDARD 11)
+set_property(TARGET TargetName PROPERTY CXX_STANDARD 11)
+get_property(ResultVariable TARGET TargetName PROPERTY CXX_STANDARD)
+#+end_src
+
+[[https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html][cmake variables]]
+
+[[https://cmake.org/cmake/help/latest/manual/cmake-properties.7.html][cmake properties]]
+
+
+** 控制流
+
+#+begin_src cmake
+if(variable)
+  ...
+else()
+  ...
+endif()
+#+end_src
+
+#+begin_src cmake
+foreach(var IN ITEMS foo bar baz) ...
+foreach(var IN LISTS my_list) ...
+#+end_src
+
+** [[https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html][generator-expressions]]
+
+当 =CONFIG= 为 =Debug= 时才添加 =--myflag=:
+#+begin_src cmake
+target_compile_options(myapp PRIVATE "$<$<CONFIG:Debug>:--myflag>")
+#+end_src
+
+build 和 install 时使用不同目录：
+#+begin_src cmake
+target_include_directories(myapp PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+#+end_src
+
+gcc 或 clang 下使用 openmp:
+#+begin_src cmake
+target_link_libraries(myapp PUBLIC
+  $<$<CXX_COMPILER_ID:Clang>:omp> gomp
+)
+#+end_src
+
+TODO: function, macro.
+
+* 目录结构
+
+#+begin_src plain
+- project_name
+  - CMakeLists.txt
+  - cmake/
+    - FindSomelib.cmake
+    - some_functions.cmake
+  - include/
+    - project_name/
+      - lib.h
+  - src/
+    - CMakeLists.txt
+    - lib.cc
+  - third_parties/
+    - other_lib
+      - CMakeLists.txt
+#+end_src
+
+使用 =cmake= 目录下的 =*.cmake=:
+#+begin_src cmake
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+#+end_src
+
+子目录导入：
+#+begin_src cmake
+add_subdirectory(src)
+add_subdirectory(3rdparty/other_lib)
+#+end_src
+
+* [[https://murphypei.github.io/blog/2018/10/compile-fpic.html][-fPIC]]
+
+#+begin_src cmake
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+#+end_src
+
+linux 编译动态库需要加，否则连接时会报错：
+#+begin_src plain
+/usr/bin/ld: test.o: relocation R_X86_64_32 against `a local symbol' can not be used when making a shared object; recompile with -fPIC
+#+end_src
+
+* find package
+
+[[https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html#find-modules][cmake built-in find modules]]
+
+首先会从 =CMAKE_MODULE_PATH= 里寻找 =FindPackageName.cmake= 。
+
+否则会从 =PackageName_DIR= / =PackageName_ROOT= / =CMAKE_PREFIX_PATH= 等地方寻找编译好的 =PackageNameConfig.cmake= 。
+
+#+begin_src cmake
+SET(OpenCV_DIR /home/build/opencv)
+find_package(OpenCV REQUIRED)
+target_link_libraries(opencv_example PRIVATE opencv::core opencv::video opencv::imgproc)
+#+end_src
+
+使用部分组件：
+#+begin_src cmake
+find_package(OpenCV 3.3 REQUIRED COMPONENTS highgui features2d video)
+find_package(Boost 1.50 REQUIRED COMPONENTS filesystem serialization)
+#+end_src
+
+对于 components 比较多的库，有时候用非 target 的 link 比较方便：
+#+begin_src cmake
+target_include_directories(myapp SYSTEM PUBLIC
+  ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS}
+)
+target_link_libraries(myapp PUBLIC
+  ${OpenCV_LIBRARIES} ${Boost_LIBRARIES}
+)
+#+end_src
+
+一些 C 的包只提供了 =XXX.pc=:
+#+begin_src cmake
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SDL2 REQUIRED sdl2)
+target_link_libraries(my_app ${SDL2_LIBRARIES})
+target_include_directories(my_app PUBLIC ${SDL2_INCLUDE_DIRS})
+#+end_src
+
+* tools
+
+- <lang>_CLANG_TIDY
+- <lang>_CPPLINT
+- <lang>_INCLUDE_WHAT_YOU_USE
+- LINK_WHAT_YOU_USE
+
+* take away
+
+- 不要字符串满天飞。
+- 一切都是 targets 和 properties。
+- 不要使用全局函数比如 =include_libraries=, =link_directories=, =link_libraries=, =add_compile_options= 。
+- 不要用 =CMAKE_C_FLAGS=, =CMAKE_CXX_FLAGS= 。
+- 能用 =PRIVATE= 就不用 =PUBLIC= 。
+- 尽量不要用 =file(GLOB SRCS *.cc)= 。
+- 善用 =add_subdirectory= 和 =find_package= 组织目录结构。
