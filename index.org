@@ -5,7 +5,7 @@
 
 * Archive
 
-- [[file:cmake.org][Note of CMake]]
+- [[file:cmake.org][Note of Modern CMake]]
 - [[file:cpp.org][Note of "A Tour of C++"]]
 - [[file:stl.org][Note of STL]]
 - [[file:231n.org][Note of cs231n]]

@@ -1,4 +1,4 @@
-#+TITLE: Note of Mordern CMake
+#+TITLE: Note of Modern CMake
 #+OPTIONS: toc:2 num:3 H:4 ^:nil pri:t
 #+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css" />
 
