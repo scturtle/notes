@@ -5,6 +5,7 @@
 
 * Archive
 
+- [[file:linkers_loaders.org][Note of Linkers and Loaders]]
 - [[file:cmake.org][Note of Modern CMake]]
 - [[file:cpp.org][Note of "A Tour of C++"]]
 - [[file:stl.org][Note of STL]]

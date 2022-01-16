@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-01-16 Sun 17:39 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Note of Linkers and Loaders</title>
+<meta name="author" content="shen chao" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Note of Linkers and Loaders</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga2e44aa">1. 构建过程</a></li>
+<li><a href="#org9c62e88">2. 对象（object）文件</a></li>
+<li><a href="#orgcbb4e50">3. 静态链接</a></li>
+<li><a href="#org231300a">4. 装载</a></li>
+<li><a href="#org321c162">5. 动态链接</a>
+<ul>
+<li><a href="#org72a191e">5.1. PLT</a></li>
+<li><a href="#org824b402">5.2. 相关 sections</a></li>
+<li><a href="#orgec2d383">5.3. 链接步骤</a></li>
+</ul>
+</li>
+<li><a href="#org75e9db9">6. 共享库查找</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga2e44aa" class="outline-2">
+<h2 id="orga2e44aa"><span class="section-number-2">1.</span> 构建过程</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+构建分为四个步骤: 预处理, 编译, 汇编, 链接。
+</p>
+
+<p>
+hello.c (+ hello.h) \(\xrightarrow{\text{cpp}}\)
+hello.i \(\xrightarrow{\text{gcc}}\)
+hello.s \(\xrightarrow{\text{as}}\)
+hello.o (+ *.o, *.a, &#x2026;) \(\xrightarrow{\text{ld}}\)
+a.out
+</p>
+
+<p>
+预编译：
+</p>
+<ol class="org-ol">
+<li>删除所有的 <code>#define</code>, 展开所有的宏定义。</li>
+<li>处理所有的条件编译指令 <code>#if/#ifdef</code> 。</li>
+<li>处理 <code>#include</code> 递归将文件插入指令所在位置。</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-plain">$ gcc -E hello.c -o hello.i
+# or
+$ cpp hello.c &gt; hello.i
+</pre>
+</div>
+
+<p>
+编译：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ gcc -S hello.i -o hello.s
+# 或同时做预编译和编译
+$ cc1 hello.c
+# 或
+$ gcc -S hello.c -o hello.s
+</pre>
+</div>
+
+<p>
+C++ 的对应 cc1 的程序为 cc1plus。
+</p>
+
+<p>
+汇编：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ as hello.s -o hello.o
+# 或
+$ gcc -c hello.s -o hello.o
+</pre>
+</div>
+
+<p>
+链接：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ ld Scrt1.o crti.o crtbeginS.o hello.o -lc crtendS.o crtn.o
+</pre>
+</div>
+
+<p>
+完整过程：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ gcc test.c --verbose
+# 分解简化为
+$ cc1 test.c -o test.s
+$ as test.s -o test.o
+$ collect2 --dynamic-linker /lib64/ld-linux-x86-64.so.2 \
+  PATHTO/Scrt1.o PATHTO/crti.o PATHTO/crtbeginS.o \
+  test.o -lc \
+  PATHTO/crtendS.o PATHTO/crtn.o
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org9c62e88" class="outline-2">
+<h2 id="org9c62e88"><span class="section-number-2">2.</span> 对象（object）文件</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Linux 的可执行程序（动态库/静态库）为 ELF 格式（Executable linkable Format）。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-plain">$ file /bin/ls
+/bin/ls: ELF 64-bit LSB pie executable, x86-64, ...
+</pre>
+</div>
+
+<p>
+对象文件以段（section）的形式存储。
+代码编译出的机器码放在 <code>.text</code>, 全局变量和静态变量放在 <code>.data</code> 。
+<code>.bss</code> 为未初始化的全局变量和静态变量预留大小信息。
+</p>
+
+<p>
+可以用 objdump / readelf 来查看对象文件的内部结构。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-plain">$ objdump -h test.o
+0 .text            ...
+1 .data            ...
+2 .bss             ...
+3 .rodata          ...
+4 .comment         ...
+5 .note.GNU-stack  ...
+...
+</pre>
+</div>
+
+<p>
+以 16 进制和反汇编打印所有段的内容：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ objdump -s -d test.o
+...
+</pre>
+</div>
+
+<p>
+ELF 文件格式：
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">ELF header</td>
+</tr>
+
+<tr>
+<td class="org-left">.text</td>
+</tr>
+
+<tr>
+<td class="org-left">.data</td>
+</tr>
+
+<tr>
+<td class="org-left">.bss</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2026;</td>
+</tr>
+
+<tr>
+<td class="org-left">section header table</td>
+</tr>
+
+<tr>
+<td class="org-left">string tables(.strtab)</td>
+</tr>
+
+<tr>
+<td class="org-left">symbol tables(.symtab)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2026;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+查看文件头：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ readelf -h test.o
+ELF Header:
+  ...
+  Type: REL (Relocatable file)
+  ...
+</pre>
+</div>
+
+<p>
+查看段表（section header table）：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ readelf -S test.o
+</pre>
+</div>
+
+<p>
+查看符号表（.symtab）：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ nm a.out
+$ readelf -s a.out
+</pre>
+</div>
+
+<p>
+C++ 解析修饰后的名称：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">&gt; c++filt _ZN9addr2line9name_attrE
+addr2line::name_attr
+</pre>
+</div>
+
+<p>
+<code>extern "C"</code> 中 C++ 名称修饰机制不生效。
+</p>
+
+<p>
+如何使库的头文件既支持 C 也支持 C++：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-preprocessor">#ifdef</span> <span class="org-preprocessor">__cplusplus</span>
+<span class="org-keyword">extern</span> <span class="org-string">"C"</span> {
+<span class="org-preprocessor">#endif</span>
+<span class="org-function-name">...</span>
+<span class="org-preprocessor">#ifdef</span> <span class="org-preprocessor">__cplusplus</span>
+}
+<span class="org-preprocessor">#endif</span>
+</pre>
+</div>
+
+<p>
+强符号与弱符号：
+</p>
+<ul class="org-ul">
+<li>只允许一个强符号定义。</li>
+<li>多个弱符号选占用空间最大的。</li>
+</ul>
+
+<p>
+强引用与弱引用：
+</p>
+<ul class="org-ul">
+<li>强引用必须找到定义。</li>
+<li>弱引用未找到默认其为 0。</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-c"><span class="org-keyword">__attribute__</span> ((weakref)) <span class="org-type">void</span> <span class="org-function-name">foo</span>();
+<span class="org-type">int</span> <span class="org-function-name">main</span>() { <span class="org-keyword">if</span> (foo) foo(); }
+</pre>
+</div>
+
+<p>
+DWARF: Debug With Arbitrary Record Format.
+</p>
+
+<p>
+<code>strip</code> 去掉调试信息。
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgcbb4e50" class="outline-2">
+<h2 id="orgcbb4e50"><span class="section-number-2">3.</span> 静态链接</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+最终合并所有 oeject 的段。
+</p>
+
+<p>
+两步链接：
+</p>
+<ol class="org-ol">
+<li>空间与地址分配：获得所有 object 的各个段的信息，收集所有符号。</li>
+<li>符号解析与重定位：读入段数据、重定位信息，进行符号解析与重定位，调整代码中的地址。</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-plain">$ ld a.o b.o -e main -o a.out
+</pre>
+</div>
+
+<p>
+链接前 <code>objdump -h</code> 所有 VMA（virtual memory address）都是 0，链接后都被分配了相应的虚拟内存地址。
+</p>
+
+<p>
+.text 对应的重定位表为 .rela.text：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ objdump -r test.o
+</pre>
+</div>
+
+<p>
+针对 C++ 使用 “Link Once” 段消除重复的模版实例化代码（或虚函数表、默认构造函数……）。
+</p>
+
+<p>
+Linux 下程序的入口为 <code>_start</code>, 为 glibc 的一部分。
+<code>_start</code> 完成一系列初始化工作之后调用 <code>main</code> ，然后做一些清理工作然后结束进程。
+</p>
+
+<p>
+<code>.init</code> 和 <code>.fini</code> 段分别保存初始化代码和进程终止代码。
+C++ 的全局构造和析构函数就放在里面。
+</p>
+
+<p>
+静态库可以看做一组 object 文件的集合：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ ar -t /usr/ib/libc.a
+init-first.o
+libc-start.o
+...
+&gt; objdump -t /usr/lib/libc.a | grep ' printf$'
+0000000000000000 g     F .text  00000000000000c9 printf
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org231300a" class="outline-2">
+<h2 id="org231300a"><span class="section-number-2">4.</span> 装载</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+虚拟内存和页映射。
+</p>
+
+<p>
+进程创建：
+</p>
+<ol class="org-ol">
+<li>创建虚拟地址空间（分配页目录）。</li>
+<li>建立虚拟地址空间和可执行文件的映射关系。</li>
+<li>将 PC 寄存器设置为可执行文件的入口地址，启动。</li>
+</ol>
+
+<p>
+相同权限的多个 section 可以合并到一个 segment 来进行映射：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ readelf -l a.out
+...
+Section to Segment mapping:
+...
+</pre>
+</div>
+
+<p>
+可通过 <code>cat /proc/$pid/maps</code> 看进程的虚拟空间分布。
+</p>
+
+<p>
+Linux 装载 ELF 过程：
+</p>
+<ol class="org-ol">
+<li>bash 调 fork() 调 execute() 执行 ELF，最后返回 bash。</li>
+<li>execute() 调 do_execute() 读文件头 128 字节，调用 search_binary_handler() ，调用 load_elf_binary()。</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org321c162" class="outline-2">
+<h2 id="org321c162"><span class="section-number-2">5.</span> 动态链接</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-plain">$ gcc lib.c -fPIC -shared -o lib.so
+$ gcc test.c ./lib.so
+$ ./a.out
+</pre>
+</div>
+
+<p>
+只使用 <code>-shared</code> 为装载时重定位，但是无法在多个进程之间共享。
+</p>
+
+<p>
+地址无关代码（PIC, Position-Independent Code）：把指令中那些需要被修改的部分分离出来，跟数据部分放在一起，
+这样指令部分就可以保持不变，而数据部分可以在每个进程中拥有一个副本。
+</p>
+
+<p>
+全局偏移表（GOT）：在数据段里建立指向跨模块全局变量/函数的指针数组。
+</p>
+
+<p>
+动态库被不同进程加载时，它的数据段部分在每个进程中都有独立的副本不会互相影响。
+</p>
+
+<p>
+链接器在装载模块的时候会查找每个变量/函数所在的地址然后填充 GOT。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-plain">$ objdump -h pic.so  # 查看 .got 段
+$ objdump -R pic.so  # 查看重定位项
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org72a191e" class="outline-3">
+<h3 id="org72a191e"><span class="section-number-3">5.1.</span> PLT</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+延迟绑定（PLT，Procedure Linkage Table）：当函数第一次被用到时才进行绑定，加快启动速度。
+</p>
+
+<p>
+每个外部函数在 PLT 中都有一个相应的项：
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">bar@plt:
+jmp *(bar@GOT)
+push n
+push moduleID
+jump _dl_runtime_resolve
+</pre>
+</div>
+
+<p>
+一开始只把 <code>push n</code> 的地址填入 <code>bar@GOT</code>, 这样第一次就会把 <code>n</code> 压入堆栈，即为这个符号引用在重定位表 <code>.rel.plt</code> 中的下标。
+</p>
+
+<p>
+然后再压入模块 id 调用 <code>resolve()</code>, 最终填入 <code>bar@GOT</code> 。
+</p>
+
+<p>
+ELF 将 GOT 拆分为 <code>.got</code> 和 <code>.got.plt</code>, 前者保存全局变量引用的地址，后者保存函数引用的地址。
+</p>
+
+<p>
+<code>.got.plt</code> 前三项分别为: <code>.dynamic</code> 段地址，本模块 ID, <code>resolve()</code> 的地址。
+</p>
+
+<p>
+PLT 存在 <code>.plt</code> 包含上面的跳转代码。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org824b402" class="outline-3">
+<h3 id="org824b402"><span class="section-number-3">5.2.</span> 相关 sections</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+动态链接时，操作系统在装载完可执行程序之后，先启动动态链接器 (<code>ld.so</code>)。
+对可执行程序进行动态链接工作之后，转交控制权到可执行程序。
+</p>
+
+<p>
+可执行文件的 <code>.interp</code> 段存了 <code>ld.so</code> 的地址。
+</p>
+
+<p>
+<code>.dynamic</code> 段保存了动态链接器所需要的基本信息。各种表的地址。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-plain">$ readelf -d lib.so
+$ ldd lib.so
+</pre>
+</div>
+
+<p>
+<code>.dynsym</code> 动态符号表（被 <code>.symtab</code> 包含）。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-plain">$ readelf -sD lib.so
+</pre>
+</div>
+
+<p>
+重定位表 <code>.rela.dyn</code> 和 <code>.rela.plt</code> 。分别修正 <code>.got</code> 和 <code>.got.plt</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-plain">$ readelf -r lib.so
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgec2d383" class="outline-3">
+<h3 id="orgec2d383"><span class="section-number-3">5.3.</span> 链接步骤</h3>
+<div class="outline-text-3" id="text-5-3">
+<ol class="org-ol">
+<li>动态链接器自举。</li>
+<li>将所有符号合并为全局符号表，再通过 <code>.dynamic</code> 递归寻找和装载 ELF 所依赖的共享对象。
+<ul class="org-ul">
+<li><b><b>当一个符号需要被加入全局符号表时，如果相同的符号名已经存在，则后加入的符号被忽略。</b></b></li>
+</ul></li>
+<li>重定位和初始化。
+<ul class="org-ul">
+<li>遍历每个对象的重定位表，修正 GOT/PLT。</li>
+<li>执行共享对象的 <code>.init</code> 段。</li>
+</ul></li>
+</ol>
+
+<p>
+显式运行时加载： <code>dlopen()</code>, <code>dlsym()</code>, <code>dlerror()</code>, <code>dlclose()</code> 。
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org75e9db9" class="outline-2">
+<h2 id="org75e9db9"><span class="section-number-2">6.</span> 共享库查找</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+如果 <code>.dynamic</code> 中 <code>DT_NEED</code> 项存的是绝对路径，则直接按照这个路径去查找。
+否则在 <code>/lib</code>, <code>/usr/lib</code> 和 <code>/etc/ld.so.conf</code> 文件中指定的路径中查找。
+</p>
+
+<p>
+更改 <code>/etc/ld.so.conf</code> 后需要执行 <code>ldconfig</code> 以更新 <code>/etc/ld.so.cache</code> 。
+</p>
+
+<p>
+还可以通过 <code>LD_LIBRARY_PATH</code> 指定目录。也会影响 gcc 编译时查找库的路径。
+</p>
+
+<p>
+<code>LD_PRELOAD</code> and <code>/etc/ld.so.preload</code> hack.
+</p>
+
+<p>
+<code>LD_DEBUG=</code>:
+</p>
+<ul class="org-ul">
+<li>files: 依赖哪个共享库，按什么步骤装载和初始化</li>
+<li>bindings: 显示符号绑定过程</li>
+<li>versions: 显示版本依赖关系</li>
+<li>all: all</li>
+<li>help: help</li>
+<li>&#x2026;</li>
+</ul>
+
+<p>
+<code>-Wl</code> 传参数给链接器，比如 <code>-Wl,-rpath</code> 。
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

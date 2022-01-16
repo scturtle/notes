@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-01-09 Sun 09:44 -->
+<!-- 2022-01-16 Sun 17:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Note of STL</title>
@@ -18,241 +18,241 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org6a8772f">1. Snippets</a></li>
-<li><a href="#orgb8e8e56">2. Non-modifying sequence operations</a>
+<li><a href="#org3ffd45e">1. Snippets</a></li>
+<li><a href="#org409a23e">2. Non-modifying sequence operations</a>
 <ul>
-<li><a href="#org330b7f8">2.1. all_of, any_of, none_of</a></li>
-<li><a href="#orgdf73ee2">2.2. for_each</a></li>
-<li><a href="#orgd2f3b41">2.3. count, count_if</a></li>
-<li><a href="#orgb229060">2.4. mismatch</a></li>
-<li><a href="#orgf5d2877">2.5. equal</a></li>
-<li><a href="#org639b1ae">2.6. find, find_if, find_if_not</a></li>
-<li><a href="#orga9edc08">2.7. find_end</a></li>
-<li><a href="#orgcb03e0a">2.8. find_first_of</a></li>
-<li><a href="#orgd46f638">2.9. adjacent_find</a></li>
-<li><a href="#orge6b60f4">2.10. search, search_n</a></li>
+<li><a href="#org9e678db">2.1. all_of, any_of, none_of</a></li>
+<li><a href="#org970a715">2.2. for_each</a></li>
+<li><a href="#org813122d">2.3. count, count_if</a></li>
+<li><a href="#orgc0731a1">2.4. mismatch</a></li>
+<li><a href="#orgd0bffb7">2.5. equal</a></li>
+<li><a href="#org3901eb0">2.6. find, find_if, find_if_not</a></li>
+<li><a href="#orgaba156b">2.7. find_end</a></li>
+<li><a href="#org7295455">2.8. find_first_of</a></li>
+<li><a href="#orgea4b39f">2.9. adjacent_find</a></li>
+<li><a href="#org0e36056">2.10. search, search_n</a></li>
 </ul>
 </li>
-<li><a href="#org86e4761">3. Modifying sequence operations</a>
+<li><a href="#org47975e4">3. Modifying sequence operations</a>
 <ul>
-<li><a href="#orgcb1e58e">3.1. copy, copy_if</a></li>
-<li><a href="#orgad50f20">3.2. copy_n</a></li>
-<li><a href="#org4eced7b">3.3. copy_backward</a></li>
-<li><a href="#org0e4a05a">3.4. move</a></li>
-<li><a href="#orgd9c1e37">3.5. move_backward</a></li>
-<li><a href="#orgc20612e">3.6. fill, fill_n</a></li>
-<li><a href="#org3b51c62">3.7. transform</a></li>
-<li><a href="#orgc24156a">3.8. generate, generate_n</a></li>
-<li><a href="#orgd3c205f">3.9. remove, remove_if</a></li>
-<li><a href="#org0fd6025">3.10. remove_copy, remove_copy_if</a></li>
-<li><a href="#org07542fc">3.11. replace, replace_if</a></li>
-<li><a href="#org0638e87">3.12. replace_copy, replace_copy_if</a></li>
-<li><a href="#orgc4bac4a">3.13. swap, swap_ranges, iter_swap</a></li>
-<li><a href="#org172d104">3.14. reverse, reverse_copy</a></li>
-<li><a href="#orgcbad655">3.15. rotate, rotate_copy</a></li>
-<li><a href="#orgf4c4ce5">3.16. random_shuffle, shuffle</a></li>
-<li><a href="#org433c372">3.17. unique, unique_copy</a></li>
+<li><a href="#org8ce8b36">3.1. copy, copy_if</a></li>
+<li><a href="#orga302960">3.2. copy_n</a></li>
+<li><a href="#org9455fac">3.3. copy_backward</a></li>
+<li><a href="#org617d37f">3.4. move</a></li>
+<li><a href="#orgc8e5f59">3.5. move_backward</a></li>
+<li><a href="#org39178fe">3.6. fill, fill_n</a></li>
+<li><a href="#org262c3f4">3.7. transform</a></li>
+<li><a href="#org6041361">3.8. generate, generate_n</a></li>
+<li><a href="#orgd18dc9a">3.9. remove, remove_if</a></li>
+<li><a href="#org9821a0c">3.10. remove_copy, remove_copy_if</a></li>
+<li><a href="#orga356aa4">3.11. replace, replace_if</a></li>
+<li><a href="#org5ac5e19">3.12. replace_copy, replace_copy_if</a></li>
+<li><a href="#org6141ae5">3.13. swap, swap_ranges, iter_swap</a></li>
+<li><a href="#org659fb98">3.14. reverse, reverse_copy</a></li>
+<li><a href="#org1ec74df">3.15. rotate, rotate_copy</a></li>
+<li><a href="#org76f3469">3.16. random_shuffle, shuffle</a></li>
+<li><a href="#org82b4bec">3.17. unique, unique_copy</a></li>
 </ul>
 </li>
-<li><a href="#org5298c8a">4. Partitioning operations</a></li>
-<li><a href="#orgdf7a42a">5. Sorting operations</a></li>
-<li><a href="#org915fe6a">6. Binary search operations (on sorted ranges)</a></li>
-<li><a href="#org9b18d9f">7. Set operations (on sorted ranges)</a></li>
-<li><a href="#orgfb83a5d">8. Heap operations</a></li>
-<li><a href="#org8e272ee">9. Minimum/maximum operations</a></li>
-<li><a href="#org532c557">10. Numeric operations (&lt;numeric&gt;)</a></li>
-<li><a href="#org85b9165">11. C library (&lt;cstdlib&gt;)</a></li>
+<li><a href="#orgf74d587">4. Partitioning operations</a></li>
+<li><a href="#org8504613">5. Sorting operations</a></li>
+<li><a href="#org8c76b93">6. Binary search operations (on sorted ranges)</a></li>
+<li><a href="#org69aa46e">7. Set operations (on sorted ranges)</a></li>
+<li><a href="#orgaf7e803">8. Heap operations</a></li>
+<li><a href="#org057a393">9. Minimum/maximum operations</a></li>
+<li><a href="#org1d42643">10. Numeric operations (&lt;numeric&gt;)</a></li>
+<li><a href="#orgb4ca3c3">11. C library (&lt;cstdlib&gt;)</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org6a8772f" class="outline-2">
-<h2 id="org6a8772f"><span class="section-number-2">1.</span> Snippets</h2>
+<div id="outline-container-org3ffd45e" class="outline-2">
+<h2 id="org3ffd45e"><span class="section-number-2">1.</span> Snippets</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-c++"><span class="org-constant">std</span>::copy<span class="org-rainbow-delimiters-depth-1">(</span>v.cbegin<span class="org-rainbow-delimiters-depth-2">()</span>, v.cend<span class="org-rainbow-delimiters-depth-2">()</span>, ostream_iterator<span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-2">&gt;(</span>cout, <span class="org-string">", "</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-constant">std</span>::distance<span class="org-rainbow-delimiters-depth-1">(</span>v.begin<span class="org-rainbow-delimiters-depth-2">()</span>, result<span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++"><span class="org-constant">std</span>::copy(v.cbegin(), v.cend(), ostream_iterator&lt;<span class="org-type">int</span>&gt;(cout, <span class="org-string">", "</span>));
+<span class="org-constant">std</span>::distance(v.begin(), result);
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb8e8e56" class="outline-2">
-<h2 id="orgb8e8e56"><span class="section-number-2">2.</span> Non-modifying sequence operations</h2>
+<div id="outline-container-org409a23e" class="outline-2">
+<h2 id="org409a23e"><span class="section-number-2">2.</span> Non-modifying sequence operations</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org330b7f8" class="outline-3">
-<h3 id="org330b7f8"><span class="section-number-3">2.1.</span> all_of, any_of, none_of</h3>
+<div id="outline-container-org9e678db" class="outline-3">
+<h3 id="org9e678db"><span class="section-number-3">2.1.</span> all_of, any_of, none_of</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryPredicate</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">bool</span> <span class="org-function-name">all_of</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">return</span> <span class="org-constant">std</span>::find_if_not<span class="org-rainbow-delimiters-depth-2">(</span>first, last, p<span class="org-rainbow-delimiters-depth-2">)</span> == last;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryPredicate</span>&gt;
+  <span class="org-type">bool</span> <span class="org-function-name">all_of</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>) {
+    <span class="org-keyword">return</span> <span class="org-constant">std</span>::find_if_not(first, last, p) == last;
+  }
 
-  <span class="org-type">bool</span> <span class="org-function-name">any_of</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">return</span> <span class="org-constant">std</span>::find_if<span class="org-rainbow-delimiters-depth-2">(</span>first, last, p<span class="org-rainbow-delimiters-depth-2">)</span> != last;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  <span class="org-type">bool</span> <span class="org-function-name">any_of</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>) {
+    <span class="org-keyword">return</span> <span class="org-constant">std</span>::find_if(first, last, p) != last;
+  }
 
-  <span class="org-type">bool</span> <span class="org-function-name">none_of</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">return</span> <span class="org-constant">std</span>::find_if<span class="org-rainbow-delimiters-depth-2">(</span>first, last, p<span class="org-rainbow-delimiters-depth-2">)</span> == last;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  <span class="org-type">bool</span> <span class="org-function-name">none_of</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>) {
+    <span class="org-keyword">return</span> <span class="org-constant">std</span>::find_if(first, last, p) == last;
+  }
 
-  <span class="org-constant">std</span>::all_of<span class="org-rainbow-delimiters-depth-1">(</span>v.cbegin<span class="org-rainbow-delimiters-depth-2">()</span>, v.cend<span class="org-rainbow-delimiters-depth-2">()</span>, <span class="org-rainbow-delimiters-depth-2">[](</span><span class="org-type">int</span> <span class="org-variable-name">i</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> i % <span class="org-highlight-numbers-number">2</span> == <span class="org-highlight-numbers-number">0</span>; <span class="org-rainbow-delimiters-depth-2">}</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::all_of(v.cbegin(), v.cend(), [](<span class="org-type">int</span> <span class="org-variable-name">i</span>) { <span class="org-keyword">return</span> i % <span class="org-highlight-numbers-number">2</span> == <span class="org-highlight-numbers-number">0</span>; });
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdf73ee2" class="outline-3">
-<h3 id="orgdf73ee2"><span class="section-number-3">2.2.</span> for_each</h3>
+<div id="outline-container-org970a715" class="outline-3">
+<h3 id="org970a715"><span class="section-number-3">2.2.</span> for_each</h3>
 <div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryFunction</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">UnaryFunction</span> <span class="org-function-name">for_each</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryFunction</span> <span class="org-variable-name">f</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">for</span> <span class="org-rainbow-delimiters-depth-2">(</span>; first != last; ++first<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      f<span class="org-rainbow-delimiters-depth-3">(</span>*first<span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryFunction</span>&gt;
+  <span class="org-type">UnaryFunction</span> <span class="org-function-name">for_each</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryFunction</span> <span class="org-variable-name">f</span>) {
+    <span class="org-keyword">for</span> (; first != last; ++first) {
+      f(*first);
+    }
     <span class="org-keyword">return</span> f;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd2f3b41" class="outline-3">
-<h3 id="orgd2f3b41"><span class="section-number-3">2.3.</span> count, count_if</h3>
+<div id="outline-container-org813122d" class="outline-3">
+<h3 id="org813122d"><span class="section-number-3">2.3.</span> count, count_if</h3>
 <div class="outline-text-3" id="text-2-3">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">int</span> <span class="org-function-name">count</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
+  <span class="org-type">int</span> <span class="org-function-name">count</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>) {
     <span class="org-type">int</span> <span class="org-variable-name">ret</span> = <span class="org-highlight-numbers-number">0</span>;
-    <span class="org-keyword">for</span> <span class="org-rainbow-delimiters-depth-2">(</span>; first != last; ++first<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>*first == value<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+    <span class="org-keyword">for</span> (; first != last; ++first) {
+      <span class="org-keyword">if</span> (*first == value) {
         ret++;
-      <span class="org-rainbow-delimiters-depth-3">}</span>
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+      }
+    }
     <span class="org-keyword">return</span> ret;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  }
 
-  <span class="org-type">int</span> <span class="org-function-name">count_if</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">int</span> <span class="org-function-name">count_if</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb229060" class="outline-3">
-<h3 id="orgb229060"><span class="section-number-3">2.4.</span> mismatch</h3>
+<div id="outline-container-orgc0731a1" class="outline-3">
+<h3 id="orgc0731a1"><span class="section-number-3">2.4.</span> mismatch</h3>
 <div class="outline-text-3" id="text-2-4">
 <div class="org-src-container">
 <pre class="src src-c++">
-  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">InputIt1</span>, <span class="org-keyword">class</span> <span class="org-type">InputIt2</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-constant">std</span>::<span class="org-type">pair</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">InputIt1</span>, <span class="org-type">InputIt2</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-    <span class="org-function-name">mismatch</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span>first1 != last1 &amp;&amp; *first1 == *first2<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt1</span>, <span class="org-keyword">class</span> <span class="org-type">InputIt2</span>&gt;
+  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-type">InputIt1</span>, <span class="org-type">InputIt2</span>&gt;
+    <span class="org-function-name">mismatch</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>) {
+    <span class="org-keyword">while</span> (first1 != last1 &amp;&amp; *first1 == *first2) {
       ++first1, ++first2;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
-    <span class="org-keyword">return</span> <span class="org-constant">std</span>::make_pair<span class="org-rainbow-delimiters-depth-2">(</span>first1, first2<span class="org-rainbow-delimiters-depth-2">)</span>;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+    }
+    <span class="org-keyword">return</span> <span class="org-constant">std</span>::make_pair(first1, first2);
+  }
 
-  <span class="org-constant">std</span>::<span class="org-type">pair</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">InputIt1</span>, <span class="org-type">InputIt2</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-    <span class="org-function-name">mismatch</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">BinaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-type">InputIt1</span>, <span class="org-type">InputIt2</span>&gt;
+    <span class="org-function-name">mismatch</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">BinaryPredicate</span> <span class="org-variable-name">p</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf5d2877" class="outline-3">
-<h3 id="orgf5d2877"><span class="section-number-3">2.5.</span> equal</h3>
+<div id="outline-container-orgd0bffb7" class="outline-3">
+<h3 id="orgd0bffb7"><span class="section-number-3">2.5.</span> equal</h3>
 <div class="outline-text-3" id="text-2-5">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">InputIt1</span>, <span class="org-keyword">class</span> <span class="org-type">InputIt2</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">bool</span> <span class="org-function-name">equal</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">for</span> <span class="org-rainbow-delimiters-depth-2">(</span>; first1 != last1; ++first1, ++first2<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-negation-char">!</span><span class="org-rainbow-delimiters-depth-4">(</span>*first1 == *first2<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt1</span>, <span class="org-keyword">class</span> <span class="org-type">InputIt2</span>&gt;
+  <span class="org-type">bool</span> <span class="org-function-name">equal</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>) {
+    <span class="org-keyword">for</span> (; first1 != last1; ++first1, ++first2) {
+      <span class="org-keyword">if</span> (<span class="org-negation-char">!</span>(*first1 == *first2)) {
         <span class="org-keyword">return</span> <span class="org-constant">false</span>;
-      <span class="org-rainbow-delimiters-depth-3">}</span>
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+      }
+    }
     <span class="org-keyword">return</span> <span class="org-constant">true</span>;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-type">bool</span> <span class="org-function-name">equal</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">BinaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  }
+  <span class="org-type">bool</span> <span class="org-function-name">equal</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">BinaryPredicate</span> <span class="org-variable-name">p</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org639b1ae" class="outline-3">
-<h3 id="org639b1ae"><span class="section-number-3">2.6.</span> find, find_if, find_if_not</h3>
+<div id="outline-container-org3901eb0" class="outline-3">
+<h3 id="org3901eb0"><span class="section-number-3">2.6.</span> find, find_if, find_if_not</h3>
 <div class="outline-text-3" id="text-2-6">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">InputIt</span> <span class="org-function-name">find</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">for</span> <span class="org-rainbow-delimiters-depth-2">(</span>; first != last; ++first<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>*first == value<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
+  <span class="org-type">InputIt</span> <span class="org-function-name">find</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>) {
+    <span class="org-keyword">for</span> (; first != last; ++first) {
+      <span class="org-keyword">if</span> (*first == value) {
         <span class="org-keyword">return</span> first;
-      <span class="org-rainbow-delimiters-depth-3">}</span>
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+      }
+    }
     <span class="org-keyword">return</span> last;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-type">InputIt</span> <span class="org-function-name">find_if</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-type">InputIt</span> <span class="org-function-name">find_if_not</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">q</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  }
+  <span class="org-type">InputIt</span> <span class="org-function-name">find_if</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
+  <span class="org-type">InputIt</span> <span class="org-function-name">find_if_not</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">q</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga9edc08" class="outline-3">
-<h3 id="orga9edc08"><span class="section-number-3">2.7.</span> find_end</h3>
+<div id="outline-container-orgaba156b" class="outline-3">
+<h3 id="orgaba156b"><span class="section-number-3">2.7.</span> find_end</h3>
 <div class="outline-text-3" id="text-2-7">
 <p>
 find last range using <code>std::search</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-constant">std</span>::<span class="org-type">vector</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-variable-name">v</span><span class="org-rainbow-delimiters-depth-1">{</span><span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span><span class="org-rainbow-delimiters-depth-1">}</span>;
-  <span class="org-constant">std</span>::<span class="org-constant">vector</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>::<span class="org-type">iterator</span> <span class="org-variable-name">result</span>;
-  <span class="org-constant">std</span>::<span class="org-type">vector</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-variable-name">t1</span><span class="org-rainbow-delimiters-depth-1">{</span><span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span><span class="org-rainbow-delimiters-depth-1">}</span>;
-  result = <span class="org-constant">std</span>::find_end<span class="org-rainbow-delimiters-depth-1">(</span>v.begin<span class="org-rainbow-delimiters-depth-2">()</span>, v.end<span class="org-rainbow-delimiters-depth-2">()</span>, t1.begin<span class="org-rainbow-delimiters-depth-2">()</span>, t1.end<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">v</span>{<span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>};
+  <span class="org-constant">std</span>::<span class="org-constant">vector</span>&lt;<span class="org-type">int</span>&gt;::<span class="org-type">iterator</span> <span class="org-variable-name">result</span>;
+  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">t1</span>{<span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>};
+  result = <span class="org-constant">std</span>::find_end(v.begin(), v.end(), t1.begin(), t1.end());
   <span class="org-comment-delimiter">// </span><span class="org-comment">std::distance(v.begin(), result) == 8</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcb03e0a" class="outline-3">
-<h3 id="orgcb03e0a"><span class="section-number-3">2.8.</span> find_first_of</h3>
+<div id="outline-container-org7295455" class="outline-3">
+<h3 id="org7295455"><span class="section-number-3">2.8.</span> find_first_of</h3>
 <div class="outline-text-3" id="text-2-8">
 <p>
 find first one of &#x2026;
 </p>
 <div class="org-src-container">
 <pre class="src src-c++">
-  <span class="org-constant">std</span>::<span class="org-type">vector</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-variable-name">v</span><span class="org-rainbow-delimiters-depth-1">{</span><span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">25</span>, <span class="org-highlight-numbers-number">5</span><span class="org-rainbow-delimiters-depth-1">}</span>;
-  <span class="org-constant">std</span>::<span class="org-type">vector</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-variable-name">t</span><span class="org-rainbow-delimiters-depth-1">{</span><span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">19</span>, <span class="org-highlight-numbers-number">10</span>, <span class="org-highlight-numbers-number">2</span><span class="org-rainbow-delimiters-depth-1">}</span>;
-  <span class="org-keyword">auto</span> <span class="org-variable-name">result</span> = <span class="org-constant">std</span>::find_first_of<span class="org-rainbow-delimiters-depth-1">(</span>v.begin<span class="org-rainbow-delimiters-depth-2">()</span>, v.end<span class="org-rainbow-delimiters-depth-2">()</span>, t.begin<span class="org-rainbow-delimiters-depth-2">()</span>, t.end<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">v</span>{<span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">25</span>, <span class="org-highlight-numbers-number">5</span>};
+  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">t</span>{<span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">19</span>, <span class="org-highlight-numbers-number">10</span>, <span class="org-highlight-numbers-number">2</span>};
+  <span class="org-keyword">auto</span> <span class="org-variable-name">result</span> = <span class="org-constant">std</span>::find_first_of(v.begin(), v.end(), t.begin(), t.end());
   <span class="org-comment-delimiter">// </span><span class="org-comment">*result == 2</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd46f638" class="outline-3">
-<h3 id="orgd46f638"><span class="section-number-3">2.9.</span> adjacent_find</h3>
+<div id="outline-container-orgea4b39f" class="outline-3">
+<h3 id="orgea4b39f"><span class="section-number-3">2.9.</span> adjacent_find</h3>
 <div class="outline-text-3" id="text-2-9">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">ForwardIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">adjacent_find</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">BinaryPredicate</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">adjacent_find</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">BinaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>&gt;
+  <span class="org-type">ForwardIt</span> <span class="org-function-name">adjacent_find</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>);
+  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">BinaryPredicate</span>&gt;
+  <span class="org-type">ForwardIt</span> <span class="org-function-name">adjacent_find</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">BinaryPredicate</span> <span class="org-variable-name">p</span>);
 
-  <span class="org-constant">std</span>::<span class="org-type">vector</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-variable-name">v1</span><span class="org-rainbow-delimiters-depth-1">{</span><span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">40</span>, <span class="org-highlight-numbers-number">40</span>, <span class="org-highlight-numbers-number">41</span>, <span class="org-highlight-numbers-number">41</span>, <span class="org-highlight-numbers-number">5</span><span class="org-rainbow-delimiters-depth-1">}</span>;
-  <span class="org-keyword">auto</span> <span class="org-variable-name">i1</span> = <span class="org-constant">std</span>::adjacent_find<span class="org-rainbow-delimiters-depth-1">(</span>v1.begin<span class="org-rainbow-delimiters-depth-2">()</span>, v1.end<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">v1</span>{<span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">40</span>, <span class="org-highlight-numbers-number">40</span>, <span class="org-highlight-numbers-number">41</span>, <span class="org-highlight-numbers-number">41</span>, <span class="org-highlight-numbers-number">5</span>};
+  <span class="org-keyword">auto</span> <span class="org-variable-name">i1</span> = <span class="org-constant">std</span>::adjacent_find(v1.begin(), v1.end());
   <span class="org-comment-delimiter">// </span><span class="org-comment">std::distance(v1.begin(), i1) == 4</span>
-  <span class="org-keyword">auto</span> <span class="org-variable-name">i2</span> = <span class="org-constant">std</span>::adjacent_find<span class="org-rainbow-delimiters-depth-1">(</span>v1.begin<span class="org-rainbow-delimiters-depth-2">()</span>, v1.end<span class="org-rainbow-delimiters-depth-2">()</span>, <span class="org-constant">std</span>::greater<span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-2">&gt;()</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-keyword">auto</span> <span class="org-variable-name">i2</span> = <span class="org-constant">std</span>::adjacent_find(v1.begin(), v1.end(), <span class="org-constant">std</span>::greater&lt;<span class="org-type">int</span>&gt;());
   <span class="org-comment-delimiter">// </span><span class="org-comment">std::distance(v1.begin(), i2) == 7</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orge6b60f4" class="outline-3">
-<h3 id="orge6b60f4"><span class="section-number-3">2.10.</span> search, search_n</h3>
+<div id="outline-container-org0e36056" class="outline-3">
+<h3 id="org0e36056"><span class="section-number-3">2.10.</span> search, search_n</h3>
 <div class="outline-text-3" id="text-2-10">
 <div class="org-src-container">
 <pre class="src src-c++">  <span class="org-constant">std</span>::<span class="org-type">string</span> <span class="org-variable-name">cont</span> = <span class="org-string">"why waste time learning, when ignorance is instantaneous?"</span>;
   <span class="org-constant">std</span>::<span class="org-type">string</span> <span class="org-variable-name">s</span> = <span class="org-string">"learning"</span>;
-  <span class="org-constant">std</span>::search<span class="org-rainbow-delimiters-depth-1">(</span>cont.begin<span class="org-rainbow-delimiters-depth-2">()</span>, cont.end<span class="org-rainbow-delimiters-depth-2">()</span>, s.begin<span class="org-rainbow-delimiters-depth-2">()</span>, s.end<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span> != cont.end<span class="org-rainbow-delimiters-depth-1">()</span>;
+  <span class="org-constant">std</span>::search(cont.begin(), cont.end(), s.begin(), s.end()) != cont.end();
 </pre>
 </div>
 <p>
@@ -261,112 +261,112 @@ find first one of &#x2026;
 </div>
 </div>
 </div>
-<div id="outline-container-org86e4761" class="outline-2">
-<h2 id="org86e4761"><span class="section-number-2">3.</span> Modifying sequence operations</h2>
+<div id="outline-container-org47975e4" class="outline-2">
+<h2 id="org47975e4"><span class="section-number-2">3.</span> Modifying sequence operations</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgcb1e58e" class="outline-3">
-<h3 id="orgcb1e58e"><span class="section-number-3">3.1.</span> copy, copy_if</h3>
+<div id="outline-container-org8ce8b36" class="outline-3">
+<h3 id="org8ce8b36"><span class="section-number-3">3.1.</span> copy, copy_if</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Copy [first, last) into [d_first, &#x2026;)
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">copy</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span>first != last<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>&gt;
+  <span class="org-type">OutputIt</span> <span class="org-function-name">copy</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>) {
+    <span class="org-keyword">while</span> (first != last) {
       *d_first++ = *first++;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+    }
     <span class="org-keyword">return</span> d_first;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">copy_if</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>,
-                   <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">pred</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  }
+  <span class="org-type">OutputIt</span> <span class="org-function-name">copy_if</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>,
+                   <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">pred</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgad50f20" class="outline-3">
-<h3 id="orgad50f20"><span class="section-number-3">3.2.</span> copy_n</h3>
+<div id="outline-container-orga302960" class="outline-3">
+<h3 id="orga302960"><span class="section-number-3">3.2.</span> copy_n</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 copy n elements start from <code>first</code> to <code>result</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">Size</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">copy_n</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">Size</span> <span class="org-variable-name">count</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">result</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-2">(</span>count &gt; <span class="org-highlight-numbers-number">0</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">Size</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>&gt;
+  <span class="org-type">OutputIt</span> <span class="org-function-name">copy_n</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">Size</span> <span class="org-variable-name">count</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">result</span>) {
+    <span class="org-keyword">if</span> (count &gt; <span class="org-highlight-numbers-number">0</span>) {
       *result++ = *first;
-      <span class="org-keyword">for</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-type">Size</span> <span class="org-variable-name">i</span> = <span class="org-highlight-numbers-number">1</span>; i &lt; count; ++i<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+      <span class="org-keyword">for</span> (<span class="org-type">Size</span> <span class="org-variable-name">i</span> = <span class="org-highlight-numbers-number">1</span>; i &lt; count; ++i) {
         *result++ = *++first;
-      <span class="org-rainbow-delimiters-depth-3">}</span>
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+      }
+    }
     <span class="org-keyword">return</span> result;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4eced7b" class="outline-3">
-<h3 id="org4eced7b"><span class="section-number-3">3.3.</span> copy_backward</h3>
+<div id="outline-container-org9455fac" class="outline-3">
+<h3 id="org9455fac"><span class="section-number-3">3.3.</span> copy_backward</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Copy (last, first] into (&#x2026;, d_first]
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">BidirIt1</span>, <span class="org-keyword">class</span> <span class="org-type">BidirIt2</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">BidirIt2</span> <span class="org-function-name">copy_backward</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">BidirIt1</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt1</span> <span class="org-variable-name">last</span>, <span class="org-type">BidirIt2</span> <span class="org-variable-name">d_last</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span>first != last<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      *<span class="org-rainbow-delimiters-depth-3">(</span>--d_last<span class="org-rainbow-delimiters-depth-3">)</span> = *<span class="org-rainbow-delimiters-depth-3">(</span>--last<span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">BidirIt1</span>, <span class="org-keyword">class</span> <span class="org-type">BidirIt2</span>&gt;
+  <span class="org-type">BidirIt2</span> <span class="org-function-name">copy_backward</span>(<span class="org-type">BidirIt1</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt1</span> <span class="org-variable-name">last</span>, <span class="org-type">BidirIt2</span> <span class="org-variable-name">d_last</span>) {
+    <span class="org-keyword">while</span> (first != last) {
+      *(--d_last) = *(--last);
+    }
     <span class="org-keyword">return</span> d_last;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0e4a05a" class="outline-3">
-<h3 id="org0e4a05a"><span class="section-number-3">3.4.</span> move</h3>
+<div id="outline-container-org617d37f" class="outline-3">
+<h3 id="org617d37f"><span class="section-number-3">3.4.</span> move</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 batch <code>move</code>, not really delete those in [first, last)
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">move</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span>first != last<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      *d_first++ = <span class="org-constant">std</span>::move<span class="org-rainbow-delimiters-depth-3">(</span>*first++<span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>&gt;
+  <span class="org-type">OutputIt</span> <span class="org-function-name">move</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>) {
+    <span class="org-keyword">while</span> (first != last) {
+      *d_first++ = <span class="org-constant">std</span>::move(*first++);
+    }
     <span class="org-keyword">return</span> d_first;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd9c1e37" class="outline-3">
-<h3 id="orgd9c1e37"><span class="section-number-3">3.5.</span> move_backward</h3>
+<div id="outline-container-orgc8e5f59" class="outline-3">
+<h3 id="orgc8e5f59"><span class="section-number-3">3.5.</span> move_backward</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 same as <code>copy_backward</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orgc20612e" class="outline-3">
-<h3 id="orgc20612e"><span class="section-number-3">3.6.</span> fill, fill_n</h3>
+<div id="outline-container-org39178fe" class="outline-3">
+<h3 id="org39178fe"><span class="section-number-3">3.6.</span> fill, fill_n</h3>
 <div class="outline-text-3" id="text-3-6">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">void</span> <span class="org-function-name">fill</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">for</span> <span class="org-rainbow-delimiters-depth-2">(</span>; first != last; ++first<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
+  <span class="org-type">void</span> <span class="org-function-name">fill</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>) {
+    <span class="org-keyword">for</span> (; first != last; ++first) {
       *first = value;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">fill_n</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">OutputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">Size</span> <span class="org-variable-name">count</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+    }
+  }
+  <span class="org-type">OutputIt</span> <span class="org-function-name">fill_n</span>(<span class="org-type">OutputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">Size</span> <span class="org-variable-name">count</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3b51c62" class="outline-3">
-<h3 id="org3b51c62"><span class="section-number-3">3.7.</span> transform</h3>
+<div id="outline-container-org262c3f4" class="outline-3">
+<h3 id="org262c3f4"><span class="section-number-3">3.7.</span> transform</h3>
 <div class="outline-text-3" id="text-3-7">
 <p>
 applies a function to a range of elements
@@ -374,41 +374,41 @@ applies a function to a range of elements
 <div class="org-src-container">
 <pre class="src src-c++">
 
-  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryOperation</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">transform</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last1</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>,
-                     <span class="org-type">UnaryOperation</span> <span class="org-variable-name">unary_op</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span>first1 != last1<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      *d_first++ = unary_op<span class="org-rainbow-delimiters-depth-3">(</span>*first1++<span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryOperation</span>&gt;
+  <span class="org-type">OutputIt</span> <span class="org-function-name">transform</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last1</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>,
+                     <span class="org-type">UnaryOperation</span> <span class="org-variable-name">unary_op</span>) {
+    <span class="org-keyword">while</span> (first1 != last1) {
+      *d_first++ = unary_op(*first1++);
+    }
     <span class="org-keyword">return</span> d_first;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">transform</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>,
-                     <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>, <span class="org-type">BinaryOperation</span> <span class="org-variable-name">binary_op</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  }
+  <span class="org-type">OutputIt</span> <span class="org-function-name">transform</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>,
+                     <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>, <span class="org-type">BinaryOperation</span> <span class="org-variable-name">binary_op</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc24156a" class="outline-3">
-<h3 id="orgc24156a"><span class="section-number-3">3.8.</span> generate, generate_n</h3>
+<div id="outline-container-org6041361" class="outline-3">
+<h3 id="org6041361"><span class="section-number-3">3.8.</span> generate, generate_n</h3>
 <div class="outline-text-3" id="text-3-8">
 <p>
 saves the result of a function in a range
 saves the result of N applications of a function
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">Generator</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">void</span> <span class="org-function-name">generate</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">Generator</span> <span class="org-variable-name">g</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span>first != last<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      *first++ = g<span class="org-rainbow-delimiters-depth-3">()</span>;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">generate_n</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">OutputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">Size</span> <span class="org-variable-name">count</span>, <span class="org-type">Generator</span> <span class="org-variable-name">g</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">Generator</span>&gt;
+  <span class="org-type">void</span> <span class="org-function-name">generate</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">Generator</span> <span class="org-variable-name">g</span>) {
+    <span class="org-keyword">while</span> (first != last) {
+      *first++ = g();
+    }
+  }
+  <span class="org-type">OutputIt</span> <span class="org-function-name">generate_n</span>(<span class="org-type">OutputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">Size</span> <span class="org-variable-name">count</span>, <span class="org-type">Generator</span> <span class="org-variable-name">g</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd3c205f" class="outline-3">
-<h3 id="orgd3c205f"><span class="section-number-3">3.9.</span> remove, remove_if</h3>
+<div id="outline-container-orgd18dc9a" class="outline-3">
+<h3 id="orgd18dc9a"><span class="section-number-3">3.9.</span> remove, remove_if</h3>
 <div class="outline-text-3" id="text-3-9">
 <p>
 Removes all elements satisfying specific criteria from the range [first, last).
@@ -416,304 +416,304 @@ Returns a past-the-end iterator for the new end of the range.
 Done by <b>shifting</b>.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">remove</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    first = <span class="org-constant">std</span>::find<span class="org-rainbow-delimiters-depth-2">(</span>first, last, value<span class="org-rainbow-delimiters-depth-2">)</span>;
-    <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-2">(</span>first != last<span class="org-rainbow-delimiters-depth-2">)</span>
-      <span class="org-keyword">for</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">i</span> = first; ++i != last;<span class="org-rainbow-delimiters-depth-2">)</span>
-        <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-negation-char">!</span><span class="org-rainbow-delimiters-depth-3">(</span>*i == value<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
-          *first++ = <span class="org-constant">std</span>::move<span class="org-rainbow-delimiters-depth-2">(</span>*i<span class="org-rainbow-delimiters-depth-2">)</span>;
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
+  <span class="org-type">ForwardIt</span> <span class="org-function-name">remove</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>) {
+    first = <span class="org-constant">std</span>::find(first, last, value);
+    <span class="org-keyword">if</span> (first != last)
+      <span class="org-keyword">for</span> (<span class="org-type">ForwardIt</span> <span class="org-variable-name">i</span> = first; ++i != last;)
+        <span class="org-keyword">if</span> (<span class="org-negation-char">!</span>(*i == value))
+          *first++ = <span class="org-constant">std</span>::move(*i);
     <span class="org-keyword">return</span> first;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">remove_if</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  }
+  <span class="org-type">ForwardIt</span> <span class="org-function-name">remove_if</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
 
   <span class="org-constant">std</span>::<span class="org-type">string</span> <span class="org-variable-name">str1</span> = <span class="org-string">"Text with some   spaces"</span>;
-  str1.erase<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-constant">std</span>::remove<span class="org-rainbow-delimiters-depth-2">(</span>str1.begin<span class="org-rainbow-delimiters-depth-3">()</span>, str1.end<span class="org-rainbow-delimiters-depth-3">()</span>, <span class="org-string">' '</span><span class="org-rainbow-delimiters-depth-2">)</span>, str1.end<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  str1.erase(<span class="org-constant">std</span>::remove(str1.begin(), str1.end(), <span class="org-string">' '</span>), str1.end());
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0fd6025" class="outline-3">
-<h3 id="org0fd6025"><span class="section-number-3">3.10.</span> remove_copy, remove_copy_if</h3>
+<div id="outline-container-org9821a0c" class="outline-3">
+<h3 id="org9821a0c"><span class="section-number-3">3.10.</span> remove_copy, remove_copy_if</h3>
 <div class="outline-text-3" id="text-3-10">
 <p>
 copy and omit some
 </p>
 </div>
 </div>
-<div id="outline-container-org07542fc" class="outline-3">
-<h3 id="org07542fc"><span class="section-number-3">3.11.</span> replace, replace_if</h3>
+<div id="outline-container-orga356aa4" class="outline-3">
+<h3 id="orga356aa4"><span class="section-number-3">3.11.</span> replace, replace_if</h3>
 <div class="outline-text-3" id="text-3-11">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">void</span> <span class="org-function-name">replace</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">old_value</span>,
-               <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">new_value</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">for</span> <span class="org-rainbow-delimiters-depth-2">(</span>; first != last; ++first<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>*first == old_value<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
+  <span class="org-type">void</span> <span class="org-function-name">replace</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">old_value</span>,
+               <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">new_value</span>) {
+    <span class="org-keyword">for</span> (; first != last; ++first) {
+      <span class="org-keyword">if</span> (*first == old_value) {
         *first = new_value;
-      <span class="org-rainbow-delimiters-depth-3">}</span>
-    <span class="org-rainbow-delimiters-depth-2">}</span>
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-type">void</span> <span class="org-function-name">replace_if</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>,
-                  <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">new_value</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+      }
+    }
+  }
+  <span class="org-type">void</span> <span class="org-function-name">replace_if</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>,
+                  <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">new_value</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0638e87" class="outline-3">
-<h3 id="org0638e87"><span class="section-number-3">3.12.</span> replace_copy, replace_copy_if</h3>
+<div id="outline-container-org5ac5e19" class="outline-3">
+<h3 id="org5ac5e19"><span class="section-number-3">3.12.</span> replace_copy, replace_copy_if</h3>
 <div class="outline-text-3" id="text-3-12">
 <p>
 copy and replace some
 </p>
 </div>
 </div>
-<div id="outline-container-orgc4bac4a" class="outline-3">
-<h3 id="orgc4bac4a"><span class="section-number-3">3.13.</span> swap, swap_ranges, iter_swap</h3>
+<div id="outline-container-org6141ae5" class="outline-3">
+<h3 id="org6141ae5"><span class="section-number-3">3.13.</span> swap, swap_ranges, iter_swap</h3>
 <div class="outline-text-3" id="text-3-13">
 <p>
 Swaps value / <b>container</b> a and b.
 </p>
 <div class="org-src-container">
 <pre class="src src-c++">  <span class="org-type">int</span> <span class="org-variable-name">a</span> = <span class="org-highlight-numbers-number">5</span>, <span class="org-variable-name">b</span> = <span class="org-highlight-numbers-number">3</span>;
-  <span class="org-constant">std</span>::swap<span class="org-rainbow-delimiters-depth-1">(</span>a, b<span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::swap(a, b);
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">ForwardIt1</span>, <span class="org-keyword">class</span> <span class="org-type">ForwardIt2</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">void</span> <span class="org-function-name">iter_swap</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt1</span> <span class="org-variable-name">a</span>, <span class="org-type">ForwardIt2</span> <span class="org-variable-name">b</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt1</span>, <span class="org-keyword">class</span> <span class="org-type">ForwardIt2</span>&gt;
+  <span class="org-type">void</span> <span class="org-function-name">iter_swap</span>(<span class="org-type">ForwardIt1</span> <span class="org-variable-name">a</span>, <span class="org-type">ForwardIt2</span> <span class="org-variable-name">b</span>) {
     <span class="org-keyword">using</span> <span class="org-constant">std</span>::<span class="org-constant">swap</span>;
-    swap<span class="org-rainbow-delimiters-depth-2">(</span>*a, *b<span class="org-rainbow-delimiters-depth-2">)</span>;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">ForwardIt1</span>, <span class="org-keyword">class</span> <span class="org-type">ForwardIt2</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">ForwardIt2</span> <span class="org-function-name">swap_ranges</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">ForwardIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">ForwardIt2</span> <span class="org-variable-name">first2</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span>first1 != last1<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      <span class="org-constant">std</span>::iter_swap<span class="org-rainbow-delimiters-depth-3">(</span>first1++, first2++<span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+    swap(*a, *b);
+  }
+  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt1</span>, <span class="org-keyword">class</span> <span class="org-type">ForwardIt2</span>&gt;
+  <span class="org-type">ForwardIt2</span> <span class="org-function-name">swap_ranges</span>(<span class="org-type">ForwardIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">ForwardIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">ForwardIt2</span> <span class="org-variable-name">first2</span>) {
+    <span class="org-keyword">while</span> (first1 != last1) {
+      <span class="org-constant">std</span>::iter_swap(first1++, first2++);
+    }
     <span class="org-keyword">return</span> first2;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org172d104" class="outline-3">
-<h3 id="org172d104"><span class="section-number-3">3.14.</span> reverse, reverse_copy</h3>
+<div id="outline-container-org659fb98" class="outline-3">
+<h3 id="org659fb98"><span class="section-number-3">3.14.</span> reverse, reverse_copy</h3>
 <div class="outline-text-3" id="text-3-14">
 <p>
 just use <b>swap</b> on bidirectional iterators
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">BidirIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-type">void</span> <span class="org-function-name">reverse</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>first != last<span class="org-rainbow-delimiters-depth-3">)</span> &amp;&amp; <span class="org-rainbow-delimiters-depth-3">(</span>first != --last<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      <span class="org-constant">std</span>::iter_swap<span class="org-rainbow-delimiters-depth-3">(</span>first++, last<span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">BidirIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">reverse_copy</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span>first != last<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      *<span class="org-rainbow-delimiters-depth-3">(</span>d_first++<span class="org-rainbow-delimiters-depth-3">)</span> = *<span class="org-rainbow-delimiters-depth-3">(</span>--last<span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">BidirIt</span>&gt; <span class="org-type">void</span> <span class="org-function-name">reverse</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>) {
+    <span class="org-keyword">while</span> ((first != last) &amp;&amp; (first != --last)) {
+      <span class="org-constant">std</span>::iter_swap(first++, last);
+    }
+  }
+  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">BidirIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>&gt;
+  <span class="org-type">OutputIt</span> <span class="org-function-name">reverse_copy</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>) {
+    <span class="org-keyword">while</span> (first != last) {
+      *(d_first++) = *(--last);
+    }
     <span class="org-keyword">return</span> d_first;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcbad655" class="outline-3">
-<h3 id="orgcbad655"><span class="section-number-3">3.15.</span> rotate, rotate_copy</h3>
+<div id="outline-container-org1ec74df" class="outline-3">
+<h3 id="org1ec74df"><span class="section-number-3">3.15.</span> rotate, rotate_copy</h3>
 <div class="outline-text-3" id="text-3-15">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">ForwardIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">rotate</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">n_first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>&gt;
+  <span class="org-type">ForwardIt</span> <span class="org-function-name">rotate</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">n_first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>) {
     <span class="org-type">ForwardIt</span> <span class="org-variable-name">next</span> = n_first;
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span>first != next<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      <span class="org-constant">std</span>::iter_swap<span class="org-rainbow-delimiters-depth-3">(</span>first++, next++<span class="org-rainbow-delimiters-depth-3">)</span>;
-      <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>next == last<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+    <span class="org-keyword">while</span> (first != next) {
+      <span class="org-constant">std</span>::iter_swap(first++, next++);
+      <span class="org-keyword">if</span> (next == last) {
         next = n_first;
-      <span class="org-rainbow-delimiters-depth-3">}</span> <span class="org-keyword">else</span> <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>first == n_first<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+      } <span class="org-keyword">else</span> <span class="org-keyword">if</span> (first == n_first) {
         n_first = next;
-      <span class="org-rainbow-delimiters-depth-3">}</span>
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+      }
+    }
     <span class="org-keyword">return</span> next;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  }
 
-  <span class="org-constant">std</span>::<span class="org-type">vector</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-variable-name">v</span><span class="org-rainbow-delimiters-depth-1">{</span><span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">10</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">}</span>;
+  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">v</span>{<span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">10</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">1</span>};
   <span class="org-comment-delimiter">// </span><span class="org-comment">simple rotation to the left</span>
-  <span class="org-constant">std</span>::rotate<span class="org-rainbow-delimiters-depth-1">(</span>v.begin<span class="org-rainbow-delimiters-depth-2">()</span>, v.begin<span class="org-rainbow-delimiters-depth-2">()</span> + <span class="org-highlight-numbers-number">1</span>, v.end<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::rotate(v.begin(), v.begin() + <span class="org-highlight-numbers-number">1</span>, v.end());
   <span class="org-comment-delimiter">// </span><span class="org-comment">simple rotation to the right</span>
-  <span class="org-constant">std</span>::rotate<span class="org-rainbow-delimiters-depth-1">(</span>v.rbegin<span class="org-rainbow-delimiters-depth-2">()</span>, v.rbegin<span class="org-rainbow-delimiters-depth-2">()</span> + <span class="org-highlight-numbers-number">1</span>, v.rend<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::rotate(v.rbegin(), v.rbegin() + <span class="org-highlight-numbers-number">1</span>, v.rend());
   <span class="org-comment-delimiter">// </span><span class="org-comment">insertion sort</span>
-  <span class="org-keyword">for</span> <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">auto</span> <span class="org-variable-name">i</span> = v.begin<span class="org-rainbow-delimiters-depth-2">()</span>; i != v.end<span class="org-rainbow-delimiters-depth-2">()</span>; ++i<span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-constant">std</span>::rotate<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-constant">std</span>::upper_bound<span class="org-rainbow-delimiters-depth-3">(</span>v.begin<span class="org-rainbow-delimiters-depth-4">()</span>, i, *i<span class="org-rainbow-delimiters-depth-3">)</span>, i, i + <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span>;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  <span class="org-keyword">for</span> (<span class="org-keyword">auto</span> <span class="org-variable-name">i</span> = v.begin(); i != v.end(); ++i) {
+    <span class="org-constant">std</span>::rotate(<span class="org-constant">std</span>::upper_bound(v.begin(), i, *i), i, i + <span class="org-highlight-numbers-number">1</span>);
+  }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf4c4ce5" class="outline-3">
-<h3 id="orgf4c4ce5"><span class="section-number-3">3.16.</span> random_shuffle, shuffle</h3>
+<div id="outline-container-org76f3469" class="outline-3">
+<h3 id="org76f3469"><span class="section-number-3">3.16.</span> random_shuffle, shuffle</h3>
 <div class="outline-text-3" id="text-3-16">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">RandomIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-type">void</span> <span class="org-function-name">random_shuffle</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">typename</span> <span class="org-constant">std</span>::<span class="org-constant">iterator_traits</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">RandomIt</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>::<span class="org-type">difference_type</span> <span class="org-variable-name">i</span>, <span class="org-variable-name">n</span>;
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">RandomIt</span>&gt; <span class="org-type">void</span> <span class="org-function-name">random_shuffle</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>) {
+    <span class="org-keyword">typename</span> <span class="org-constant">std</span>::<span class="org-constant">iterator_traits</span>&lt;<span class="org-type">RandomIt</span>&gt;::<span class="org-type">difference_type</span> <span class="org-variable-name">i</span>, <span class="org-variable-name">n</span>;
     n = last - first;
-    <span class="org-keyword">for</span> <span class="org-rainbow-delimiters-depth-2">(</span>i = n - <span class="org-highlight-numbers-number">1</span>; i &gt; <span class="org-highlight-numbers-number">0</span>; --i<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+    <span class="org-keyword">for</span> (i = n - <span class="org-highlight-numbers-number">1</span>; i &gt; <span class="org-highlight-numbers-number">0</span>; --i) {
       <span class="org-keyword">using</span> <span class="org-constant">std</span>::<span class="org-constant">swap</span>;
-      swap<span class="org-rainbow-delimiters-depth-3">(</span>first<span class="org-rainbow-delimiters-depth-4">[</span>i<span class="org-rainbow-delimiters-depth-4">]</span>, first<span class="org-rainbow-delimiters-depth-4">[</span><span class="org-constant">std</span>::rand<span class="org-rainbow-delimiters-depth-1">()</span> % <span class="org-rainbow-delimiters-depth-1">(</span>i + <span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-1">)</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+      swap(first[i], first[<span class="org-constant">std</span>::rand() % (i + <span class="org-highlight-numbers-number">1</span>)]);
+    }
+  }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org433c372" class="outline-3">
-<h3 id="org433c372"><span class="section-number-3">3.17.</span> unique, unique_copy</h3>
+<div id="outline-container-org82b4bec" class="outline-3">
+<h3 id="org82b4bec"><span class="section-number-3">3.17.</span> unique, unique_copy</h3>
 <div class="outline-text-3" id="text-3-17">
 <p>
 Removes all <b>consecutive duplicate elements</b> from the range [first, last).
 Returns a past-the-end iterator for the new logical end of the range.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">ForwardIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-type">ForwardIt</span> <span class="org-function-name">unique</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-2">(</span>first == last<span class="org-rainbow-delimiters-depth-2">)</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>&gt; <span class="org-type">ForwardIt</span> <span class="org-function-name">unique</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>) {
+    <span class="org-keyword">if</span> (first == last)
       <span class="org-keyword">return</span> last;
     <span class="org-type">ForwardIt</span> <span class="org-variable-name">result</span> = first;
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span>++first != last<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-negation-char">!</span><span class="org-rainbow-delimiters-depth-4">(</span>*result == *first<span class="org-rainbow-delimiters-depth-4">)</span> &amp;&amp; ++result != first<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
-        *result = <span class="org-constant">std</span>::move<span class="org-rainbow-delimiters-depth-4">(</span>*first<span class="org-rainbow-delimiters-depth-4">)</span>;
-      <span class="org-rainbow-delimiters-depth-3">}</span>
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+    <span class="org-keyword">while</span> (++first != last) {
+      <span class="org-keyword">if</span> (<span class="org-negation-char">!</span>(*result == *first) &amp;&amp; ++result != first) {
+        *result = <span class="org-constant">std</span>::move(*first);
+      }
+    }
     <span class="org-keyword">return</span> ++result;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
+  }
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org5298c8a" class="outline-2">
-<h2 id="org5298c8a"><span class="section-number-2">4.</span> Partitioning operations</h2>
+<div id="outline-container-orgf74d587" class="outline-2">
+<h2 id="orgf74d587"><span class="section-number-2">4.</span> Partitioning operations</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">class</span> <span class="org-type">BidirIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryPredicate</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-  <span class="org-type">BidirIt</span> <span class="org-function-name">partition</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-    <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-highlight-numbers-number">1</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-      <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>first != last<span class="org-rainbow-delimiters-depth-4">)</span> &amp;&amp; p<span class="org-rainbow-delimiters-depth-4">(</span>*first<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">BidirIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryPredicate</span>&gt;
+  <span class="org-type">BidirIt</span> <span class="org-function-name">partition</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>) {
+    <span class="org-keyword">while</span> (<span class="org-highlight-numbers-number">1</span>) {
+      <span class="org-keyword">while</span> ((first != last) &amp;&amp; p(*first)) {
         ++first;
-      <span class="org-rainbow-delimiters-depth-3">}</span>
-      <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>first == last--<span class="org-rainbow-delimiters-depth-3">)</span>
+      }
+      <span class="org-keyword">if</span> (first == last--)
         <span class="org-keyword">break</span>;
-      <span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>first != last<span class="org-rainbow-delimiters-depth-4">)</span> &amp;&amp; <span class="org-negation-char">!</span>p<span class="org-rainbow-delimiters-depth-4">(</span>*last<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+      <span class="org-keyword">while</span> ((first != last) &amp;&amp; <span class="org-negation-char">!</span>p(*last)) {
         --last;
-      <span class="org-rainbow-delimiters-depth-3">}</span>
-      <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>first == last<span class="org-rainbow-delimiters-depth-3">)</span>
+      }
+      <span class="org-keyword">if</span> (first == last)
         <span class="org-keyword">break</span>;
-      <span class="org-constant">std</span>::iter_swap<span class="org-rainbow-delimiters-depth-3">(</span>first++, last<span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-rainbow-delimiters-depth-2">}</span>
+      <span class="org-constant">std</span>::iter_swap(first++, last);
+    }
     <span class="org-keyword">return</span> first;
-  <span class="org-rainbow-delimiters-depth-1">}</span>
-  <span class="org-type">bool</span> <span class="org-function-name">is_partitioned</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-type">BidirIt</span> <span class="org-function-name">stable_partition</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">partition_point</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  }
+  <span class="org-type">bool</span> <span class="org-function-name">is_partitioned</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
+  <span class="org-type">BidirIt</span> <span class="org-function-name">stable_partition</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
+  <span class="org-type">ForwardIt</span> <span class="org-function-name">partition_point</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdf7a42a" class="outline-2">
-<h2 id="orgdf7a42a"><span class="section-number-2">5.</span> Sorting operations</h2>
+<div id="outline-container-org8504613" class="outline-2">
+<h2 id="org8504613"><span class="section-number-2">5.</span> Sorting operations</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-c++">
   <span class="org-comment-delimiter">// </span><span class="org-comment">reverse sort</span>
-  <span class="org-constant">std</span>::sort<span class="org-rainbow-delimiters-depth-1">(</span>s.begin<span class="org-rainbow-delimiters-depth-2">()</span>, s.end<span class="org-rainbow-delimiters-depth-2">()</span>, <span class="org-constant">std</span>::greater<span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-2">&gt;()</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-constant">std</span>::sort<span class="org-rainbow-delimiters-depth-1">(</span>s.begin<span class="org-rainbow-delimiters-depth-2">()</span>, s.end<span class="org-rainbow-delimiters-depth-2">()</span>, <span class="org-rainbow-delimiters-depth-2">[](</span><span class="org-type">int</span> <span class="org-variable-name">a</span>, <span class="org-type">int</span> <span class="org-variable-name">b</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> b &lt; a; <span class="org-rainbow-delimiters-depth-2">}</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::sort(s.begin(), s.end(), <span class="org-constant">std</span>::greater&lt;<span class="org-type">int</span>&gt;());
+  <span class="org-constant">std</span>::sort(s.begin(), s.end(), [](<span class="org-type">int</span> <span class="org-variable-name">a</span>, <span class="org-type">int</span> <span class="org-variable-name">b</span>) { <span class="org-keyword">return</span> b &lt; a; });
   <span class="org-comment-delimiter">// </span><span class="org-comment">partial sort</span>
-  <span class="org-constant">std</span>::<span class="org-type">array</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">int</span>, <span class="org-highlight-numbers-number">10</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-variable-name">s</span><span class="org-rainbow-delimiters-depth-1">{</span><span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">8</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">9</span>, <span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">3</span><span class="org-rainbow-delimiters-depth-1">}</span>;
-  <span class="org-constant">std</span>::partial_sort<span class="org-rainbow-delimiters-depth-1">(</span>s.begin<span class="org-rainbow-delimiters-depth-2">()</span>, s.begin<span class="org-rainbow-delimiters-depth-2">()</span> + <span class="org-highlight-numbers-number">3</span>, s.end<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::<span class="org-type">array</span>&lt;<span class="org-type">int</span>, <span class="org-highlight-numbers-number">10</span>&gt; <span class="org-variable-name">s</span>{<span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">8</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">9</span>, <span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">3</span>};
+  <span class="org-constant">std</span>::partial_sort(s.begin(), s.begin() + <span class="org-highlight-numbers-number">3</span>, s.end());
   <span class="org-comment-delimiter">// </span><span class="org-comment">n-th element</span>
-  <span class="org-constant">std</span>::<span class="org-type">vector</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-variable-name">v</span><span class="org-rainbow-delimiters-depth-1">{</span><span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">9</span>, <span class="org-highlight-numbers-number">3</span><span class="org-rainbow-delimiters-depth-1">}</span>;
-  <span class="org-constant">std</span>::nth_element<span class="org-rainbow-delimiters-depth-1">(</span>v.begin<span class="org-rainbow-delimiters-depth-2">()</span>, v.begin<span class="org-rainbow-delimiters-depth-2">()</span> + v.size<span class="org-rainbow-delimiters-depth-2">()</span> / <span class="org-highlight-numbers-number">2</span>, v.end<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">v</span>{<span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">9</span>, <span class="org-highlight-numbers-number">3</span>};
+  <span class="org-constant">std</span>::nth_element(v.begin(), v.begin() + v.size() / <span class="org-highlight-numbers-number">2</span>, v.end());
   <span class="org-comment-delimiter">// </span><span class="org-comment">others</span>
-  <span class="org-type">bool</span> <span class="org-function-name">is_sorted</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-type">void</span> <span class="org-function-name">stable_sort</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">bool</span> <span class="org-function-name">is_sorted</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>);
+  <span class="org-type">void</span> <span class="org-function-name">stable_sort</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org915fe6a" class="outline-2">
-<h2 id="org915fe6a"><span class="section-number-2">6.</span> Binary search operations (on sorted ranges)</h2>
+<div id="outline-container-org8c76b93" class="outline-2">
+<h2 id="org8c76b93"><span class="section-number-2">6.</span> Binary search operations (on sorted ranges)</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">bool</span> <span class="org-function-name">binary_search</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-type">bool</span> <span class="org-function-name">binary_search</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">the first that is no less than</span>
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">lower_bound</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">ForwardIt</span> <span class="org-function-name">lower_bound</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">the first that is greater than</span>
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">lower_bound</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">ForwardIt</span> <span class="org-function-name">lower_bound</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">range containing all elements equivalent to value</span>
-  <span class="org-constant">std</span>::<span class="org-type">pair</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">ForwardIt</span>,<span class="org-type">ForwardIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
-    <span class="org-function-name">equal_range</span><span class="org-rainbow-delimiters-depth-1">(</span> <span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span>&amp; <span class="org-variable-name">value</span> <span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-type">ForwardIt</span>,<span class="org-type">ForwardIt</span>&gt;
+    <span class="org-function-name">equal_range</span>( <span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span>&amp; <span class="org-variable-name">value</span> );
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9b18d9f" class="outline-2">
-<h2 id="org9b18d9f"><span class="section-number-2">7.</span> Set operations (on sorted ranges)</h2>
+<div id="outline-container-org69aa46e" class="outline-2">
+<h2 id="org69aa46e"><span class="section-number-2">7.</span> Set operations (on sorted ranges)</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 just copy
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">OutputIt</span> <span class="org-function-name">merge</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                 <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-type">void</span> <span class="org-function-name">inplace_merge</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">middle</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-type">OutputIt</span> <span class="org-function-name">merge</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
+                 <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>);
+  <span class="org-type">void</span> <span class="org-function-name">inplace_merge</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">middle</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">if [first1, last1) includes all elms in [first2, last2)</span>
-  <span class="org-type">bool</span> <span class="org-function-name">includes</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">bool</span> <span class="org-function-name">includes</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">[first1, last1) - [first2, last2)</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">set_difference</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                          <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">OutputIt</span> <span class="org-function-name">set_difference</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
+                          <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">[first1, last1) &amp; [first2, last2)</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">set_intersection</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                            <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">OutputIt</span> <span class="org-function-name">set_intersection</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
+                            <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">in either of the ranges, but not in both of them</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">set_symmetric_difference</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
+  <span class="org-type">OutputIt</span> <span class="org-function-name">set_symmetric_difference</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
                                     <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>,
-                                    <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+                                    <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">in both, without duplicates</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">set_union</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                     <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">OutputIt</span> <span class="org-function-name">set_union</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
+                     <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgfb83a5d" class="outline-2">
-<h2 id="orgfb83a5d"><span class="section-number-2">8.</span> Heap operations</h2>
+<div id="outline-container-orgaf7e803" class="outline-2">
+<h2 id="orgaf7e803"><span class="section-number-2">8.</span> Heap operations</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 the default is a max heap
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">bool</span> <span class="org-function-name">is_heap</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-type">void</span> <span class="org-function-name">make_heap</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-type">bool</span> <span class="org-function-name">is_heap</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
+  <span class="org-type">void</span> <span class="org-function-name">make_heap</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">insert the elem at last-1 into the max heap [first, last-1)</span>
-  <span class="org-type">void</span> <span class="org-function-name">push_heap</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">void</span> <span class="org-function-name">push_heap</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">that elem is at position last-1 now</span>
-  <span class="org-type">void</span> <span class="org-function-name">pop_heap</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">void</span> <span class="org-function-name">pop_heap</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">max heap to sorted range</span>
-  <span class="org-type">void</span> <span class="org-function-name">sort_heap</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">void</span> <span class="org-function-name">sort_heap</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8e272ee" class="outline-2">
-<h2 id="org8e272ee"><span class="section-number-2">9.</span> Minimum/maximum operations</h2>
+<div id="outline-container-org057a393" class="outline-2">
+<h2 id="org057a393"><span class="section-number-2">9.</span> Minimum/maximum operations</h2>
 <div class="outline-text-2" id="text-9">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-function-name">max</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">a</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">b</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-type">T</span> <span class="org-function-name">max</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-constant">std</span>::<span class="org-type">initializer_list</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">T</span><span class="org-rainbow-delimiters-depth-2">&gt;</span> <span class="org-variable-name">ilist</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">max_element</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-function-name">max</span>(<span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">a</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">b</span>);
+  <span class="org-type">T</span> <span class="org-function-name">max</span>(<span class="org-constant">std</span>::<span class="org-type">initializer_list</span>&lt;<span class="org-type">T</span>&gt; <span class="org-variable-name">ilist</span>);
+  <span class="org-type">ForwardIt</span> <span class="org-function-name">max_element</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>);
 
-  <span class="org-constant">std</span>::<span class="org-type">pair</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">const</span> <span class="org-type">T</span> &amp;, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-function-name">minmax</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">a</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">b</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-constant">std</span>::<span class="org-type">pair</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">T</span>, <span class="org-type">T</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-function-name">minmax</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-constant">std</span>::<span class="org-type">initializer_list</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">T</span><span class="org-rainbow-delimiters-depth-2">&gt;</span> <span class="org-variable-name">ilist</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-constant">std</span>::<span class="org-type">pair</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">ForwardIt</span>, <span class="org-type">ForwardIt</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-function-name">minmax_element</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-keyword">const</span> <span class="org-type">T</span> &amp;, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;&gt; <span class="org-function-name">minmax</span>(<span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">a</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">b</span>);
+  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-type">T</span>, <span class="org-type">T</span>&gt; <span class="org-function-name">minmax</span>(<span class="org-constant">std</span>::<span class="org-type">initializer_list</span>&lt;<span class="org-type">T</span>&gt; <span class="org-variable-name">ilist</span>);
+  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-type">ForwardIt</span>, <span class="org-type">ForwardIt</span>&gt; <span class="org-function-name">minmax_element</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>);
 </pre>
 </div>
 
@@ -721,8 +721,8 @@ the default is a max heap
 string/list compasion
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">bool</span> <span class="org-function-name">lexicographical_compare</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                               <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-type">bool</span> <span class="org-function-name">lexicographical_compare</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
+                               <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>);
 </pre>
 </div>
 
@@ -731,23 +731,23 @@ permutation
 </p>
 <div class="org-src-container">
 <pre class="src src-c++">  <span class="org-comment-delimiter">// </span><span class="org-comment">if [first1, last1) is a permutation of [first2,last2)</span>
-  <span class="org-type">bool</span> <span class="org-function-name">is_permutation</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">ForwardIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">ForwardIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">ForwardIt2</span> <span class="org-variable-name">first2</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">bool</span> <span class="org-function-name">is_permutation</span>(<span class="org-type">ForwardIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">ForwardIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">ForwardIt2</span> <span class="org-variable-name">first2</span>);
 
-  <span class="org-type">bool</span> <span class="org-function-name">next_permutation</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-type">bool</span> <span class="org-function-name">prev_permutation</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">bool</span> <span class="org-function-name">next_permutation</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>);
+  <span class="org-type">bool</span> <span class="org-function-name">prev_permutation</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org532c557" class="outline-2">
-<h2 id="org532c557"><span class="section-number-2">10.</span> Numeric operations (&lt;numeric&gt;)</h2>
+<div id="outline-container-org1d42643" class="outline-2">
+<h2 id="org1d42643"><span class="section-number-2">10.</span> Numeric operations (&lt;numeric&gt;)</h2>
 <div class="outline-text-2" id="text-10">
 <p>
 range()
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-constant">std</span>::<span class="org-type">list</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-type">int</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-variable-name">l</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-highlight-numbers-number">10</span><span class="org-rainbow-delimiters-depth-1">)</span>;
-  <span class="org-constant">std</span>::iota<span class="org-rainbow-delimiters-depth-1">(</span>l.begin<span class="org-rainbow-delimiters-depth-2">()</span>, l.end<span class="org-rainbow-delimiters-depth-2">()</span>, -<span class="org-highlight-numbers-number">4</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-constant">std</span>::<span class="org-type">list</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">l</span>(<span class="org-highlight-numbers-number">10</span>);
+  <span class="org-constant">std</span>::iota(l.begin(), l.end(), -<span class="org-highlight-numbers-number">4</span>);
   <span class="org-comment-delimiter">// </span><span class="org-comment">-4 -3 -2 -1 0 1 2 3 4 5</span>
 </pre>
 </div>
@@ -756,7 +756,7 @@ range()
 sum()
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">T</span> <span class="org-function-name">accumulate</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">T</span> <span class="org-variable-name">init</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-type">T</span> <span class="org-function-name">accumulate</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">T</span> <span class="org-variable-name">init</span>);
 </pre>
 </div>
 
@@ -765,8 +765,8 @@ inner_product, adjacent_difference, partial_sum
 </p>
 </div>
 </div>
-<div id="outline-container-org85b9165" class="outline-2">
-<h2 id="org85b9165"><span class="section-number-2">11.</span> C library (&lt;cstdlib&gt;)</h2>
+<div id="outline-container-orgb4ca3c3" class="outline-2">
+<h2 id="orgb4ca3c3"><span class="section-number-2">11.</span> C library (&lt;cstdlib&gt;)</h2>
 <div class="outline-text-2" id="text-11">
 <ol class="org-ol">
 <li>ptr - pointer to the array to sort</li>
@@ -779,31 +779,31 @@ inner_product, adjacent_difference, partial_sum
 </ol>
 
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">void</span> <span class="org-function-name">qsort</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">void</span> *<span class="org-variable-name">ptr</span>, <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">count</span>, <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">size</span>,
-             <span class="org-type">int</span> <span class="org-rainbow-delimiters-depth-2">(</span>*<span class="org-function-name">comp</span><span class="org-rainbow-delimiters-depth-2">)(</span><span class="org-keyword">const</span> <span class="org-type">void</span> *, <span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-type">void</span> <span class="org-function-name">qsort</span>(<span class="org-type">void</span> *<span class="org-variable-name">ptr</span>, <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">count</span>, <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">size</span>,
+             <span class="org-type">int</span> (*<span class="org-function-name">comp</span>)(<span class="org-keyword">const</span> <span class="org-type">void</span> *, <span class="org-keyword">const</span> <span class="org-type">void</span> *));
 
-  <span class="org-type">int</span> <span class="org-variable-name">a</span><span class="org-rainbow-delimiters-depth-1">[]</span> = <span class="org-rainbow-delimiters-depth-1">{</span>-<span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">99</span>, <span class="org-highlight-numbers-number">0</span>, -<span class="org-highlight-numbers-number">743</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-constant">INT_MIN</span>, <span class="org-highlight-numbers-number">4</span><span class="org-rainbow-delimiters-depth-1">}</span>;
+  <span class="org-type">int</span> <span class="org-variable-name">a</span>[] = {-<span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">99</span>, <span class="org-highlight-numbers-number">0</span>, -<span class="org-highlight-numbers-number">743</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-constant">INT_MIN</span>, <span class="org-highlight-numbers-number">4</span>};
   <span class="org-keyword">constexpr</span> <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">size</span> = <span class="org-keyword">sizeof</span> a / <span class="org-keyword">sizeof</span> *a;
 
-  <span class="org-constant">std</span>::qsort<span class="org-rainbow-delimiters-depth-1">(</span>a, size, <span class="org-keyword">sizeof</span> *a, <span class="org-rainbow-delimiters-depth-2">[](</span><span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">a</span>, <span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">b</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span>
-    <span class="org-type">int</span> <span class="org-variable-name">arg1</span> = *<span class="org-keyword">static_cast</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-keyword">const</span> <span class="org-type">int</span> *<span class="org-rainbow-delimiters-depth-3">&gt;(</span>a<span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-type">int</span> <span class="org-variable-name">arg2</span> = *<span class="org-keyword">static_cast</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-keyword">const</span> <span class="org-type">int</span> *<span class="org-rainbow-delimiters-depth-3">&gt;(</span>b<span class="org-rainbow-delimiters-depth-3">)</span>;
-    <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>arg1 &lt; arg2<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-keyword">return</span> -<span class="org-highlight-numbers-number">1</span>;
-    <span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span>arg1 &gt; arg2<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-keyword">return</span> <span class="org-highlight-numbers-number">1</span>;
+  <span class="org-constant">std</span>::qsort(a, size, <span class="org-keyword">sizeof</span> *a, [](<span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">a</span>, <span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">b</span>) {
+    <span class="org-type">int</span> <span class="org-variable-name">arg1</span> = *<span class="org-keyword">static_cast</span>&lt;<span class="org-keyword">const</span> <span class="org-type">int</span> *&gt;(a);
+    <span class="org-type">int</span> <span class="org-variable-name">arg2</span> = *<span class="org-keyword">static_cast</span>&lt;<span class="org-keyword">const</span> <span class="org-type">int</span> *&gt;(b);
+    <span class="org-keyword">if</span> (arg1 &lt; arg2) <span class="org-keyword">return</span> -<span class="org-highlight-numbers-number">1</span>;
+    <span class="org-keyword">if</span> (arg1 &gt; arg2) <span class="org-keyword">return</span> <span class="org-highlight-numbers-number">1</span>;
     <span class="org-keyword">return</span> <span class="org-highlight-numbers-number">0</span>;
     <span class="org-comment-delimiter">// </span><span class="org-comment">return (arg1 &gt; arg2) - (arg1 &lt; arg2); // possible shortcut</span>
     <span class="org-comment-delimiter">// </span><span class="org-comment">return arg1 - arg2; // erroneous shortcut (fails if INT_MIN is present)</span>
-  <span class="org-rainbow-delimiters-depth-2">}</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+  });
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">void</span> *<span class="org-function-name">bsearch</span><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">key</span>, <span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">ptr</span>, <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">count</span>,
-                <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">size</span>, <span class="org-type">int</span> <span class="org-rainbow-delimiters-depth-2">(</span>*<span class="org-function-name">comp</span><span class="org-rainbow-delimiters-depth-2">)(</span><span class="org-keyword">const</span> <span class="org-type">void</span> *, <span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>;
+<pre class="src src-c++">  <span class="org-type">void</span> *<span class="org-function-name">bsearch</span>(<span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">key</span>, <span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">ptr</span>, <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">count</span>,
+                <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">size</span>, <span class="org-type">int</span> (*<span class="org-function-name">comp</span>)(<span class="org-keyword">const</span> <span class="org-type">void</span> *, <span class="org-keyword">const</span> <span class="org-type">void</span> *));
 
   <span class="org-keyword">const</span> <span class="org-type">int</span> <span class="org-variable-name">SIZE</span> = <span class="org-highlight-numbers-number">8</span>; <span class="org-type">int</span> <span class="org-variable-name">key1</span> = <span class="org-highlight-numbers-number">4</span>;
-  <span class="org-type">int</span> <span class="org-variable-name">arr</span><span class="org-rainbow-delimiters-depth-1">[</span><span class="org-constant">SIZE</span><span class="org-rainbow-delimiters-depth-1">]</span> = <span class="org-rainbow-delimiters-depth-1">{</span><span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">8</span><span class="org-rainbow-delimiters-depth-1">}</span>;
-  <span class="org-type">int</span> *<span class="org-variable-name">p1</span> = <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-type">int</span> *<span class="org-rainbow-delimiters-depth-1">)</span><span class="org-constant">std</span>::bsearch<span class="org-rainbow-delimiters-depth-1">(</span>&amp;key1, arr, <span class="org-constant">SIZE</span>, <span class="org-keyword">sizeof</span><span class="org-rainbow-delimiters-depth-2">(</span>arr<span class="org-rainbow-delimiters-depth-3">[</span><span class="org-highlight-numbers-number">0</span><span class="org-rainbow-delimiters-depth-3">]</span><span class="org-rainbow-delimiters-depth-2">)</span>, compare<span class="org-rainbow-delimiters-depth-1">)</span>;
+  <span class="org-type">int</span> <span class="org-variable-name">arr</span>[<span class="org-constant">SIZE</span>] = {<span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">8</span>};
+  <span class="org-type">int</span> *<span class="org-variable-name">p1</span> = (<span class="org-type">int</span> *)<span class="org-constant">std</span>::bsearch(&amp;key1, arr, <span class="org-constant">SIZE</span>, <span class="org-keyword">sizeof</span>(arr[<span class="org-highlight-numbers-number">0</span>]), compare);
 </pre>
 </div>
 </div>

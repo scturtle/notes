@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-01-12 Wed 22:07 -->
+<!-- 2022-01-16 Sun 17:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Note of Modern CMake</title>
@@ -18,36 +18,36 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org2b5db54">1. how to run</a>
+<li><a href="#org6e5aec8">1. how to run</a>
 <ul>
-<li><a href="#orgad03787">1.1. 初始化</a></li>
-<li><a href="#org2a4b373">1.2. 构建</a></li>
-<li><a href="#org63e1cff">1.3. 指定编译器</a></li>
+<li><a href="#org3589d1f">1.1. 初始化</a></li>
+<li><a href="#org4c57afe">1.2. 构建</a></li>
+<li><a href="#orgd11a7b6">1.3. 指定编译器</a></li>
 </ul>
 </li>
-<li><a href="#org47aeff9">2. 语法</a>
+<li><a href="#org1757b8a">2. 语法</a>
 <ul>
-<li><a href="#orgda94726">2.1. 基础</a></li>
-<li><a href="#orgb5ef4d0">2.2. 变量</a></li>
-<li><a href="#org5a0aeca">2.3. 控制流</a></li>
-<li><a href="#org1841d69">2.4. generator-expressions</a></li>
+<li><a href="#orge02fd1e">2.1. 基础</a></li>
+<li><a href="#orgfe8c05d">2.2. 变量</a></li>
+<li><a href="#org62bc6b3">2.3. 控制流</a></li>
+<li><a href="#orgbd51d05">2.4. generator-expressions</a></li>
 </ul>
 </li>
-<li><a href="#orgf770594">3. 目录结构</a></li>
-<li><a href="#orgdce1ab8">4. -fPIC</a></li>
-<li><a href="#orgc8bd922">5. find package</a></li>
-<li><a href="#org4d27f9d">6. tools</a></li>
-<li><a href="#orgd241d99">7. take away</a></li>
+<li><a href="#org30dd3f2">3. 目录结构</a></li>
+<li><a href="#orgb18e538">4. -fPIC</a></li>
+<li><a href="#orgefb7167">5. find package</a></li>
+<li><a href="#org629f874">6. tools</a></li>
+<li><a href="#orge55d1c2">7. take away</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org2b5db54" class="outline-2">
-<h2 id="org2b5db54"><span class="section-number-2">1.</span> how to run</h2>
+<div id="outline-container-org6e5aec8" class="outline-2">
+<h2 id="org6e5aec8"><span class="section-number-2">1.</span> how to run</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgad03787" class="outline-3">
-<h3 id="orgad03787"><span class="section-number-3">1.1.</span> 初始化</h3>
+<div id="outline-container-org3589d1f" class="outline-3">
+<h3 id="org3589d1f"><span class="section-number-3">1.1.</span> 初始化</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 指定代码根目录和构建目录：
@@ -109,8 +109,8 @@
 </div>
 </div>
 
-<div id="outline-container-org2a4b373" class="outline-3">
-<h3 id="org2a4b373"><span class="section-number-3">1.2.</span> 构建</h3>
+<div id="outline-container-org4c57afe" class="outline-3">
+<h3 id="org4c57afe"><span class="section-number-3">1.2.</span> 构建</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-plain">$ cmake --build build
@@ -131,8 +131,8 @@
 </div>
 </div>
 
-<div id="outline-container-org63e1cff" class="outline-3">
-<h3 id="org63e1cff"><span class="section-number-3">1.3.</span> 指定编译器</h3>
+<div id="outline-container-orgd11a7b6" class="outline-3">
+<h3 id="orgd11a7b6"><span class="section-number-3">1.3.</span> 指定编译器</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 一种方法是：
@@ -157,12 +157,12 @@
 </div>
 </div>
 
-<div id="outline-container-org47aeff9" class="outline-2">
-<h2 id="org47aeff9"><span class="section-number-2">2.</span> 语法</h2>
+<div id="outline-container-org1757b8a" class="outline-2">
+<h2 id="org1757b8a"><span class="section-number-2">2.</span> 语法</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgda94726" class="outline-3">
-<h3 id="orgda94726"><span class="section-number-3">2.1.</span> 基础</h3>
+<div id="outline-container-orge02fd1e" class="outline-3">
+<h3 id="orge02fd1e"><span class="section-number-3">2.1.</span> 基础</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 第一行：
@@ -273,8 +273,8 @@ Definitions: <code>target_compile_definitions</code>.
 </div>
 </div>
 
-<div id="outline-container-orgb5ef4d0" class="outline-3">
-<h3 id="orgb5ef4d0"><span class="section-number-3">2.2.</span> 变量</h3>
+<div id="outline-container-orgfe8c05d" class="outline-3">
+<h3 id="orgfe8c05d"><span class="section-number-3">2.2.</span> 变量</h3>
 <div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
 <pre class="src src-cmake"><span class="org-function-name">set</span>(VARIABLE <span class="org-string">"value"</span>)
@@ -338,8 +338,8 @@ TODO: 字符串和列表相关函数。
 </div>
 
 
-<div id="outline-container-org5a0aeca" class="outline-3">
-<h3 id="org5a0aeca"><span class="section-number-3">2.3.</span> 控制流</h3>
+<div id="outline-container-org62bc6b3" class="outline-3">
+<h3 id="org62bc6b3"><span class="section-number-3">2.3.</span> 控制流</h3>
 <div class="outline-text-3" id="text-2-3">
 <div class="org-src-container">
 <pre class="src src-cmake"><span class="org-keyword">if</span>(variable)
@@ -358,8 +358,8 @@ TODO: 字符串和列表相关函数。
 </div>
 </div>
 
-<div id="outline-container-org1841d69" class="outline-3">
-<h3 id="org1841d69"><span class="section-number-3">2.4.</span> <a href="https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html">generator-expressions</a></h3>
+<div id="outline-container-orgbd51d05" class="outline-3">
+<h3 id="orgbd51d05"><span class="section-number-3">2.4.</span> <a href="https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html">generator-expressions</a></h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 当 <code>CONFIG</code> 为 <code>Debug</code> 时才添加 <code>--myflag</code>:
@@ -397,8 +397,8 @@ TODO: function, macro.
 </div>
 </div>
 
-<div id="outline-container-orgf770594" class="outline-2">
-<h2 id="orgf770594"><span class="section-number-2">3.</span> 目录结构</h2>
+<div id="outline-container-org30dd3f2" class="outline-2">
+<h2 id="org30dd3f2"><span class="section-number-2">3.</span> 目录结构</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-plain">- project_name
@@ -437,8 +437,8 @@ TODO: function, macro.
 </div>
 </div>
 
-<div id="outline-container-orgdce1ab8" class="outline-2">
-<h2 id="orgdce1ab8"><span class="section-number-2">4.</span> <a href="https://murphypei.github.io/blog/2018/10/compile-fpic.html">-fPIC</a></h2>
+<div id="outline-container-orgb18e538" class="outline-2">
+<h2 id="orgb18e538"><span class="section-number-2">4.</span> <a href="https://murphypei.github.io/blog/2018/10/compile-fpic.html">-fPIC</a></h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-cmake"><span class="org-function-name">set</span>(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -455,8 +455,8 @@ linux 编译动态库需要加，否则连接时会报错：
 </div>
 </div>
 
-<div id="outline-container-orgc8bd922" class="outline-2">
-<h2 id="orgc8bd922"><span class="section-number-2">5.</span> find package</h2>
+<div id="outline-container-orgefb7167" class="outline-2">
+<h2 id="orgefb7167"><span class="section-number-2">5.</span> find package</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 <a href="https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html#find-modules">cmake built-in find modules</a>
@@ -512,8 +512,8 @@ linux 编译动态库需要加，否则连接时会报错：
 </div>
 </div>
 
-<div id="outline-container-org4d27f9d" class="outline-2">
-<h2 id="org4d27f9d"><span class="section-number-2">6.</span> tools</h2>
+<div id="outline-container-org629f874" class="outline-2">
+<h2 id="org629f874"><span class="section-number-2">6.</span> tools</h2>
 <div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>&lt;lang&gt;_CLANG_TIDY</li>
@@ -524,8 +524,8 @@ linux 编译动态库需要加，否则连接时会报错：
 </div>
 </div>
 
-<div id="outline-container-orgd241d99" class="outline-2">
-<h2 id="orgd241d99"><span class="section-number-2">7.</span> take away</h2>
+<div id="outline-container-orge55d1c2" class="outline-2">
+<h2 id="orge55d1c2"><span class="section-number-2">7.</span> take away</h2>
 <div class="outline-text-2" id="text-7">
 <ul class="org-ul">
 <li>不要字符串满天飞。</li>
