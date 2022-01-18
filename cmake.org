@@ -73,7 +73,7 @@ add_executable(main main.cc)
 添加静态库或动态库的 target:
 #+begin_src cmake
 add_library(mylib STATIC mylib.cc)
-add_library(mylib DYNAMIC mylib.cc)
+add_library(mylib SHARED mylib.cc)
 #+end_src
 
 不指定则根据 =BUILD_SHARED_LIBS= 变量选择。

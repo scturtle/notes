@@ -12,7 +12,8 @@ hello.s $\xrightarrow{\text{as}}$
 hello.o (+ *.o, *.a, ...) $\xrightarrow{\text{ld}}$
 a.out
 
-预编译：
+** 预编译
+
 1. 删除所有的 =#define=, 展开所有的宏定义。
 2. 处理所有的条件编译指令 =#if/#ifdef= 。
 3. 处理 =#include= 递归将文件插入指令所在位置。
@@ -23,7 +24,8 @@ $ gcc -E hello.c -o hello.i
 $ cpp hello.c > hello.i
 #+end_src
 
-编译：
+** 编译
+
 #+begin_src plain
 $ gcc -S hello.i -o hello.s
 # 或同时做预编译和编译
@@ -34,30 +36,31 @@ $ gcc -S hello.c -o hello.s
 
 C++ 的对应 cc1 的程序为 cc1plus。
 
-汇编：
+** 汇编
+
 #+begin_src plain
 $ as hello.s -o hello.o
 # 或
 $ gcc -c hello.s -o hello.o
 #+end_src
 
-链接：
+** 链接
+
 #+begin_src plain
-$ ld Scrt1.o crti.o crtbeginS.o hello.o -lc crtendS.o crtn.o
+$ ld --dynamic-linker /lib64/ld-linux-x86-64.so.2 \
+  /usr/lib/crt1.o /usr/lib/crti.o hello.o -lc /usr/lib/crtn.o
 #+end_src
 
-完整过程：
+** 完整过程
+
 #+begin_src plain
 $ gcc test.c --verbose
 # 分解简化为
 $ cc1 test.c -o test.s
 $ as test.s -o test.o
 $ collect2 --dynamic-linker /lib64/ld-linux-x86-64.so.2 \
-  PATHTO/Scrt1.o PATHTO/crti.o PATHTO/crtbeginS.o \
-  test.o -lc \
-  PATHTO/crtendS.o PATHTO/crtn.o
+  /usr/lib/crt1.o /usr/lib/crti.o test.o -lc /usr/lib/crtn.o
 #+end_src
-
 
 * 对象（object）文件
 
@@ -76,18 +79,6 @@ $ file /bin/ls
 
 #+begin_src plain
 $ objdump -h test.o
-0 .text            ...
-1 .data            ...
-2 .bss             ...
-3 .rodata          ...
-4 .comment         ...
-5 .note.GNU-stack  ...
-...
-#+end_src
-
-以 16 进制和反汇编打印所有段的内容：
-#+begin_src plain
-$ objdump -s -d test.o
 ...
 #+end_src
 
@@ -102,6 +93,12 @@ ELF 文件格式：
 | string tables(.strtab) |
 | symbol tables(.symtab) |
 | ...                    |
+
+以 16 进制(-s)和反汇编(-d)打印所有段的内容：
+#+begin_src plain
+$ objdump -s -d test.o
+...
+#+end_src
 
 查看文件头：
 #+begin_src plain
@@ -125,8 +122,8 @@ $ readelf -s a.out
 
 C++ 解析修饰后的名称：
 #+begin_src plain
-> c++filt _ZN9addr2line9name_attrE
-addr2line::name_attr
+$ nm /usr/lib/libasan.so | c++filt
+...
 #+end_src
 
 =extern "C"= 中 C++ 名称修饰机制不生效。
@@ -157,35 +154,53 @@ int main() { if (foo) foo(); }
 
 DWARF: Debug With Arbitrary Record Format.
 
-=strip= 去掉调试信息。
+strip经常用来去除目标文件中的一些符号表、调试符号表信息，以减小程序的大小。
 
+Linux 装载 ELF 过程：
+1. bash 先 fork() 一个进程，然后调 execute() 执行 ELF。
+2. execute() 调 do_execute() 读文件头 128 字节，包含 magic number。
+3. 调用 search_binary_handler()，对 ELF 调用 load_elf_binary()。
 
 * 静态链接
 
-最终合并所有 oeject 的段。
+#+begin_src plain
+$ ld a.o b.o -o a.out
+#+end_src
+
+将多个目标文件链接到一块生成可执行程序。合并所有段。
 
 两步链接：
 1. 空间与地址分配：获得所有 object 的各个段的信息，收集所有符号。
 2. 符号解析与重定位：读入段数据、重定位信息，进行符号解析与重定位，调整代码中的地址。
 
-#+begin_src plain
-$ ld a.o b.o -e main -o a.out
-#+end_src
-
 链接前 =objdump -h= 所有 VMA（virtual memory address）都是 0，链接后都被分配了相应的虚拟内存地址。
 
-.text 对应的重定位表为 .rela.text：
+** 重定位
+
+在 test.c 里添加和使用 extern 后编译 test.o。
+
+=.text= 对应的重定位表在 =.rela.text= 段:
 #+begin_src plain
-$ objdump -r test.o
+$ readelf -S test.o
 #+end_src
 
-针对 C++ 使用 “Link Once” 段消除重复的模版实例化代码（或虚函数表、默认构造函数……）。
+查看表的内容:
+#+begin_src plain
+$ objdump -r test.o
+$ readelf -s test.o
+#+end_src
 
-Linux 下程序的入口为 =_start=, 为 glibc 的一部分。
-=_start= 完成一系列初始化工作之后调用 =main= ，然后做一些清理工作然后结束进程。
+连接时会找不到:
+#+begin_src plain
+$ ld test.o
+#+end_src
 
-=.init= 和 =.fini= 段分别保存初始化代码和进程终止代码。
-C++ 的全局构造和析构函数就放在里面。
+查看重定位符号在反汇编代码中的位置：
+#+begin_src plain
+$ objdump -dr test.o
+#+end_src
+
+** ...
 
 静态库可以看做一组 object 文件的集合：
 #+begin_src plain
@@ -193,13 +208,26 @@ $ ar -t /usr/ib/libc.a
 init-first.o
 libc-start.o
 ...
+#+end_src
+
+显示文件中的符号表:
+#+begin_src plain
 > objdump -t /usr/lib/libc.a | grep ' printf$'
 0000000000000000 g     F .text  00000000000000c9 printf
 #+end_src
 
 * 装载
 
-虚拟内存和页映射。
+基础知识：虚拟内存和页映射。
+
+内存布局由高到低：
+| kernel space                              |
+| stack->  (向下/低地址增长)                |
+| dynamic libraries                         |
+| <- heap (向上/高地址增长)                 |
+| read/write sections (.data, .bss)         |
+| readonly sections (.init, .rodata, .text) |
+| reserved                                  |
 
 进程创建：
 1. 创建虚拟地址空间（分配页目录）。
@@ -214,11 +242,11 @@ Section to Segment mapping:
 ...
 #+end_src
 
-可通过 =cat /proc/$pid/maps= 看进程的虚拟空间分布。
+=LOAD= 类型的 segment 是需要映射的。
 
-Linux 装载 ELF 过程：
-1. bash 调 fork() 调 execute() 执行 ELF，最后返回 bash。
-2. execute() 调 do_execute() 读文件头 128 字节，调用 search_binary_handler() ，调用 load_elf_binary()。
+=R= 只读, =R E= 可执行, =RW= 可读可写。
+
+可添加 =sleep(-1)=, 运行并通过 =cat /proc/$pid/maps= 看进程的虚拟空间分布。
 
 
 * 动态链接
@@ -229,16 +257,17 @@ $ gcc test.c ./lib.so
 $ ./a.out
 #+end_src
 
-只使用 =-shared= 为装载时重定位，但是无法在多个进程之间共享。
-
-地址无关代码（PIC, Position-Independent Code）：把指令中那些需要被修改的部分分离出来，跟数据部分放在一起，
+地址无关代码（PIC, Position-Independent Code）：
+把指令中那些需要被修改的部分分离出来，跟数据部分放在一起，
 这样指令部分就可以保持不变，而数据部分可以在每个进程中拥有一个副本。
 
-全局偏移表（GOT）：在数据段里建立指向跨模块全局变量/函数的指针数组。
+** GOT
+
+全局偏移表（GOT, Global Offset Table）：在 **数据段** 里建立指向跨模块全局变量/函数的指针数组。
+
+链接器在装载模块的时候会查找每个变量/函数所在的地址然后填充 GOT，确保正确调用。
 
 动态库被不同进程加载时，它的数据段部分在每个进程中都有独立的副本不会互相影响。
-
-链接器在装载模块的时候会查找每个变量/函数所在的地址然后填充 GOT。
 
 #+begin_src plain
 $ objdump -h pic.so  # 查看 .got 段
@@ -247,7 +276,7 @@ $ objdump -R pic.so  # 查看重定位项
 
 ** PLT
 
-延迟绑定（PLT，Procedure Linkage Table）：当函数第一次被用到时才进行绑定，加快启动速度。
+延迟绑定：使用PLT（Procedure Linkage Table）来实现当函数第一次被用到时才进行绑定，加快启动速度。
 
 每个外部函数在 PLT 中都有一个相应的项：
 #+begin_src plain
@@ -258,17 +287,17 @@ push moduleID
 jump _dl_runtime_resolve
 #+end_src
 
-一开始只把 =push n= 的地址填入 =bar@GOT=, 这样第一次就会把 =n= 压入堆栈，即为这个符号引用在重定位表 =.rel.plt= 中的下标。
+=n= 为这个符号引用在重定位表 =.rel.plt= 中的下标，后三行为真正查找并填入 =bar@GOT= 的代码。
 
-然后再压入模块 id 调用 =resolve()=, 最终填入 =bar@GOT= 。
+一开始只把 =push n= 的地址填入 =bar@GOT=, 这样第一次会查找并填入 =bar@GOT=, 后续就直接跳转了。
 
 ELF 将 GOT 拆分为 =.got= 和 =.got.plt=, 前者保存全局变量引用的地址，后者保存函数引用的地址。
 
-=.got.plt= 前三项分别为: =.dynamic= 段地址，本模块 ID, =resolve()= 的地址。
+=.got.plt= 前三项分别为: =.dynamic= 段地址，本模块 ID, =resolve()= 的地址。后两项装载时初始化。
 
 PLT 存在 =.plt= 包含上面的跳转代码。
 
-** 相关 sections
+** 相关段
 
 动态链接时，操作系统在装载完可执行程序之后，先启动动态链接器 (=ld.so=)。
 对可执行程序进行动态链接工作之后，转交控制权到可执行程序。
@@ -278,17 +307,20 @@ PLT 存在 =.plt= 包含上面的跳转代码。
 =.dynamic= 段保存了动态链接器所需要的基本信息。各种表的地址。
 
 #+begin_src plain
-$ readelf -d lib.so
+$ readelf -d lib.so  # dynamic 段各项
 $ ldd lib.so
 #+end_src
+
+=NEEDED= 包含了所依赖的 =.so= 。
 
 =.dynsym= 动态符号表（被 =.symtab= 包含）。
 
 #+begin_src plain
+$ objdump -T lib.so
 $ readelf -sD lib.so
 #+end_src
 
-重定位表 =.rela.dyn= 和 =.rela.plt= 。分别修正 =.got= 和 =.got.plt= 。
+有时候还是需要重定位。重定位表 =.rela.dyn= 和 =.rela.plt= 分别修正 =.got= 和 =.got.plt= 。
 
 #+begin_src plain
 $ readelf -r lib.so
@@ -297,18 +329,18 @@ $ readelf -r lib.so
 ** 链接步骤
 
 1. 动态链接器自举。
-2. 将所有符号合并为全局符号表，再通过 =.dynamic= 递归寻找和装载 ELF 所依赖的共享对象。
-  - **当一个符号需要被加入全局符号表时，如果相同的符号名已经存在，则后加入的符号被忽略。**
+   - 找到自己 GOT，找到自己 =.dynamic= ，找到重定位表和符号表，重定位自身后才可以使用全局变量和静态变量。
+2. 将所有符号合并为 **全局符号表** ，再通过 =.dynamic= 递归寻找和装载 ELF 所依赖的共享对象(=NEEDED=)。
+   - **全局符号介入：当一个符号需要被加入全局符号表时，如果相同的符号名已经存在，则后加入的符号被忽略。**
 3. 重定位和初始化。
-  - 遍历每个对象的重定位表，修正 GOT/PLT。
-  - 执行共享对象的 =.init= 段。
+   - 遍历每个对象的重定位表，修正 GOT/PLT。执行共享对象的 =.init= 段。
 
 显式运行时加载： =dlopen()=, =dlsym()=, =dlerror()=, =dlclose()= 。
 
 
 * 共享库查找
 
-如果 =.dynamic= 中 =DT_NEED= 项存的是绝对路径，则直接按照这个路径去查找。
+如果 =.dynamic= 中 =NEED= 项存的是绝对路径，则直接按照这个路径去查找。
 否则在 =/lib=, =/usr/lib= 和 =/etc/ld.so.conf= 文件中指定的路径中查找。
 
 更改 =/etc/ld.so.conf= 后需要执行 =ldconfig= 以更新 =/etc/ld.so.cache= 。
@@ -317,12 +349,41 @@ $ readelf -r lib.so
 
 =LD_PRELOAD= and =/etc/ld.so.preload= hack.
 
-=LD_DEBUG==:
-- files: 依赖哪个共享库，按什么步骤装载和初始化
-- bindings: 显示符号绑定过程
-- versions: 显示版本依赖关系
-- all: all
-- help: help
-- ...
+=LD_DEBUG=files/bindings/all/help= 用来显示动态加载过程。
 
-=-Wl= 传参数给链接器，比如 =-Wl,-rpath= 。
+编译时可用 =-Wl= 传参数给链接器，比如 =-Wl,-rpath= 。
+
+
+* 程序运行
+
+Linux 下程序的入口为 =_start()=, 为 glibc 的一部分。
+
+=_start()= 完成一系列初始化工作之后调用 =main()= ，然后做一些清理工作然后结束进程。
+
+=.init= 和 =.fini= 段分别保存初始化代码和进程终止代码。
+C++ 的全局构造和析构函数就放在里面。
+
+典型的程序运行步骤：
+- OS 创建进程，控制权交给 =_start()=
+- =_start()= 做初始化：堆、I/O、线程、全局变量构造等等
+- 调用 =main()= 函数
+- 返回 =_start()= 做清理：全局变量析构、堆销毁、关闭 I/O 等等，结束进程
+
+=crt1.o= 里面包含了 =_start()=, 负责初始化并调用 =main()= 。
+
+=crti.o/crtn.o= 分别包含了运行 =.init/.fini= 段的函数 =_init()/_fini()= 开始和结束部分。
+
+#+begin_src plain
+$ objdump -dr /usr/lib/crt1.o
+$ objdump -dr /usr/lib/crti.o
+$ objdump -dr /usr/lib/crtn.o
+#+end_src
+
+=crtbeginS.o/crtendS.o= 真正用于实现 C++ 全局构造和析构的目标文件。
+
+=libgcc.a= 包含了整数运算、浮点数运算等平台相关函数。 =libgcc_s.so= 为动态库版本。
+
+=libgcc_eh.a= 包含了异常处理的平台相关函数。
+
+在有的系统上需要 collect2，来收集全局析构函数和在 =main()= 前执行的特殊符号，
+生成一个带 =__main()= 的临时的 .c 来编译。
