@@ -1,0 +1,150 @@
+#+TITLE: C++ Tools
+#+OPTIONS: toc:2 num:3 H:4 ^:nil pri:t
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+
+* Language Server Protocol
+
+https://langserver.org
+
+* C++ Servers
+
+几乎所有 clang 相关的工具都会依赖 =compile_commands.json=, 最好链接到根目录下:
+#+begin_src plain
+$ ln -s build/compile_commands.json .
+#+end_src
+
+** ccls
+- https://github.com/MaskRay/ccls
+- fork from cquery https://github.com/jacobdufault/cquery
+
+** clangd
+- https://clangd.llvm.org
+- https://github.com/llvm/llvm-project/tree/main/clang-tools-extra/clangd
+
+#+begin_src plain
+$ sudo apt install clangd-10
+$ ln -s /usr/bin/clangd-10 ~/.local/bin/clangd
+#+end_src
+
+* vim(neovim) & clangd & coc.nvim
+
+** vim-plug
+
+安装: https://github.com/junegunn/vim-plug
+
+配置:
+#+begin_src vim
+call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+call plug#end()
+#+end_src
+
+vim 里使用 =:PlugInstall= 安装 coc.nvim。安装到 =~/.vim/plugged= 目录下。
+
+** coc.nvim
+
+依赖 vim >= 8.1.1719 或 neovim >= 0.4.0。可能需要添加 [[https://launchpad.net/~jonathonf/+archive/ubuntu/vim][PPA 源]] 或者使用 [[https://docs.brew.sh/Homebrew-on-Linux][linuxbrew]] 提高 vim 版本。
+
+vim 里使用 =:CocInstall coc-clangd= 安装 clangd 支持插件。安装到 =~/.config/coc= 目录下。
+
+把官网 https://github.com/neoclide/coc.nvim 里的配置贴到 vimrc 里。
+
+官网配置提供的主要功能：
+- 用 tab 挑选补全项，默认为 c-p 和 c-n
+- 用 c-space 触发补全
+- 用 enter 选中补全项，同时提供参数提示
+- 用 [g 和 ]g 来跳到前后的报错位置
+- gd 跳到当前 symbol 的 definition
+- gr 显示当前 symbol 的 references
+- K 显示文档
+- 高亮当前 symbol 的 references
+- <leader>rn 重命名
+- <leader>f 格式化代码
+- 用 c-f 和 c-b 来对浮窗翻页
+- c-s 选择 range
+- <space>a 显示所有报错
+- <space>o 显示和搜索跳转 outline
+- <space>s 显示和搜索跳转 symbol
+
+* vscode & clangd
+
+https://code.visualstudio.com/download
+
+安装扩展 =remote - SSH= 。点左下角绿标链接在 =~/.ssh/config= 中配置的服务器。
+
+第一次链接会在服务器安装 vscode server，自动下载并 scp 和安装到 =~/.vscode-server= 目录下。
+
+从 [[https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extension][vscode clangd 扩展页面]] 上下载 .vsix 文件。手动 scp 拷贝到服务器。
+
+点 vscode 扩展页面右上角 =...= 处，选 =从 vsix 安装= 选择服务器上的 .vsix 文件，装好 clangd。
+
+* clang-format
+
+#+begin_src plain
+$ sudo apt install clang-format-10
+$ ln -s /usr/bin/clang-format-10 ~/.local/bin/clang-format
+#+end_src
+
+文档: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+=.clang-format= 配置:
+#+begin_src yaml
+BasedOnStyle: Google
+#+end_src
+
+格式化所有文件:
+#+begin_src plain
+$ find . -name "*.h" -o -name "*.cc" | xargs clang-format -i
+#+end_src
+
+代码中可以跳过部分内容的格式化:
+#+begin_src c++
+// clang-format off
+...code that are formatted manually...
+// clang-format on
+#+end_src
+
+* clang-tidy
+
+#+begin_src plain
+$ sudo apt install clang-tidy-10
+#+end_src
+
+列出所有的checks:
+#+begin_src plain
+$ clang-tidy -list-checks
+#+end_src
+
+=.clang-tidy= 配置:
+#+begin_src yaml
+# 只禁用某些 checks:
+Checks: '*,-google-readability*,-readability-braces*,-readability-implicit*'
+# 只报本项目头文件问题，而非第三方头文件
+HeaderFilterRegex: '^include'
+#+end_src
+
+在 =compile_commands.json= 所在目录下运行 =run-clang-tidy= （而非 =clang-tidy= 本身），
+能够自动分析项目中的所有源码文件。
+
+* iwyu
+
+https://include-what-you-use.org
+
+需要严格与对应的 clang 版本配合。有时候最好手动编译。
+
+#+begin_src plain
+$ wget https://include-what-you-use.org/downloads/include-what-you-use-0.14.src.tar.gz
+$ tar xf include-what-you-use-0.14.src.tar.gz && cd include-what-you-use
+$ sudo apt install libclang-10-dev
+$ cmake -H. -Bbuild -DCMAKE_C_COMPILER=clang-10 -DCMAKE_CXX_COMPILER=clang++-10
+$ cmake --build -build
+$ ln -s $PWD/build/bin/include-what-you-use ~/.local/bin/
+$ ln -s $PWD/iwyu_tool.py ~/.local/bin/
+#+end_src
+
+使用 =-p= 指定 =compile_commands.json= 所在的目录:
+#+begin_src plain
+$ iwyu_tool.py -p .
+#+end_src
+
+因为系统或第三方库头文件组织有时候会很复杂，自动分析不一定给出好的建议，所以最好手动修。

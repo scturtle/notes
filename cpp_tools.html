@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-01-23 Sun 17:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C++ Tools</title>
+<meta name="author" content="shen chao" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">C++ Tools</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org07fa741">1. Language Server Protocol</a></li>
+<li><a href="#org130d59f">2. C++ Servers</a>
+<ul>
+<li><a href="#orgbb331e0">2.1. ccls</a></li>
+<li><a href="#org0eb0545">2.2. clangd</a></li>
+</ul>
+</li>
+<li><a href="#org3429050">3. vim(neovim) &amp; clangd &amp; coc.nvim</a>
+<ul>
+<li><a href="#org03af91e">3.1. vim-plug</a></li>
+<li><a href="#org726428e">3.2. coc.nvim</a></li>
+</ul>
+</li>
+<li><a href="#org1bbb1c5">4. vscode &amp; clangd</a></li>
+<li><a href="#orgb4d3b39">5. clang-format</a></li>
+<li><a href="#org52a3967">6. clang-tidy</a></li>
+<li><a href="#org81494f4">7. iwyu</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org07fa741" class="outline-2">
+<h2 id="org07fa741"><span class="section-number-2">1.</span> Language Server Protocol</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="https://langserver.org">https://langserver.org</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org130d59f" class="outline-2">
+<h2 id="org130d59f"><span class="section-number-2">2.</span> C++ Servers</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+几乎所有 clang 相关的工具都会依赖 <code>compile_commands.json</code>, 最好链接到根目录下:
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ ln -s build/compile_commands.json .
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgbb331e0" class="outline-3">
+<h3 id="orgbb331e0"><span class="section-number-3">2.1.</span> ccls</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li><a href="https://github.com/MaskRay/ccls">https://github.com/MaskRay/ccls</a></li>
+<li>fork from cquery <a href="https://github.com/jacobdufault/cquery">https://github.com/jacobdufault/cquery</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0eb0545" class="outline-3">
+<h3 id="org0eb0545"><span class="section-number-3">2.2.</span> clangd</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li><a href="https://clangd.llvm.org">https://clangd.llvm.org</a></li>
+<li><a href="https://github.com/llvm/llvm-project/tree/main/clang-tools-extra/clangd">https://github.com/llvm/llvm-project/tree/main/clang-tools-extra/clangd</a></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-plain">$ sudo apt install clangd-10
+$ ln -s /usr/bin/clangd-10 ~/.local/bin/clangd
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3429050" class="outline-2">
+<h2 id="org3429050"><span class="section-number-2">3.</span> vim(neovim) &amp; clangd &amp; coc.nvim</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org03af91e" class="outline-3">
+<h3 id="org03af91e"><span class="section-number-3">3.1.</span> vim-plug</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+安装: <a href="https://github.com/junegunn/vim-plug">https://github.com/junegunn/vim-plug</a>
+</p>
+
+<p>
+配置:
+</p>
+<div class="org-src-container">
+<pre class="src src-vim">call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+call plug#end()
+</pre>
+</div>
+
+<p>
+vim 里使用 <code>:PlugInstall</code> 安装 coc.nvim。安装到 <code>~/.vim/plugged</code> 目录下。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org726428e" class="outline-3">
+<h3 id="org726428e"><span class="section-number-3">3.2.</span> coc.nvim</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+依赖 vim &gt;= 8.1.1719 或 neovim &gt;= 0.4.0。可能需要添加 <a href="https://launchpad.net/~jonathonf/+archive/ubuntu/vim">PPA 源</a> 或者使用 <a href="https://docs.brew.sh/Homebrew-on-Linux">linuxbrew</a> 提高 vim 版本。
+</p>
+
+<p>
+vim 里使用 <code>:CocInstall coc-clangd</code> 安装 clangd 支持插件。安装到 <code>~/.config/coc</code> 目录下。
+</p>
+
+<p>
+把官网 <a href="https://github.com/neoclide/coc.nvim">https://github.com/neoclide/coc.nvim</a> 里的配置贴到 vimrc 里。
+</p>
+
+<p>
+官网配置提供的主要功能：
+</p>
+<ul class="org-ul">
+<li>用 tab 挑选补全项，默认为 c-p 和 c-n</li>
+<li>用 c-space 触发补全</li>
+<li>用 enter 选中补全项，同时提供参数提示</li>
+<li>用 [g 和 ]g 来跳到前后的报错位置</li>
+<li>gd 跳到当前 symbol 的 definition</li>
+<li>gr 显示当前 symbol 的 references</li>
+<li>K 显示文档</li>
+<li>高亮当前 symbol 的 references</li>
+<li>&lt;leader&gt;rn 重命名</li>
+<li>&lt;leader&gt;f 格式化代码</li>
+<li>用 c-f 和 c-b 来对浮窗翻页</li>
+<li>c-s 选择 range</li>
+<li>&lt;space&gt;a 显示所有报错</li>
+<li>&lt;space&gt;o 显示和搜索跳转 outline</li>
+<li>&lt;space&gt;s 显示和搜索跳转 symbol</li>
+<li>(略过 code action/lens 部分)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1bbb1c5" class="outline-2">
+<h2 id="org1bbb1c5"><span class="section-number-2">4.</span> vscode &amp; clangd</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<a href="https://code.visualstudio.com/download">https://code.visualstudio.com/download</a>
+</p>
+
+<p>
+安装扩展 <code>remote - SSH</code> 。点左下角绿标链接在 <code>~/.ssh/config</code> 中配置的服务器。
+</p>
+
+<p>
+第一次链接会在服务器安装 vscode server，自动下载并 scp 和安装到 <code>~/.vscode-server</code> 目录下。
+</p>
+
+<p>
+从 <a href="https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extension">vscode clangd 扩展页面</a> 上下载 .vsix 文件。手动 scp 拷贝到服务器。
+</p>
+
+<p>
+点 vscode 扩展页面右上角 <code>...</code> 处，选 <code>从 vsix 安装</code> 选择服务器上的 .vsix 文件，装好 clangd。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb4d3b39" class="outline-2">
+<h2 id="orgb4d3b39"><span class="section-number-2">5.</span> clang-format</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-plain">$ sudo apt install clang-format-10
+$ ln -s /usr/bin/clang-format-10 ~/.local/bin/clang-format
+</pre>
+</div>
+
+<p>
+文档: <a href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html">https://clang.llvm.org/docs/ClangFormatStyleOptions.html</a>
+</p>
+
+<p>
+<code>.clang-format</code> 配置:
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml">BasedOnStyle: Google
+</pre>
+</div>
+
+<p>
+格式化所有文件:
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ find . -name "*.h" -o -name "*.cc" | xargs clang-format -i
+</pre>
+</div>
+
+<p>
+代码中可以跳过部分格式化:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-comment-delimiter">// </span><span class="org-comment">clang-format off</span>
+<span class="org-function-name">...</span>code that are formatted manually<span class="org-function-name">...</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">clang-format on</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org52a3967" class="outline-2">
+<h2 id="org52a3967"><span class="section-number-2">6.</span> clang-tidy</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+<pre class="src src-plain">$ sudo apt install clang-tidy-10
+</pre>
+</div>
+
+<p>
+列出所有的checks:
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ clang-tidy -list-checks
+</pre>
+</div>
+
+<p>
+<code>.clang-tidy</code> 配置:
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml"># 只禁用某些 checks:
+Checks: '*,-google-readability*,-readability-braces*,-readability-implicit*'
+# 只报本项目头文件问题，而非第三方头文件
+HeaderFilterRegex: '^include'
+</pre>
+</div>
+
+<p>
+在 <code>compile_commands.json</code> 所在目录下运行 <code>run-clang-tidy</code> （而非 <code>clang-tidy</code> 本身），
+能够自动分析项目中的所有源码文件。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org81494f4" class="outline-2">
+<h2 id="org81494f4"><span class="section-number-2">7.</span> iwyu</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+<a href="https://include-what-you-use.org">https://include-what-you-use.org</a>
+</p>
+
+<p>
+需要严格与对应的 clang 版本配合。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-plain">$ wget https://include-what-you-use.org/downloads/include-what-you-use-0.14.src.tar.gz
+$ tar xf include-what-you-use-0.14.src.tar.gz &amp;&amp; cd include-what-you-use
+$ sudo apt install libclang-10-dev
+$ cmake -H. -Bbuild -DCMAKE_C_COMPILER=clang-10 -DCMAKE_CXX_COMPILER=clang++-10
+$ cmake --build -build
+$ ln -s $PWD/build/bin/include-what-you-use ~/.local/bin/
+$ ln -s $PWD/iwyu_tool.py ~/.local/bin/
+</pre>
+</div>
+
+<p>
+使用 <code>-p</code> 指定 <code>compile_commands.json</code> 所在的目录:
+</p>
+<div class="org-src-container">
+<pre class="src src-plain">$ iwyu_tool.py -p .
+</pre>
+</div>
+
+<p>
+因为系统或第三方库头文件组织有时候会很复杂，自动分析不一定给出好的建议，所以最好手动修。
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
