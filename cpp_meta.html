@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-05-30 Mon 10:36 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C++ Template Metaprogramming</title>
+<meta name="author" content="shen chao" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">C++ Template Metaprogramming</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org50e3e34">1. decltype 和 std::declval (C++11)</a></li>
+<li><a href="#org6e7e419">2. type trait</a></li>
+<li><a href="#org930bceb">3. integral_constant</a></li>
+<li><a href="#orgbba69f7">4. type trait 实现的例子</a></li>
+<li><a href="#org90f4853">5. function overload resolution</a></li>
+<li><a href="#org0548663">6. 模板形参包和递归</a></li>
+<li><a href="#org9e2634e">7. fibnacci 的四种写法</a></li>
+<li><a href="#orgebd9719">8. SFINAE</a></li>
+<li><a href="#org125de00">9. enable_if</a></li>
+<li><a href="#orgbe1976d">10. integer_sequence (C++14)</a></li>
+<li><a href="#orgea071a9">11. void_t (C++17)</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org50e3e34" class="outline-2">
+<h2 id="org50e3e34"><span class="section-number-2">1.</span> decltype 和 std::declval (C++11)</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+sizeof, typeid, decltype, noexcept 里的表达式都不会真正生成代码。
+</p>
+
+<p>
+<code>std::declval</code> 用于在 decltype 里获得一个 <b><b>不一定能实例化</b></b> 的类的成员变量的类型或成员函数的返回类型。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">struct</span> <span class="org-type">A</span> {
+    <span class="org-function-name">A</span>() = <span class="org-keyword">delete</span>;
+    <span class="org-type">int</span> <span class="org-function-name">foo</span>();
+};
+<span class="org-keyword">decltype</span>(<span class="org-constant">std</span>::declval&lt;<span class="org-type">A</span>&gt;().foo()) <span class="org-variable-name">foo</span> = <span class="org-highlight-numbers-number">1</span>;
+</pre>
+</div>
+
+<p>
+其实现只有一个声明，在返回类型中添加了右值引用，结合 decltype 就可以绕过构造函数：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt;<span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
+<span class="org-keyword">typename</span> <span class="org-constant">std</span>::<span class="org-constant">add_rvalue_reference</span>&lt;<span class="org-type">T</span>&gt;::<span class="org-type">type</span> <span class="org-function-name">declval</span>() <span class="org-keyword">noexcept</span>;
+</pre>
+</div>
+
+<p>
+为什么是右值引用？因为可以进行<a href="https://zh.cppreference.com/w/cpp/language/reference">引用折叠</a>，不会改变引用类型，来调用正确的成员函数。
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org6e7e419" class="outline-2">
+<h2 id="org6e7e419"><span class="section-number-2">2.</span> type trait</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+元编程的大量脚手架都在 <a href="https://zh.cppreference.com/w/cpp/meta">&lt;type_traits&gt;</a> 。
+</p>
+
+<p>
+<b><b>type trait</b></b> 是一个 templated struct，其成员变量 <code>value</code> 和/或 关联类型 <code>type</code>
+提供了被实例化时的模版形参的信息。
+</p>
+
+<p>
+这个 templated struct 可以看成 metafunction，
+其参数是模版实例化时的实参， <code>value</code> 和/或 <code>type</code> 是返回值。
+</p>
+
+<p>
+对名为 <code>XXX</code> 的 struct 的 <code>value</code> / <code>type</code> ，通常有对应的 alias 为 <code>XXX_v</code> / <code>XXX_t</code> 。
+</p>
+
+<p>
+Ref: <a href="https://www.youtube.com/watch?v=tiAVWcjIF6o">https://www.youtube.com/watch?v=tiAVWcjIF6o</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org930bceb" class="outline-2">
+<h2 id="org930bceb"><span class="section-number-2">3.</span> integral_constant</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+最常用的是 <code>integral_constant</code> 和其特化 <code>bool_constant</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span> &lt;<span class="org-keyword">typename</span> <span class="org-type">T</span>, <span class="org-type">T</span> <span class="org-variable-name">v</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">integral_constant</span> {
+    <span class="org-keyword">static</span> <span class="org-keyword">constexpr</span> <span class="org-type">T</span> <span class="org-variable-name">value</span> = v;
+    <span class="org-keyword">using</span> <span class="org-type">type</span> = <span class="org-type">integral_constant</span>&lt;<span class="org-type">T</span>, v&gt;;
+    <span class="org-comment-delimiter">// </span><span class="org-comment">convert to T by calling T(obj)</span>
+    <span class="org-keyword">constexpr</span>   <span class="org-keyword">operator</span> <span class="org-type">T</span> () <span class="org-keyword">const</span> <span class="org-keyword">noexcept</span> { <span class="org-keyword">return</span> value; }
+    <span class="org-comment-delimiter">// </span><span class="org-comment">convert to T by obj()</span>
+    <span class="org-keyword">constexpr</span> <span class="org-type">T</span> <span class="org-keyword">operator</span> <span class="org-function-name">()</span>() <span class="org-keyword">const</span> <span class="org-keyword">noexcept</span> { <span class="org-keyword">return</span> value; }
+};
+
+<span class="org-keyword">template</span> &lt;<span class="org-type">bool</span> <span class="org-variable-name">B</span>&gt;
+<span class="org-keyword">using</span> <span class="org-type">bool_constant</span> = <span class="org-type">integral_constant</span>&lt;<span class="org-type">bool</span>, B&gt;;
+<span class="org-keyword">using</span> <span class="org-type">true_type</span> = <span class="org-type">bool_constant</span>&lt;<span class="org-constant">true</span>&gt;;
+<span class="org-keyword">using</span> <span class="org-type">false_type</span> = <span class="org-type">bool_constant</span>&lt;<span class="org-constant">false</span>&gt;;
+
+<span class="org-keyword">static_assert</span>(<span class="org-constant">true_type</span>::value);
+<span class="org-keyword">static_assert</span>(true_type{}); <span class="org-comment-delimiter">// </span><span class="org-comment">call bool(obj)</span>
+<span class="org-keyword">static_assert</span>(true_type{}());
+</pre>
+</div>
+
+<p>
+注意 const 的位置， <code>remove_const</code> 只清除最顶层的 <code>const</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">static_assert</span>(<span class="org-constant">std</span>::<span class="org-type">is_same_v</span>&lt;<span class="org-keyword">const</span> <span class="org-type">int</span> *, <span class="org-type">int</span> <span class="org-keyword">const</span> *&gt;);
+<span class="org-keyword">static_assert</span>(<span class="org-constant">std</span>::<span class="org-type">is_same_v</span>&lt;<span class="org-type">int</span> *, <span class="org-constant">std</span>::<span class="org-type">remove_const_t</span>&lt;<span class="org-type">int</span> * <span class="org-keyword">const</span>&gt;&gt;);
+</pre>
+</div>
+
+<p>
+C++ 一共有 14 种基础类型。 <code>&lt;type_traits&gt;</code> 定义了 14 中分类元函数。
+返回 true_type 或 false_type，对任意类型 T 有且只有 14 个中的 1 个为 true_type。
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">is_void</td>
+<td class="org-left">is_class</td>
+</tr>
+
+<tr>
+<td class="org-left">is_null_pointer</td>
+<td class="org-left">is_function</td>
+</tr>
+
+<tr>
+<td class="org-left">is_integral</td>
+<td class="org-left">is_pointer</td>
+</tr>
+
+<tr>
+<td class="org-left">is_floating_point</td>
+<td class="org-left">is_lvalue_reference</td>
+</tr>
+
+<tr>
+<td class="org-left">is_array</td>
+<td class="org-left">is_rvalue_reference</td>
+</tr>
+
+<tr>
+<td class="org-left">is_enum</td>
+<td class="org-left">is_member_object_pointer</td>
+</tr>
+
+<tr>
+<td class="org-left">is_union</td>
+<td class="org-left">is_member_function_pointer</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+其他常用函数：
+</p>
+
+<p>
+类型属性： <code>is_const</code>, <code>is_trivially_copyable</code>, &#x2026;
+支持操作： <code>is_constructible</code>, <code>is_move_assignable</code>, &#x2026;
+类型关系： <code>is_same</code>, <code>is_base_of</code>, &#x2026;
+类型修改： <code>remove_const</code>, <code>remove_cv</code>, <code>remove_reference</code>, <code>remove_cvref</code>, <code>remove_pointer</code>,
+           <code>add_lvalue_reference</code>, <code>add_rvalue_reference</code>&#x2026;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgbba69f7" class="outline-2">
+<h2 id="orgbba69f7"><span class="section-number-2">4.</span> type trait 实现的例子</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<code>is_void</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span> &lt;<span class="org-keyword">typename</span> <span class="org-type">T</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">is_void</span> : <span class="org-constant">std</span>::<span class="org-type">false_type</span> {};
+<span class="org-keyword">template</span> &lt;&gt;
+<span class="org-keyword">struct</span> <span class="org-type">is_void</span>&lt;<span class="org-type">void</span>&gt; : <span class="org-constant">std</span>::<span class="org-type">true_type</span> {};
+</pre>
+</div>
+
+<p>
+<code>conditional</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt;<span class="org-type">bool</span> <span class="org-variable-name">B</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>, <span class="org-keyword">class</span> <span class="org-type">F</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">conditional</span> { <span class="org-keyword">using</span> <span class="org-type">type</span> = T; };
+<span class="org-keyword">template</span>&lt;<span class="org-keyword">class</span> <span class="org-type">T</span>, <span class="org-keyword">class</span> <span class="org-type">F</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">conditional</span>&lt;<span class="org-constant">false</span>, <span class="org-type">T</span>, <span class="org-type">F</span>&gt; { <span class="org-keyword">using</span> <span class="org-type">type</span> = F; };
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org90f4853" class="outline-2">
+<h2 id="org90f4853"><span class="section-number-2">5.</span> function overload resolution</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+<a href="https://abseil.io/tips/148">https://abseil.io/tips/148</a>
+<a href="https://zh.cppreference.com/w/cpp/language/overload_resolution">https://zh.cppreference.com/w/cpp/language/overload_resolution</a>
+</p>
+
+<p>
+Overload set 规则:
+</p>
+<ul class="org-ul">
+<li>形参数量可以不同</li>
+<li>返回类型可以不同，但形参不能相同</li>
+</ul>
+
+<p>
+用参数类型来静态分发：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-type">void</span> <span class="org-function-name">func</span>(true_type) { <span class="org-constant">std</span>::cout &lt;&lt; <span class="org-string">"true"</span> &lt;&lt; <span class="org-constant">std</span>::endl; }
+<span class="org-type">void</span> <span class="org-function-name">func</span>(false_type) { <span class="org-constant">std</span>::cout &lt;&lt; <span class="org-string">"false"</span> &lt;&lt; <span class="org-constant">std</span>::endl; }
+func(integral_constant&lt;<span class="org-type">bool</span>, <span class="org-highlight-numbers-number">1</span> == <span class="org-highlight-numbers-number">2</span>&gt;{});
+</pre>
+</div>
+
+<p>
+实现 type trait：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-constant">std</span>::<span class="org-type">true_type</span> <span class="org-function-name">is_nullptr_impl</span>(<span class="org-constant">std</span>::nullptr_t);
+<span class="org-constant">std</span>::false_type <span class="org-type">is_nullptr_impl</span>(<span class="org-function-name">...</span>);
+<span class="org-keyword">template</span> &lt;<span class="org-keyword">typename</span> <span class="org-type">T</span>&gt;
+<span class="org-keyword">using</span> <span class="org-type">is_nullptr</span> = <span class="org-keyword">decltype</span>(is_nullptr_impl(<span class="org-constant">std</span>::declval&lt;<span class="org-type">T</span>&gt;()));
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0548663" class="outline-2">
+<h2 id="org0548663"><span class="section-number-2">6.</span> 模板形参包和递归</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+<a href="https://zh.cppreference.com/w/cpp/language/parameter_pack">https://zh.cppreference.com/w/cpp/language/parameter_pack</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span> &lt;<span class="org-keyword">typename</span> <span class="org-type">T</span>, <span class="org-keyword">typename</span> <span class="org-function-name">...</span><span class="org-type">Ts</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">is_type_in_pack</span> : <span class="org-constant">std</span>::<span class="org-type">false_type</span> {};
+
+<span class="org-keyword">template</span> &lt;<span class="org-keyword">typename</span> <span class="org-type">T</span>, <span class="org-keyword">typename</span> <span class="org-function-name">...</span><span class="org-type">Ts</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">is_type_in_pack</span>&lt;<span class="org-type">T</span>, <span class="org-type">T</span>, <span class="org-type">Ts</span><span class="org-function-name">...</span>&gt; : <span class="org-constant">std</span>::true_type {};
+
+<span class="org-keyword">template</span> &lt;<span class="org-keyword">typename</span> <span class="org-type">T</span>, <span class="org-keyword">typename</span> <span class="org-type">T0</span>, <span class="org-keyword">typename</span> <span class="org-function-name">...</span><span class="org-type">Ts</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">is_type_in_pack</span>&lt;T, <span class="org-type">T0</span>, <span class="org-type">Ts</span><span class="org-function-name">...</span>&gt;: <span class="org-type">is_type_in_pack</span>&lt;T, <span class="org-type">Ts</span><span class="org-function-name">...</span>&gt; {};
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org9e2634e" class="outline-2">
+<h2 id="org9e2634e"><span class="section-number-2">7.</span> fibnacci 的四种写法</h2>
+<div class="outline-text-2" id="text-7">
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt;<span class="org-type">int</span> <span class="org-variable-name">n</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">Fibnacci</span> {
+    <span class="org-keyword">static</span> <span class="org-keyword">constexpr</span> <span class="org-type">int</span> <span class="org-variable-name">value</span> = <span class="org-constant">Fibnacci</span>&lt;n - <span class="org-highlight-numbers-number">1</span>&gt;::value + <span class="org-constant">Fibnacci</span>&lt;n - <span class="org-highlight-numbers-number">2</span>&gt;::value;
+};
+<span class="org-keyword">template</span> &lt;&gt; <span class="org-keyword">struct</span> <span class="org-type">Fibnacci</span>&lt;<span class="org-highlight-numbers-number">1</span>&gt; { <span class="org-keyword">static</span> <span class="org-keyword">constexpr</span> <span class="org-type">int</span> <span class="org-variable-name">value</span> = <span class="org-highlight-numbers-number">1</span>; };
+<span class="org-keyword">template</span> &lt;&gt; <span class="org-keyword">struct</span> <span class="org-type">Fibnacci</span>&lt;<span class="org-highlight-numbers-number">0</span>&gt; { <span class="org-keyword">static</span> <span class="org-keyword">constexpr</span> <span class="org-type">int</span> <span class="org-variable-name">value</span> = <span class="org-highlight-numbers-number">0</span>; };
+</pre>
+</div>
+
+<p>
+使用 <code>integral_constant</code> ：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt;<span class="org-type">int</span> <span class="org-variable-name">n</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">Fibnacci</span>: <span class="org-constant">std</span>::<span class="org-type">integral_constant</span>&lt;<span class="org-type">int</span>, <span class="org-constant">Fibnacci</span>&lt;n - <span class="org-highlight-numbers-number">1</span>&gt;::value + <span class="org-constant">Fibnacci</span>&lt;n - <span class="org-highlight-numbers-number">2</span>&gt;::value&gt; {};
+<span class="org-keyword">template</span>&lt;&gt; <span class="org-keyword">struct</span> <span class="org-type">Fibnacci</span>&lt;<span class="org-highlight-numbers-number">0</span>&gt;: <span class="org-constant">std</span>::<span class="org-type">integral_constant</span>&lt;<span class="org-type">int</span>, <span class="org-highlight-numbers-number">0</span>&gt; {};
+<span class="org-keyword">template</span>&lt;&gt; <span class="org-keyword">struct</span> <span class="org-type">Fibnacci</span>&lt;<span class="org-highlight-numbers-number">1</span>&gt;: <span class="org-constant">std</span>::<span class="org-type">integral_constant</span>&lt;<span class="org-type">int</span>, <span class="org-highlight-numbers-number">1</span>&gt; {};
+</pre>
+</div>
+
+<p>
+使用 C++17 的 <code>if constexpr</code> ：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt;<span class="org-type">int</span> <span class="org-variable-name">n</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">Fibnacci</span> {
+    <span class="org-keyword">static</span> <span class="org-keyword">constexpr</span> <span class="org-type">int</span> <span class="org-variable-name">value</span> = []() {
+        <span class="org-keyword">if</span> <span class="org-keyword">constexpr</span> (n &gt; <span class="org-highlight-numbers-number">1</span>)
+            <span class="org-keyword">return</span> <span class="org-constant">Fibnacci</span>&lt;n - <span class="org-highlight-numbers-number">1</span>&gt;::value + <span class="org-constant">Fibnacci</span>&lt;n - <span class="org-highlight-numbers-number">2</span>&gt;::value;
+        <span class="org-keyword">return</span> n;
+    }();
+};
+</pre>
+</div>
+
+<p>
+使用 constexpr function （template instantiation is **memorized**）:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt;<span class="org-type">int</span> <span class="org-variable-name">n</span>&gt;
+<span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">Fibnacci</span>() {
+    <span class="org-keyword">if</span> <span class="org-keyword">constexpr</span> (n &gt; <span class="org-highlight-numbers-number">1</span>)
+        <span class="org-keyword">return</span> <span class="org-constant">std</span>::<span class="org-type">integral_constant</span>&lt;<span class="org-type">int</span>, <span class="org-type">Fibnacci</span>&lt;n - <span class="org-highlight-numbers-number">1</span>&gt;() + <span class="org-type">Fibnacci</span>&lt;n - <span class="org-highlight-numbers-number">2</span>&gt;()&gt;{};
+    <span class="org-keyword">else</span>
+        <span class="org-keyword">return</span> <span class="org-constant">std</span>::<span class="org-type">integral_constant</span>&lt;<span class="org-type">int</span>, n&gt;{};
+}
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgebd9719" class="outline-2">
+<h2 id="orgebd9719"><span class="section-number-2">8.</span> SFINAE</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+<a href="https://zh.cppreference.com/w/cpp/language/function_template">https://zh.cppreference.com/w/cpp/language/function_template</a>
+</p>
+
+<p>
+编译器 <b><b>模版实例化</b></b> 的步骤:
+</p>
+<ol class="org-ol">
+<li>模板实参推导：
+<ol class="org-ol">
+<li>如果已经提供了模版参数，则原封不动获得。</li>
+<li>（否则）从函数调用时的函数参数进行 <b><b>type deduction</b></b> 推断获得。
+<ul class="org-ul">
+<li><a href="https://www.youtube.com/watch?v=wQxj20X-tIU">https://www.youtube.com/watch?v=wQxj20X-tIU</a></li>
+</ul></li>
+<li>（否则）从模版声明的 <b><b>默认模版参数</b></b> 获得。</li>
+</ol></li>
+<li>模板实参替换，替换失败时会从重载集中移除（而非引发编译错误）。
+<ul class="org-ul">
+<li>SFINAE <a href="https://zh.cppreference.com/w/cpp/language/sfinae">https://zh.cppreference.com/w/cpp/language/sfinae</a></li>
+</ul></li>
+<li>重载决议。</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org125de00" class="outline-2">
+<h2 id="org125de00"><span class="section-number-2">9.</span> enable_if</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+当 B 为 true 的时候，有关联类型 type = T。
+为 false 的时候无 type 定义，可触发谬构和 SFINAE。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt;<span class="org-type">bool</span> <span class="org-variable-name">B</span>, <span class="org-keyword">class</span> <span class="org-type">T</span> = <span class="org-type">void</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">enable_if</span> {};
+
+<span class="org-keyword">template</span>&lt;<span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">enable_if</span>&lt;<span class="org-constant">true</span>, <span class="org-type">T</span>&gt; { <span class="org-keyword">typedef</span> <span class="org-type">T</span> <span class="org-type">type</span>; };
+</pre>
+</div>
+
+<p>
+四种用法例子：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-type">int</span> <span class="org-variable-name">func</span>(<span class="org-function-name">...</span>) { <span class="org-keyword">return</span> <span class="org-highlight-numbers-number">0</span>; }
+<span class="org-type">int</span> <span class="org-function-name">func</span>(<span class="org-type">float</span> <span class="org-variable-name">f</span>) { <span class="org-keyword">return</span> <span class="org-highlight-numbers-number">2</span>; }
+
+<span class="org-keyword">template</span> &lt;<span class="org-keyword">typename</span> <span class="org-type">T</span>&gt;
+<span class="org-constant">std</span>::<span class="org-type">enable_if_t</span>&lt;<span class="org-constant">std</span>::<span class="org-type">is_integral_v</span>&lt;<span class="org-type">T</span>&gt;, <span class="org-type">int</span>&gt; <span class="org-function-name">func</span>(<span class="org-type">T</span>) { <span class="org-keyword">return</span> <span class="org-highlight-numbers-number">1</span>; }
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">template &lt;typename T&gt;</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">int func(T, std::enable_if_t&lt;std::is_integral_v&lt;T&gt;, int&gt; = 0) { return 1; }</span>
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">template &lt;typename T, typename = std::enable_if_t&lt;std::is_integral_v&lt;T&gt;&gt;&gt;</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">int func(T) { return 1; }</span>
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">template &lt;typename T, std::enable_if_t&lt;std::is_integral_v&lt;T&gt;, int&gt; = 0&gt;</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">int func(T) { return 1; }</span>
+
+<span class="org-constant">std</span>::cout &lt;&lt; func(<span class="org-constant">nullptr</span>) &lt;&lt; <span class="org-string">" "</span> &lt;&lt; func(<span class="org-highlight-numbers-number">2</span>) &lt;&lt; <span class="org-string">" "</span> &lt;&lt; func(<span class="org-highlight-numbers-number">2.f</span>);  <span class="org-comment-delimiter">// </span><span class="org-comment">0 1 2</span>
+</pre>
+</div>
+
+<p>
+注意：仅默认模板实参不同 (<code>typename = std::enable_if_t&lt;...&gt;</code>) 只会当做同一函数模板的再声明。
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgbe1976d" class="outline-2">
+<h2 id="orgbe1976d"><span class="section-number-2">10.</span> integer_sequence (C++14)</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+常用 <code>index_sequence</code> 为 <code>T = size_t</code> 的特化。
+</p>
+
+<p>
+出现在函数参数中时，为模版参数引入形参包 ，以便配合 <code>std::get</code> 展开。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span> &lt;<span class="org-type">size_t</span> <span class="org-function-name">...</span><span class="org-variable-name">N</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">index_sequence</span> {};
+
+<span class="org-keyword">template</span> &lt;<span class="org-type">size_t</span> <span class="org-variable-name">N</span>, <span class="org-type">size_t</span> <span class="org-function-name">...</span><span class="org-variable-name">M</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">make_index_sequence</span> : <span class="org-type">index_sequence</span>&lt;N - <span class="org-highlight-numbers-number">1</span>, N - <span class="org-highlight-numbers-number">1</span>, M<span class="org-function-name">...</span>&gt; {};
+
+<span class="org-keyword">template</span> &lt;<span class="org-type">size_t</span> <span class="org-function-name">...</span><span class="org-variable-name">M</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">make_index_sequence</span>&lt;<span class="org-highlight-numbers-number">0</span>, M<span class="org-function-name">...</span>&gt; : <span class="org-type">index_sequence</span>&lt;M<span class="org-function-name">...</span>&gt; {};
+
+<span class="org-keyword">template</span>&lt;<span class="org-keyword">typename</span> <span class="org-function-name">...</span><span class="org-type">Ts</span>&gt;
+<span class="org-keyword">using</span> <span class="org-type">index_sequence_for</span> = <span class="org-type">make_index_sequence</span>&lt;<span class="org-keyword">sizeof</span><span class="org-function-name">...</span>(Ts)&gt;;
+</pre>
+</div>
+
+<p>
+实用例子：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span> &lt;<span class="org-keyword">typename</span><span class="org-function-name">...</span> <span class="org-type">Queue</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">MultiQueueLock</span> {
+  <span class="org-function-name">MultiQueueLock</span>(<span class="org-type">Queue</span><span class="org-function-name">...</span> <span class="org-variable-name">lockable</span>) : tuple_{lockable<span class="org-function-name">...</span>} { lock(); }
+  ~<span class="org-function-name">MultiQueueLock</span>() { unlock(); }
+  <span class="org-type">void</span> <span class="org-function-name">lock</span>() { lock_impl(<span class="org-keyword">typename</span> <span class="org-constant">std</span>::<span class="org-type">index_sequence_for</span>&lt;<span class="org-type">Queue</span><span class="org-function-name">...</span>&gt;{}); }
+  <span class="org-type">void</span> <span class="org-function-name">unlock</span>() { unlock_impl(<span class="org-keyword">typename</span> <span class="org-constant">std</span>::<span class="org-type">index_sequence_for</span>&lt;<span class="org-type">Queue</span><span class="org-function-name">...</span>&gt;{}); }
+ <span class="org-keyword">private</span>:
+  <span class="org-keyword">template</span> &lt;<span class="org-type">size_t</span><span class="org-function-name">...</span> <span class="org-variable-name">Is</span>&gt;
+  <span class="org-type">void</span> <span class="org-function-name">lock_impl</span>(<span class="org-constant">std</span>::<span class="org-type">index_sequence</span>&lt;Is<span class="org-function-name">...</span>&gt;) {
+    <span class="org-constant">std</span>::lock(<span class="org-constant">std</span>::get&lt;Is&gt;(<span class="org-variable-name">tuple_</span>)-&gt;mutex<span class="org-function-name">...</span>);
+  }
+  <span class="org-keyword">template</span> &lt;<span class="org-type">size_t</span><span class="org-function-name">...</span> <span class="org-variable-name">Is</span>&gt;
+  <span class="org-type">void</span> <span class="org-function-name">unlock_impl</span>(<span class="org-constant">std</span>::<span class="org-type">index_sequence</span>&lt;Is<span class="org-function-name">...</span>&gt;) {
+    <span class="org-constant">std</span>::<span class="org-type">initializer_list</span>&lt;<span class="org-type">void</span>&gt;{<span class="org-constant">std</span>::get&lt;Is&gt;(tuple_)-&gt;mutex.unlock()<span class="org-function-name">...</span>};
+    <span class="org-comment-delimiter">// </span><span class="org-comment">(std::get&lt;Is&gt;(tuple_)-&gt;mutex.unlock()...);  // C++17 fold expressions</span>
+  }
+  <span class="org-constant">std</span>::<span class="org-type">tuple</span>&lt;<span class="org-type">Queue</span><span class="org-function-name">...</span>&gt; <span class="org-variable-name">tuple_</span>;
+};
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgea071a9" class="outline-2">
+<h2 id="orgea071a9"><span class="section-number-2">11.</span> void_t (C++17)</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+(since 2014 from Dr. Brown) <a href="https://www.youtube.com/watch?v=a0FliKwcwXE">https://www.youtube.com/watch?v=a0FliKwcwXE</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt;<span class="org-keyword">typename</span><span class="org-function-name">...</span>&gt;
+<span class="org-keyword">using</span> <span class="org-type">void_t</span> = <span class="org-type">void</span>;  <span class="org-comment-delimiter">// </span><span class="org-comment">pure/direct alias template</span>
+</pre>
+</div>
+
+<p>
+用于检测 SFINAE 语境中的非良构类型：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt;<span class="org-keyword">class</span>, <span class="org-keyword">class</span> = <span class="org-type">void</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">has_type_member</span> : <span class="org-constant">std</span>::<span class="org-type">false_type</span> { };
+
+<span class="org-keyword">template</span>&lt;<span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">has_type_member</span>&lt;<span class="org-type">T</span>, <span class="org-constant">std</span>::<span class="org-type">void_t</span>&lt;<span class="org-keyword">typename</span> <span class="org-constant">T</span>::<span class="org-type">type</span>&gt;&gt; : <span class="org-constant">std</span>::true_type { };
+</pre>
+</div>
+
+<p>
+注意： <code>typename = void</code> 是必要的，否则 <code>void_t</code> 版本不能覆盖默认生成的 specialization。
+</p>
+
+<p>
+用来检测表达式的合法性：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt; <span class="org-keyword">class</span>, <span class="org-keyword">class</span> = <span class="org-type">void</span> &gt;
+<span class="org-keyword">struct</span> <span class="org-type">has_pre_increment_member</span> : <span class="org-constant">std</span>::<span class="org-type">false_type</span> { };
+
+<span class="org-keyword">template</span>&lt; <span class="org-keyword">class</span> <span class="org-type">T</span> &gt;
+<span class="org-keyword">struct</span> <span class="org-type">has_pre_increment_member</span>&lt;<span class="org-type">T</span>, <span class="org-constant">std</span>::<span class="org-type">void_t</span>&lt;<span class="org-keyword">decltype</span>(++<span class="org-constant">std</span>::declval&lt;T&amp;&gt;())&gt;&gt; : <span class="org-constant">std</span>::true_type { };
+</pre>
+</div>
+
+<p>
+用来实现 <code>is_assignable</code> 的例子：
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-keyword">template</span>&lt;<span class="org-keyword">typename</span> <span class="org-type">T</span>, <span class="org-keyword">typename</span> <span class="org-type">U</span>, <span class="org-keyword">typename</span> = <span class="org-type">void</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">is_assignable</span>: <span class="org-constant">std</span>::<span class="org-type">false_type</span> {};
+
+<span class="org-keyword">template</span>&lt;<span class="org-keyword">typename</span> <span class="org-type">T</span>, <span class="org-keyword">typename</span> <span class="org-type">U</span>&gt;
+<span class="org-keyword">struct</span> <span class="org-type">is_assignable</span>&lt;<span class="org-type">T</span>, <span class="org-type">U</span>, <span class="org-constant">std</span>::<span class="org-type">void_t</span>&lt;<span class="org-keyword">decltype</span>(<span class="org-constant">std</span>::declval&lt;<span class="org-type">T</span>&gt;() = <span class="org-constant">std</span>::declval&lt;U&gt;())&gt;&gt;: <span class="org-constant">std</span>::true_type {};
+</pre>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

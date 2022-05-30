@@ -1,0 +1,333 @@
+#+TITLE: C++ Template Metaprogramming
+#+OPTIONS: toc:2 num:3 H:4 ^:nil pri:t
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+
+* decltype 和 std::declval (C++11)
+
+sizeof, typeid, decltype, noexcept 里的表达式都不会真正生成代码。
+
+=std::declval= 用于在 decltype 里获得一个 **不一定能实例化** 的类的成员变量的类型或成员函数的返回类型。
+
+#+begin_src c++
+struct A {
+    A() = delete;
+    int foo();
+};
+decltype(std::declval<A>().foo()) foo = 1;
+#+end_src
+
+其实现只有一个声明，在返回类型中添加了右值引用，结合 decltype 就可以绕过构造函数：
+#+begin_src c++
+template<class T>
+typename std::add_rvalue_reference<T>::type declval() noexcept;
+#+end_src
+
+为什么是右值引用？因为可以进行[[https://zh.cppreference.com/w/cpp/language/reference][引用折叠]]，不会改变引用类型，来调用正确的成员函数。
+
+
+* type trait
+
+元编程的大量脚手架都在 [[https://zh.cppreference.com/w/cpp/meta][<type_traits>]] 。
+
+**type trait** 是一个 templated struct，其成员变量 =value= 和/或 关联类型 =type=
+提供了被实例化时的模版形参的信息。
+
+这个 templated struct 可以看成 metafunction，
+其参数是模版实例化时的实参， =value= 和/或 =type= 是返回值。
+
+对名为 =XXX= 的 struct 的 =value= / =type= ，通常有对应的 alias 为 =XXX_v= / =XXX_t= 。
+
+Ref: https://www.youtube.com/watch?v=tiAVWcjIF6o
+
+
+* integral_constant
+
+最常用的是 =integral_constant= 和其特化 =bool_constant=:
+
+#+begin_src c++
+template <typename T, T v>
+struct integral_constant {
+    static constexpr T value = v;
+    using type = integral_constant<T, v>;
+    // convert to T by calling T(obj)
+    constexpr   operator T () const noexcept { return value; }
+    // convert to T by obj()
+    constexpr T operator ()() const noexcept { return value; }
+};
+
+template <bool B>
+using bool_constant = integral_constant<bool, B>;
+using true_type = bool_constant<true>;
+using false_type = bool_constant<false>;
+
+static_assert(true_type::value);
+static_assert(true_type{}); // call bool(obj)
+static_assert(true_type{}());
+#+end_src
+
+注意 const 的位置， =remove_const= 只清除最顶层的 =const=:
+#+begin_src c++
+static_assert(std::is_same_v<const int *, int const *>);
+static_assert(std::is_same_v<int *, std::remove_const_t<int * const>>);
+#+end_src
+
+C++ 一共有 14 种基础类型。 =<type_traits>= 定义了 14 中分类元函数。
+返回 true_type 或 false_type，对任意类型 T 有且只有 14 个中的 1 个为 true_type。
+| is_void           | is_class                   |
+| is_null_pointer   | is_function                |
+| is_integral       | is_pointer                 |
+| is_floating_point | is_lvalue_reference        |
+| is_array          | is_rvalue_reference        |
+| is_enum           | is_member_object_pointer   |
+| is_union          | is_member_function_pointer |
+
+其他常用函数：
+
+类型属性： =is_const=, =is_trivially_copyable=, ...
+支持操作： =is_constructible=, =is_move_assignable=, ...
+类型关系： =is_same=, =is_base_of=, ...
+类型修改： =remove_const=, =remove_cv=, =remove_reference=, =remove_cvref=, =remove_pointer=,
+           =add_lvalue_reference=, =add_rvalue_reference=...
+
+
+* type trait 实现的例子
+
+=is_void=:
+#+begin_src c++
+template <typename T>
+struct is_void : std::false_type {};
+template <>
+struct is_void<void> : std::true_type {};
+#+end_src
+
+=conditional=:
+#+begin_src c++
+template<bool B, class T, class F>
+struct conditional { using type = T; };
+template<class T, class F>
+struct conditional<false, T, F> { using type = F; };
+#+end_src
+
+
+* function overload resolution
+
+https://abseil.io/tips/148
+https://zh.cppreference.com/w/cpp/language/overload_resolution
+
+Overload set 规则:
+- 形参数量可以不同
+- 返回类型可以不同，但形参不能相同
+
+用参数类型来静态分发：
+#+begin_src c++
+void func(true_type) { std::cout << "true" << std::endl; }
+void func(false_type) { std::cout << "false" << std::endl; }
+func(integral_constant<bool, 1 == 2>{});
+#+end_src
+
+实现 type trait：
+#+begin_src c++
+std::true_type is_nullptr_impl(std::nullptr_t);
+std::false_type is_nullptr_impl(...);
+template <typename T>
+using is_nullptr = decltype(is_nullptr_impl(std::declval<T>()));
+#+end_src
+
+
+* 模板形参包和递归
+
+https://zh.cppreference.com/w/cpp/language/parameter_pack
+
+#+begin_src c++
+template <typename T, typename ...Ts>
+struct is_type_in_pack : std::false_type {};
+
+template <typename T, typename ...Ts>
+struct is_type_in_pack<T, T, Ts...> : std::true_type {};
+
+template <typename T, typename T0, typename ...Ts>
+struct is_type_in_pack<T, T0, Ts...>: is_type_in_pack<T, Ts...> {};
+#+end_src
+
+
+* fibnacci 的四种写法
+
+#+begin_src c++
+template<int n>
+struct Fibnacci {
+    static constexpr int value = Fibnacci<n - 1>::value + Fibnacci<n - 2>::value;
+};
+template <> struct Fibnacci<1> { static constexpr int value = 1; };
+template <> struct Fibnacci<0> { static constexpr int value = 0; };
+#+end_src
+
+使用 =integral_constant= ：
+#+begin_src c++
+template<int n>
+struct Fibnacci: std::integral_constant<int, Fibnacci<n - 1>::value + Fibnacci<n - 2>::value> {};
+template<> struct Fibnacci<0>: std::integral_constant<int, 0> {};
+template<> struct Fibnacci<1>: std::integral_constant<int, 1> {};
+#+end_src
+
+使用 C++17 的 =if constexpr= ：
+#+begin_src c++
+template<int n>
+struct Fibnacci {
+    static constexpr int value = []() {
+        if constexpr (n > 1)
+            return Fibnacci<n - 1>::value + Fibnacci<n - 2>::value;
+        return n;
+    }();
+};
+#+end_src
+
+使用 constexpr function （template instantiation is **memorized**）:
+#+begin_src c++
+template<int n>
+constexpr auto Fibnacci() {
+    if constexpr (n > 1)
+        return std::integral_constant<int, Fibnacci<n - 1>() + Fibnacci<n - 2>()>{};
+    else
+        return std::integral_constant<int, n>{};
+}
+#+end_src
+
+
+* SFINAE
+
+https://zh.cppreference.com/w/cpp/language/function_template
+
+编译器 **模版实例化** 的步骤:
+1. 模板实参推导：
+   1. 如果已经提供了模版参数，则原封不动获得。
+   2. （否则）从函数调用时的函数参数进行 **type deduction** 推断获得。
+      - https://www.youtube.com/watch?v=wQxj20X-tIU
+   3. （否则）从模版声明的 **默认模版参数** 获得。
+2. 模板实参替换，替换失败时会从重载集中移除（而非引发编译错误）。
+   - SFINAE https://zh.cppreference.com/w/cpp/language/sfinae
+3. 重载决议。
+
+
+* enable_if
+
+当 B 为 true 的时候，有关联类型 type = T。
+为 false 的时候无 type 定义，可触发谬构和 SFINAE。
+
+#+begin_src c++
+template<bool B, class T = void>
+struct enable_if {};
+
+template<class T>
+struct enable_if<true, T> { typedef T type; };
+#+end_src
+
+四种用法例子：
+#+begin_src c++
+int func(...) { return 0; }
+int func(float f) { return 2; }
+
+template <typename T>
+std::enable_if_t<std::is_integral_v<T>, int> func(T) { return 1; }
+
+// template <typename T>
+// int func(T, std::enable_if_t<std::is_integral_v<T>, int> = 0) { return 1; }
+
+// template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+// int func(T) { return 1; }
+
+// template <typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+// int func(T) { return 1; }
+
+std::cout << func(nullptr) << " " << func(2) << " " << func(2.f);  // 0 1 2
+#+end_src
+
+注意：仅默认模板实参不同 (=typename = std::enable_if_t<...>=) 只会当做同一函数模板的再声明。
+
+
+* integer_sequence (C++14)
+
+常用 =index_sequence= 为 =T = size_t= 的特化。
+
+出现在函数参数中时，为模版参数引入形参包 ，以便配合 =std::get= 展开。
+
+#+begin_src c++
+template <size_t ...N>
+struct index_sequence {};
+
+template <size_t N, size_t ...M>
+struct make_index_sequence : index_sequence<N - 1, N - 1, M...> {};
+
+template <size_t ...M>
+struct make_index_sequence<0, M...> : index_sequence<M...> {};
+
+template<typename ...Ts>
+using index_sequence_for = make_index_sequence<sizeof...(Ts)>;
+#+end_src
+
+实用例子：
+#+begin_src c++
+template <typename... Queue>
+struct MultiQueueLock {
+  MultiQueueLock(Queue... lockable) : tuple_{lockable...} { lock(); }
+  ~MultiQueueLock() { unlock(); }
+  void lock() { lock_impl(typename std::index_sequence_for<Queue...>{}); }
+  void unlock() { unlock_impl(typename std::index_sequence_for<Queue...>{}); }
+ private:
+  template <size_t... Is>
+  void lock_impl(std::index_sequence<Is...>) {
+    std::lock(std::get<Is>(tuple_)->mutex...);
+  }
+  template <size_t... Is>
+  void unlock_impl(std::index_sequence<Is...>) {
+    std::initializer_list<void>{std::get<Is>(tuple_)->mutex.unlock()...};
+    // (std::get<Is>(tuple_)->mutex.unlock()...);  // C++17 fold expressions
+  }
+  std::tuple<Queue...> tuple_;
+};
+#+end_src
+
+
+* void_t (C++17)
+
+(since 2014 from Dr. Brown) https://www.youtube.com/watch?v=a0FliKwcwXE
+
+#+begin_src c++
+template<typename...>
+using void_t = void;  // pure/direct alias template
+#+end_src
+
+用于检测 SFINAE 语境中的非良构类型：
+:has_type_member:
+#+begin_src c++
+template<class, class = void>
+struct has_type_member : std::false_type { };
+
+template<class T>
+struct has_type_member<T, std::void_t<typename T::type>> : std::true_type { };
+#+end_src
+:end:
+
+注意： =typename = void= 是必要的，否则 =void_t= 版本不能覆盖默认生成的 specialization。
+
+用来检测表达式的合法性：
+:has_pre_increment_member:
+#+begin_src c++
+template< class, class = void >
+struct has_pre_increment_member : std::false_type { };
+
+template< class T >
+struct has_pre_increment_member<T, std::void_t<decltype(++std::declval<T&>())>> : std::true_type { };
+#+end_src
+:end:
+
+用来实现 =is_assignable= 的例子：
+:is_assignable:
+#+begin_src c++
+template<typename T, typename U, typename = void>
+struct is_assignable: std::false_type {};
+
+template<typename T, typename U>
+struct is_assignable<T, U, std::void_t<decltype(std::declval<T>() = std::declval<U>())>>: std::true_type {};
+#+end_src
+:end:
+
