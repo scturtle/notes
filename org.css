@@ -1,0 +1,123 @@
+:root {
+  --base-color: #4169e1;
+}
+body {
+  margin: 0;
+  line-height: 1.4rem;
+}
+body #content {
+  padding-top: 2em;
+  margin: auto;
+  max-width: 800px;
+}
+body .title {
+  font-size: 26pt;
+}
+#table-of-contents {
+  font-size: 10pt;
+  line-height: 12pt;
+}
+#table-of-contents h2 {
+  font-size: 13pt;
+  border: 0;
+  font-weight: normal;
+  margin-top: 3em;
+}
+h1 {
+  margin-bottom: 1.5em;
+  margin-right: 7%;
+}
+h2 {
+  color: var(--base-color);
+  border-bottom: 1px solid #ddd;
+  margin-top: 1.5em;
+  padding-bottom: 8px;
+}
+.outline-text-2 {
+  margin-left: 0.1em 
+}
+h3 {
+  color: var(--base-color);
+  margin-left: 0.6em;
+}
+.outline-text-3 {
+  margin-left: 0.9em;
+}
+h4 {
+  color: var(--base-color);
+  margin-left: 1.2em;
+}
+.outline-text-4 {
+  margin-left: 1.45em;
+}
+a {
+  color: var(--base-color);
+  text-decoration: none;
+}
+a:visited {
+  text-decoration: underline var(--base-color);
+}
+a:hover {
+  text-decoration: underline var(--base-color);
+}
+.todo {
+  color: #CA0000;
+}
+.done {
+  color: #006666;
+}
+.tag {
+  padding: 0;
+  font-size: 100%;
+  background-color: white;
+}
+.tag > span {
+  padding: 3px;
+  background-color: #eee;
+  border-radius: 5px;
+}
+li {
+  margin: .3em 0;
+}
+dt {
+  margin: .3rem 0;
+}
+table {
+  margin: 1em auto;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+thead, tbody, tr, td {
+  border: 0;
+}
+th {
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+}
+code {
+  font-family: "Source Code Pro", monospace;
+}
+img {
+  max-width: 100%;
+}
+pre {
+  font-family: "Source Code Pro", monospace;
+  color: black;
+  font-size: 90%;
+  padding: 0.5em;
+  overflow: auto;
+  border: none;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+#postamble {
+  display: none;
+  text-align: right;
+  font-size: 10pt;
+  max-width: 800px;
+  line-height: 14pt;
+  margin: 10px auto;
+}

@@ -3,34 +3,229 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-01-16 Sun 17:39 -->
+<!-- 2023-06-14 Wed 17:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Note of cs231n</title>
-<meta name="author" content="shen chao" />
+<meta name="author" content="scturtle" />
 <meta name="generator" content="Org Mode" />
-<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
 
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="org.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="content" class="content">
@@ -39,39 +234,39 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgbe0994e">1. Classification</a></li>
-<li><a href="#orga33557a">2. Linear Cliassify</a>
+<li><a href="#org5d88731">1. Classification</a></li>
+<li><a href="#org5b461cf">2. Linear Cliassify</a>
 <ul>
-<li><a href="#org4225186">2.1. Multiclass Support Vector Machine</a></li>
-<li><a href="#orgd758e0c">2.2. Softmax classifier</a></li>
+<li><a href="#org05d253e">2.1. Multiclass Support Vector Machine</a></li>
+<li><a href="#org7a029ed">2.2. Softmax classifier</a></li>
 </ul>
 </li>
-<li><a href="#orgda4858d">3. Optimization</a></li>
-<li><a href="#org0a3b2b0">4. Neural Networks</a>
+<li><a href="#orgfe883b1">3. Optimization</a></li>
+<li><a href="#org797a025">4. Neural Networks</a>
 <ul>
-<li><a href="#orgc9380bc">4.1. Activation functions</a></li>
-<li><a href="#orgdea543a">4.2. PCA</a></li>
-<li><a href="#org8596571">4.3. Whitening</a></li>
-<li><a href="#orgaf4f6f9">4.4. Weight initialization</a></li>
-<li><a href="#orgfb445f8">4.5. Regularization</a></li>
-<li><a href="#org0d9a9ff">4.6. Loss functions</a></li>
-<li><a href="#orgef25c4d">4.7. Summary</a></li>
-<li><a href="#org67ad724">4.8. Gradient check</a></li>
-<li><a href="#org2adba44">4.9. Ratio of weights:updates</a></li>
-<li><a href="#org2ed945f">4.10. Parameter updates</a></li>
-<li><a href="#org3f3d4a1">4.11. Hyperparameter optimization</a></li>
-<li><a href="#org73a921a">4.12. Model Ensembles</a></li>
+<li><a href="#org1f94725">4.1. Activation functions</a></li>
+<li><a href="#orgd81ed1a">4.2. PCA</a></li>
+<li><a href="#orgf8aab20">4.3. Whitening</a></li>
+<li><a href="#org94a4180">4.4. Weight initialization</a></li>
+<li><a href="#org82b930c">4.5. Regularization</a></li>
+<li><a href="#org773e17a">4.6. Loss functions</a></li>
+<li><a href="#orga238aaa">4.7. Summary</a></li>
+<li><a href="#orga1064e5">4.8. Gradient check</a></li>
+<li><a href="#org349da8b">4.9. Ratio of weights:updates</a></li>
+<li><a href="#orgeccd5a9">4.10. Parameter updates</a></li>
+<li><a href="#orgec1d009">4.11. Hyperparameter optimization</a></li>
+<li><a href="#orged45918">4.12. Model Ensembles</a></li>
 </ul>
 </li>
-<li><a href="#orgeaf1b70">5. Convolutional Networks</a>
+<li><a href="#org52d57b5">5. Convolutional Networks</a>
 <ul>
-<li><a href="#orgf118513">5.1. The Conv Layer</a></li>
-<li><a href="#orga7f3553">5.2. The Pooling Layer</a></li>
-<li><a href="#org1c29f54">5.3. Normalization Layer</a></li>
-<li><a href="#org5fab76a">5.4. FC-&gt;CONV conversion</a></li>
-<li><a href="#org42f62ef">5.5. ConvNet Architectures</a></li>
-<li><a href="#orgbca732e">5.6. Layer Sizing Patterns</a></li>
-<li><a href="#org22dc6f8">5.7. Case studies</a></li>
+<li><a href="#orgbe31846">5.1. The Conv Layer</a></li>
+<li><a href="#org7cafd8c">5.2. The Pooling Layer</a></li>
+<li><a href="#org10cce1c">5.3. Normalization Layer</a></li>
+<li><a href="#orga227bbe">5.4. FC-&gt;CONV conversion</a></li>
+<li><a href="#org4e3d463">5.5. ConvNet Architectures</a></li>
+<li><a href="#org8f6ddfb">5.6. Layer Sizing Patterns</a></li>
+<li><a href="#orgd67e475">5.7. Case studies</a></li>
 </ul>
 </li>
 </ul>
@@ -79,8 +274,8 @@
 </div>
 
 
-<div id="outline-container-orgbe0994e" class="outline-2">
-<h2 id="orgbe0994e"><span class="section-number-2">1.</span> Classification</h2>
+<div id="outline-container-org5d88731" class="outline-2">
+<h2 id="org5d88731"><span class="section-number-2">1.</span> Classification</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 L1 distance: \(d_1 (I_1, I_2) = \sum_{p} \left| I^p_1 - I^p_2 \right|\)
@@ -123,8 +318,8 @@ Ref:
 </div>
 
 
-<div id="outline-container-orga33557a" class="outline-2">
-<h2 id="orga33557a"><span class="section-number-2">2.</span> Linear Cliassify</h2>
+<div id="outline-container-org5b461cf" class="outline-2">
+<h2 id="org5b461cf"><span class="section-number-2">2.</span> Linear Cliassify</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Linear classifier:
@@ -135,8 +330,8 @@ Linear classifier:
 </p>
 </div>
 
-<div id="outline-container-org4225186" class="outline-3">
-<h3 id="org4225186"><span class="section-number-3">2.1.</span> Multiclass Support Vector Machine</h3>
+<div id="outline-container-org05d253e" class="outline-3">
+<h3 id="org05d253e"><span class="section-number-3">2.1.</span> Multiclass Support Vector Machine</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 the score for the j-th class is the j-th element:
@@ -182,8 +377,8 @@ The threshold at zero \(max(0,-)\) function is often called the <b>hinge loss</b
 </div>
 </div>
 
-<div id="outline-container-orgd758e0c" class="outline-3">
-<h3 id="orgd758e0c"><span class="section-number-3">2.2.</span> Softmax classifier</h3>
+<div id="outline-container-org7a029ed" class="outline-3">
+<h3 id="org7a029ed"><span class="section-number-3">2.2.</span> Softmax classifier</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 generalization of binary Logistic Regression classifier to multiple classes
@@ -234,8 +429,8 @@ ref:
 </div>
 
 
-<div id="outline-container-orgda4858d" class="outline-2">
-<h2 id="orgda4858d"><span class="section-number-2">3.</span> Optimization</h2>
+<div id="outline-container-orgfe883b1" class="outline-2">
+<h2 id="orgfe883b1"><span class="section-number-2">3.</span> Optimization</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Gradient Descent
@@ -248,12 +443,12 @@ backpropagation
 </div>
 
 
-<div id="outline-container-org0a3b2b0" class="outline-2">
-<h2 id="org0a3b2b0"><span class="section-number-2">4.</span> Neural Networks</h2>
+<div id="outline-container-org797a025" class="outline-2">
+<h2 id="org797a025"><span class="section-number-2">4.</span> Neural Networks</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orgc9380bc" class="outline-3">
-<h3 id="orgc9380bc"><span class="section-number-3">4.1.</span> Activation functions</h3>
+<div id="outline-container-org1f94725" class="outline-3">
+<h3 id="org1f94725"><span class="section-number-3">4.1.</span> Activation functions</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 sigmoid: \[\sigma(x) = 1/(1+e^{-x})\]
@@ -307,14 +502,14 @@ TLDR:
 </div>
 
 
-<div id="outline-container-orgdea543a" class="outline-3">
-<h3 id="orgdea543a"><span class="section-number-3">4.2.</span> PCA</h3>
+<div id="outline-container-orgd81ed1a" class="outline-3">
+<h3 id="orgd81ed1a"><span class="section-number-3">4.2.</span> PCA</h3>
 <div class="outline-text-3" id="text-4-2">
 <div class="org-src-container">
-<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Assume input data matrix X of size [N x D]</span>
-<span class="org-variable-name">X</span> -= np.mean(X, axis = <span class="org-highlight-numbers-number">0</span>) <span class="org-comment-delimiter"># </span><span class="org-comment">zero-center the data (important)</span>
-cov = np.dot(X.T, X) / X.shape[<span class="org-highlight-numbers-number">0</span>] <span class="org-comment-delimiter"># </span><span class="org-comment">get the data covariance matrix</span>
-U,S,V = np.linalg.svd(cov) <span class="org-comment-delimiter">#  </span><span class="org-comment">SVD factorization</span>
+<pre class="src src-python"># Assume input data matrix X of size [N x D]
+X -= np.mean(X, axis = 0) # zero-center the data (important)
+cov = np.dot(X.T, X) / X.shape[0] # get the data covariance matrix
+U,S,V = np.linalg.svd(cov) #  SVD factorization
 </pre>
 </div>
 
@@ -327,16 +522,16 @@ Columns of U are the eigenvectors and S is a 1-D array of the singular values
 projection and dimensionality reduction:
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span class="org-variable-name">Xrot</span> = np.dot(X, U) <span class="org-comment-delimiter"># </span><span class="org-comment">decorrelate the data</span>
-<span class="org-variable-name">Xrot_reduced</span> = np.dot(X, U[:,:<span class="org-highlight-numbers-number">100</span>]) <span class="org-comment-delimiter"># </span><span class="org-comment">Xrot_reduced becomes [N x 100]</span>
+<pre class="src src-python">Xrot = np.dot(X, U) # decorrelate the data
+Xrot_reduced = np.dot(X, U[:,:100]) # Xrot_reduced becomes [N x 100]
 </pre>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org8596571" class="outline-3">
-<h3 id="org8596571"><span class="section-number-3">4.3.</span> Whitening</h3>
+<div id="outline-container-orgf8aab20" class="outline-3">
+<h3 id="orgf8aab20"><span class="section-number-3">4.3.</span> Whitening</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 The whitening operation takes the data in the eigenbasis and
@@ -344,15 +539,15 @@ divides every dimension by the eigenvalue to normalize the scale.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span class="org-variable-name">Xwhite</span> = Xrot / np.sqrt(S + 1e-<span class="org-highlight-numbers-number">5</span>)
+<pre class="src src-python">Xwhite = Xrot / np.sqrt(S + 1e-5)
 </pre>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orgaf4f6f9" class="outline-3">
-<h3 id="orgaf4f6f9"><span class="section-number-3">4.4.</span> Weight initialization</h3>
+<div id="outline-container-org94a4180" class="outline-3">
+<h3 id="org94a4180"><span class="section-number-3">4.4.</span> Weight initialization</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 The recommended heuristic is to initialize each neuron’s weight vector as:
@@ -377,8 +572,8 @@ Insert the BatchNorm layer immediately after fully connected layers
 </div>
 
 
-<div id="outline-container-orgfb445f8" class="outline-3">
-<h3 id="orgfb445f8"><span class="section-number-3">4.5.</span> Regularization</h3>
+<div id="outline-container-org82b930c" class="outline-3">
+<h3 id="org82b930c"><span class="section-number-3">4.5.</span> Regularization</h3>
 <div class="outline-text-3" id="text-4-5">
 <p>
 <b>L2 regularization</b> encouraging the network to use all of its inputs a little
@@ -415,12 +610,12 @@ The value of p=0.5.
 </div>
 
 
-<div id="outline-container-org0d9a9ff" class="outline-3">
-<h3 id="org0d9a9ff"><span class="section-number-3">4.6.</span> Loss functions</h3>
+<div id="outline-container-org773e17a" class="outline-3">
+<h3 id="org773e17a"><span class="section-number-3">4.6.</span> Loss functions</h3>
 <div class="outline-text-3" id="text-4-6">
 </div>
-<div id="outline-container-orgf86ae24" class="outline-4">
-<h4 id="orgf86ae24"><span class="section-number-4">4.6.1.</span> Classification</h4>
+<div id="outline-container-org523acd1" class="outline-4">
+<h4 id="org523acd1"><span class="section-number-4">4.6.1.</span> Classification</h4>
 <div class="outline-text-4" id="text-4-6-1">
 <p>
 SVM:
@@ -445,8 +640,8 @@ Softmax classifier uses the cross-entropy loss:
 </div>
 
 
-<div id="outline-container-org02f67e2" class="outline-4">
-<h4 id="org02f67e2"><span class="section-number-4">4.6.2.</span> Attribute/Multiclass classification</h4>
+<div id="outline-container-org7677a26" class="outline-4">
+<h4 id="org7677a26"><span class="section-number-4">4.6.2.</span> Attribute/Multiclass classification</h4>
 <div class="outline-text-4" id="text-4-6-2">
 <p>
 Binary classifier for each class:
@@ -484,8 +679,8 @@ Gradient on \(f\):
 </div>
 
 
-<div id="outline-container-orgc10e22b" class="outline-4">
-<h4 id="orgc10e22b"><span class="section-number-4">4.6.3.</span> Regression</h4>
+<div id="outline-container-orgeed08df" class="outline-4">
+<h4 id="orgeed08df"><span class="section-number-4">4.6.3.</span> Regression</h4>
 <div class="outline-text-4" id="text-4-6-3">
 <p>
 L2/L1.
@@ -520,8 +715,8 @@ perform classification over them whenever possible.
 </div>
 
 
-<div id="outline-container-org8e8cd5a" class="outline-4">
-<h4 id="org8e8cd5a"><span class="section-number-4">4.6.4.</span> Structured prediction</h4>
+<div id="outline-container-org45d0ab3" class="outline-4">
+<h4 id="org45d0ab3"><span class="section-number-4">4.6.4.</span> Structured prediction</h4>
 <div class="outline-text-4" id="text-4-6-4">
 <p>
 The basic idea behind the structured SVM loss is to demand a margin
@@ -532,8 +727,8 @@ The basic idea behind the structured SVM loss is to demand a margin
 </div>
 
 
-<div id="outline-container-orgef25c4d" class="outline-3">
-<h3 id="orgef25c4d"><span class="section-number-3">4.7.</span> Summary</h3>
+<div id="outline-container-orga238aaa" class="outline-3">
+<h3 id="orga238aaa"><span class="section-number-3">4.7.</span> Summary</h3>
 <div class="outline-text-3" id="text-4-7">
 <ol class="org-ol">
 <li>The recommended preprocessing is to center the data to have mean of zero,
@@ -551,8 +746,8 @@ E.g. in numpy: <code>w = np.random.randn(n) * sqrt(2.0/n)</code>.</li>
 </div>
 
 
-<div id="outline-container-org67ad724" class="outline-3">
-<h3 id="org67ad724"><span class="section-number-3">4.8.</span> Gradient check</h3>
+<div id="outline-container-orga1064e5" class="outline-3">
+<h3 id="orga1064e5"><span class="section-number-3">4.8.</span> Gradient check</h3>
 <div class="outline-text-3" id="text-4-8">
 <p>
 \[\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h}\]
@@ -589,32 +784,32 @@ Remember to turn off any non-deterministic effects in the network,
 </div>
 
 
-<div id="outline-container-org2adba44" class="outline-3">
-<h3 id="org2adba44"><span class="section-number-3">4.9.</span> Ratio of weights:updates</h3>
+<div id="outline-container-org349da8b" class="outline-3">
+<h3 id="org349da8b"><span class="section-number-3">4.9.</span> Ratio of weights:updates</h3>
 <div class="outline-text-3" id="text-4-9">
 <div class="org-src-container">
-<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">assume parameter vector W and its gradient vector dW</span>
-<span class="org-variable-name">param_scale</span> = np.linalg.norm(W.ravel())
-<span class="org-variable-name">update</span> = -learning_rate*dW <span class="org-comment-delimiter"># </span><span class="org-comment">simple SGD update</span>
-<span class="org-variable-name">update_scale</span> = np.linalg.norm(update.ravel())
-<span class="org-variable-name">W</span> += update <span class="org-comment-delimiter"># </span><span class="org-comment">the actual update</span>
-<span class="org-builtin">print</span> update_scale / param_scale <span class="org-comment-delimiter"># </span><span class="org-comment">want ~1e-3</span>
+<pre class="src src-python"># assume parameter vector W and its gradient vector dW
+param_scale = np.linalg.norm(W.ravel())
+update = -learning_rate*dW # simple SGD update
+update_scale = np.linalg.norm(update.ravel())
+W += update # the actual update
+print update_scale / param_scale # want ~1e-3
 </pre>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org2ed945f" class="outline-3">
-<h3 id="org2ed945f"><span class="section-number-3">4.10.</span> Parameter updates</h3>
+<div id="outline-container-orgeccd5a9" class="outline-3">
+<h3 id="orgeccd5a9"><span class="section-number-3">4.10.</span> Parameter updates</h3>
 <div class="outline-text-3" id="text-4-10">
 </div>
-<div id="outline-container-orge62693c" class="outline-4">
-<h4 id="orge62693c"><span class="section-number-4">4.10.1.</span> Momentum update</h4>
+<div id="outline-container-org0174d21" class="outline-4">
+<h4 id="org0174d21"><span class="section-number-4">4.10.1.</span> Momentum update</h4>
 <div class="outline-text-4" id="text-4-10-1">
 <div class="org-src-container">
-<pre class="src src-python"><span class="org-variable-name">v</span> = mu * v - learning_rate * dx <span class="org-comment-delimiter"># </span><span class="org-comment">integrate velocity</span>
-<span class="org-variable-name">x</span> += v <span class="org-comment-delimiter"># </span><span class="org-comment">integrate position</span>
+<pre class="src src-python">v = mu * v - learning_rate * dx # integrate velocity
+x += v # integrate position
 </pre>
 </div>
 
@@ -626,14 +821,14 @@ A typical setting is to start with momentum of about 0.5 and
 </div>
 
 
-<div id="outline-container-org4dc93be" class="outline-4">
-<h4 id="org4dc93be"><span class="section-number-4">4.10.2.</span> Nesterov’s Accelerated Momentum (NAG)</h4>
+<div id="outline-container-org132cbf8" class="outline-4">
+<h4 id="org132cbf8"><span class="section-number-4">4.10.2.</span> Nesterov’s Accelerated Momentum (NAG)</h4>
 <div class="outline-text-4" id="text-4-10-2">
 <div class="org-src-container">
-<pre class="src src-python"><span class="org-variable-name">x_ahead</span> = x + mu * v
-<span class="org-comment-delimiter"># </span><span class="org-comment">evaluate dx_ahead (the gradient at x_ahead instead of at x)</span>
-<span class="org-variable-name">v</span> = mu * v - learning_rate * dx_ahead
-<span class="org-variable-name">x</span> += v
+<pre class="src src-python">x_ahead = x + mu * v
+# evaluate dx_ahead (the gradient at x_ahead instead of at x)
+v = mu * v - learning_rate * dx_ahead
+x += v
 </pre>
 </div>
 
@@ -642,17 +837,17 @@ Expressing the update in terms of x_ahead instead of x:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span class="org-variable-name">v_prev</span> = v <span class="org-comment-delimiter"># </span><span class="org-comment">back this up</span>
-<span class="org-variable-name">v</span> = mu * v - learning_rate * dx <span class="org-comment-delimiter"># </span><span class="org-comment">velocity update stays the same</span>
-<span class="org-variable-name">x</span> += -mu * v_prev + (<span class="org-highlight-numbers-number">1</span> + mu) * v <span class="org-comment-delimiter"># </span><span class="org-comment">position update changes form</span>
+<pre class="src src-python">v_prev = v # back this up
+v = mu * v - learning_rate * dx # velocity update stays the same
+x += -mu * v_prev + (1 + mu) * v # position update changes form
 </pre>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orge0eda21" class="outline-4">
-<h4 id="orge0eda21"><span class="section-number-4">4.10.3.</span> Annealing the learning rate</h4>
+<div id="outline-container-org7ca3ae1" class="outline-4">
+<h4 id="org7ca3ae1"><span class="section-number-4">4.10.3.</span> Annealing the learning rate</h4>
 <div class="outline-text-4" id="text-4-10-3">
 <ol class="org-ol">
 <li>Step decay.</li>
@@ -664,8 +859,8 @@ where \(t\) is the iteration number/units of epochs.</li>
 </div>
 
 
-<div id="outline-container-org83de533" class="outline-4">
-<h4 id="org83de533"><span class="section-number-4">4.10.4.</span> Second order methods</h4>
+<div id="outline-container-org49ff853" class="outline-4">
+<h4 id="org49ff853"><span class="section-number-4">4.10.4.</span> Second order methods</h4>
 <div class="outline-text-4" id="text-4-10-4">
 <p>
 Based on Newton’s method:
@@ -694,21 +889,21 @@ However it must be computed over the entire training set.
 </div>
 
 
-<div id="outline-container-org3324b1b" class="outline-4">
-<h4 id="org3324b1b"><span class="section-number-4">4.10.5.</span> Per-parameter adaptive learning rate methods</h4>
+<div id="outline-container-org3739e29" class="outline-4">
+<h4 id="org3739e29"><span class="section-number-4">4.10.5.</span> Per-parameter adaptive learning rate methods</h4>
 <div class="outline-text-4" id="text-4-10-5">
 </div>
-<div id="outline-container-org18b1884" class="outline-5">
-<h5 id="org18b1884">Adagrad</h5>
-<div class="outline-text-5" id="text-org18b1884">
+<div id="outline-container-org436d1c6" class="outline-5">
+<h5 id="org436d1c6">Adagrad</h5>
+<div class="outline-text-5" id="text-org436d1c6">
 <p>
 originally proposed by <a href="http://jmlr.org/papers/v12/duchi11a.html">Duchi et al.</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span class="org-comment-delimiter"># </span><span class="org-comment">Assume the gradient dx and parameter vector x</span>
-<span class="org-variable-name">cache</span> += dx**<span class="org-highlight-numbers-number">2</span>
-<span class="org-variable-name">x</span> += - learning_rate * dx / (np.sqrt(cache) + eps)
+<pre class="src src-python"># Assume the gradient dx and parameter vector x
+cache += dx**2
+x += - learning_rate * dx / (np.sqrt(cache) + eps)
 </pre>
 </div>
 
@@ -720,16 +915,16 @@ A downside of Adagrad is that in case of Deep Learning,
 </div>
 
 
-<div id="outline-container-org316847c" class="outline-5">
-<h5 id="org316847c">RMSprop</h5>
-<div class="outline-text-5" id="text-org316847c">
+<div id="outline-container-orgd48266c" class="outline-5">
+<h5 id="orgd48266c">RMSprop</h5>
+<div class="outline-text-5" id="text-orgd48266c">
 <p>
 <a href="http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf">Slide 29 of Lecture 6</a> of Geoff Hinton’s Coursera class.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span class="org-variable-name">cache</span> = decay_rate * cache + (<span class="org-highlight-numbers-number">1</span> - decay_rate) * dx**<span class="org-highlight-numbers-number">2</span>
-<span class="org-variable-name">x</span> += - learning_rate * dx / (np.sqrt(cache) + eps)
+<pre class="src src-python">cache = decay_rate * cache + (1 - decay_rate) * dx**2
+x += - learning_rate * dx / (np.sqrt(cache) + eps)
 </pre>
 </div>
 
@@ -740,18 +935,18 @@ Here, <code>decay_rate</code> is a hyperparameter and typical values are [0.9, 0
 </div>
 
 
-<div id="outline-container-orge1fa10d" class="outline-5">
-<h5 id="orge1fa10d"><a href="http://arxiv.org/abs/1412.6980">Adam</a></h5>
-<div class="outline-text-5" id="text-orge1fa10d">
+<div id="outline-container-orgddd7859" class="outline-5">
+<h5 id="orgddd7859"><a href="http://arxiv.org/abs/1412.6980">Adam</a></h5>
+<div class="outline-text-5" id="text-orgddd7859">
 <p>
 A recently proposed update that looks a bit like RMSProp with momentum.
  The simplified update looks as follows:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span class="org-variable-name">m</span> = beta1*m + (<span class="org-highlight-numbers-number">1</span>-beta1)*dx
-<span class="org-variable-name">v</span> = beta2*v + (<span class="org-highlight-numbers-number">1</span>-beta2)*(dx**<span class="org-highlight-numbers-number">2</span>)
-<span class="org-variable-name">x</span> += - learning_rate * m / (np.sqrt(v) + eps)
+<pre class="src src-python">m = beta1*m + (1-beta1)*dx
+v = beta2*v + (1-beta2)*(dx**2)
+x += - learning_rate * m / (np.sqrt(v) + eps)
 </pre>
 </div>
 
@@ -777,8 +972,8 @@ The full Adam update also includes a <i>bias correction</i> mechanism.
 </div>
 
 
-<div id="outline-container-org3f3d4a1" class="outline-3">
-<h3 id="org3f3d4a1"><span class="section-number-3">4.11.</span> Hyperparameter optimization</h3>
+<div id="outline-container-orgec1d009" class="outline-3">
+<h3 id="orgec1d009"><span class="section-number-3">4.11.</span> Hyperparameter optimization</h3>
 <div class="outline-text-3" id="text-4-11">
 <p>
 Prefer one validation fold to cross-validation.
@@ -801,8 +996,8 @@ However, in practical settings with ConvNets it is still relatively
 </div>
 
 
-<div id="outline-container-org73a921a" class="outline-3">
-<h3 id="org73a921a"><span class="section-number-3">4.12.</span> Model Ensembles</h3>
+<div id="outline-container-orged45918" class="outline-3">
+<h3 id="orged45918"><span class="section-number-3">4.12.</span> Model Ensembles</h3>
 <div class="outline-text-3" id="text-4-12">
 <ol class="org-ol">
 <li>Same model, different initializations.</li>
@@ -832,12 +1027,12 @@ ref:
 </div>
 
 
-<div id="outline-container-orgeaf1b70" class="outline-2">
-<h2 id="orgeaf1b70"><span class="section-number-2">5.</span> Convolutional Networks</h2>
+<div id="outline-container-org52d57b5" class="outline-2">
+<h2 id="org52d57b5"><span class="section-number-2">5.</span> Convolutional Networks</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orgf118513" class="outline-3">
-<h3 id="orgf118513"><span class="section-number-3">5.1.</span> The Conv Layer</h3>
+<div id="outline-container-orgbe31846" class="outline-3">
+<h3 id="orgbe31846"><span class="section-number-3">5.1.</span> The Conv Layer</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 \[(W - F + 2P)/S + 1\]
@@ -888,8 +1083,8 @@ The backward pass for a convolution operation (for both the data and the weights
 </div>
 
 
-<div id="outline-container-orga7f3553" class="outline-3">
-<h3 id="orga7f3553"><span class="section-number-3">5.2.</span> The Pooling Layer</h3>
+<div id="outline-container-org7cafd8c" class="outline-3">
+<h3 id="org7cafd8c"><span class="section-number-3">5.2.</span> The Pooling Layer</h3>
 <div class="outline-text-3" id="text-5-2">
 <ul class="org-ul">
 <li>input volume size: \(W_1 \times W_1 \times D_1\)</li>
@@ -928,8 +1123,8 @@ The backward pass for a max(x, y) operation has a simple interpretation
 </div>
 
 
-<div id="outline-container-org1c29f54" class="outline-3">
-<h3 id="org1c29f54"><span class="section-number-3">5.3.</span> Normalization Layer</h3>
+<div id="outline-container-org10cce1c" class="outline-3">
+<h3 id="org10cce1c"><span class="section-number-3">5.3.</span> Normalization Layer</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 Normalization layers have since fallen out of favor because
@@ -943,8 +1138,8 @@ For various types of normalizations, see the discussion in <a href="http://code.
 </div>
 
 
-<div id="outline-container-org5fab76a" class="outline-3">
-<h3 id="org5fab76a"><span class="section-number-3">5.4.</span> FC-&gt;CONV conversion</h3>
+<div id="outline-container-orga227bbe" class="outline-3">
+<h3 id="orga227bbe"><span class="section-number-3">5.4.</span> FC-&gt;CONV conversion</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 The ability to convert an FC layer to a CONV layer is particularly useful in practice.
@@ -960,8 +1155,8 @@ It is common to resize an image to make it bigger, use a converted ConvNet
 </div>
 
 
-<div id="outline-container-org42f62ef" class="outline-3">
-<h3 id="org42f62ef"><span class="section-number-3">5.5.</span> ConvNet Architectures</h3>
+<div id="outline-container-org4e3d463" class="outline-3">
+<h3 id="org4e3d463"><span class="section-number-3">5.5.</span> ConvNet Architectures</h3>
 <div class="outline-text-3" id="text-5-5">
 <p>
 <code>INPUT -&gt; [[CONV -&gt; RELU]*N -&gt; POOL?]*M -&gt; [FC -&gt; RELU]*K -&gt; FC</code>
@@ -1000,8 +1195,8 @@ As a practical disadvantage, we might need more memory to hold all the intermedi
 </div>
 
 
-<div id="outline-container-orgbca732e" class="outline-3">
-<h3 id="orgbca732e"><span class="section-number-3">5.6.</span> Layer Sizing Patterns</h3>
+<div id="outline-container-org8f6ddfb" class="outline-3">
+<h3 id="org8f6ddfb"><span class="section-number-3">5.6.</span> Layer Sizing Patterns</h3>
 <div class="outline-text-3" id="text-5-6">
 <p>
 The input layer (that contains the image) should be divisible by 2 many times.
@@ -1027,8 +1222,8 @@ The most common setting for pooling layer is to use max-pooling
 </div>
 
 
-<div id="outline-container-org22dc6f8" class="outline-3">
-<h3 id="org22dc6f8"><span class="section-number-3">5.7.</span> Case studies</h3>
+<div id="outline-container-orgd67e475" class="outline-3">
+<h3 id="orgd67e475"><span class="section-number-3">5.7.</span> Case studies</h3>
 <div class="outline-text-3" id="text-5-7">
 <p>
 <a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf">LeNet</a>. The first successful applications of ConvNet.
@@ -1071,6 +1266,11 @@ Featured Convolutional Layers <b>stacked</b> on top of each other.
 </div>
 </div>
 </div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: scturtle</p>
+<p class="date">Created: 2023-06-14 Wed 17:59</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

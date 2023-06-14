@@ -1,6 +1,6 @@
 #+TITLE: Notes
 #+OPTIONS: toc:nil num:nil H:4 ^:nil pri:t
-#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css" />
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="org.css" />
 
 Notes for sharing.
 

@@ -3,13 +3,197 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-01-16 Sun 17:39 -->
+<!-- 2023-06-14 Wed 17:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Note of STL</title>
-<meta name="author" content="shen chao" />
+<meta name="author" content="scturtle" />
 <meta name="generator" content="Org Mode" />
-<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="org.css" />
 </head>
 <body>
 <div id="content" class="content">
@@ -18,241 +202,241 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3ffd45e">1. Snippets</a></li>
-<li><a href="#org409a23e">2. Non-modifying sequence operations</a>
+<li><a href="#orge96ace0">1. Snippets</a></li>
+<li><a href="#org8a03aeb">2. Non-modifying sequence operations</a>
 <ul>
-<li><a href="#org9e678db">2.1. all_of, any_of, none_of</a></li>
-<li><a href="#org970a715">2.2. for_each</a></li>
-<li><a href="#org813122d">2.3. count, count_if</a></li>
-<li><a href="#orgc0731a1">2.4. mismatch</a></li>
-<li><a href="#orgd0bffb7">2.5. equal</a></li>
-<li><a href="#org3901eb0">2.6. find, find_if, find_if_not</a></li>
-<li><a href="#orgaba156b">2.7. find_end</a></li>
-<li><a href="#org7295455">2.8. find_first_of</a></li>
-<li><a href="#orgea4b39f">2.9. adjacent_find</a></li>
-<li><a href="#org0e36056">2.10. search, search_n</a></li>
+<li><a href="#org34149ac">2.1. all_of, any_of, none_of</a></li>
+<li><a href="#orgbffdb71">2.2. for_each</a></li>
+<li><a href="#org2969f87">2.3. count, count_if</a></li>
+<li><a href="#org527a093">2.4. mismatch</a></li>
+<li><a href="#org399f31b">2.5. equal</a></li>
+<li><a href="#org0f7b3cf">2.6. find, find_if, find_if_not</a></li>
+<li><a href="#orgc2616a8">2.7. find_end</a></li>
+<li><a href="#org4b169be">2.8. find_first_of</a></li>
+<li><a href="#orgf7403c5">2.9. adjacent_find</a></li>
+<li><a href="#org3a0f448">2.10. search, search_n</a></li>
 </ul>
 </li>
-<li><a href="#org47975e4">3. Modifying sequence operations</a>
+<li><a href="#org9a083aa">3. Modifying sequence operations</a>
 <ul>
-<li><a href="#org8ce8b36">3.1. copy, copy_if</a></li>
-<li><a href="#orga302960">3.2. copy_n</a></li>
-<li><a href="#org9455fac">3.3. copy_backward</a></li>
-<li><a href="#org617d37f">3.4. move</a></li>
-<li><a href="#orgc8e5f59">3.5. move_backward</a></li>
-<li><a href="#org39178fe">3.6. fill, fill_n</a></li>
-<li><a href="#org262c3f4">3.7. transform</a></li>
-<li><a href="#org6041361">3.8. generate, generate_n</a></li>
-<li><a href="#orgd18dc9a">3.9. remove, remove_if</a></li>
-<li><a href="#org9821a0c">3.10. remove_copy, remove_copy_if</a></li>
-<li><a href="#orga356aa4">3.11. replace, replace_if</a></li>
-<li><a href="#org5ac5e19">3.12. replace_copy, replace_copy_if</a></li>
-<li><a href="#org6141ae5">3.13. swap, swap_ranges, iter_swap</a></li>
-<li><a href="#org659fb98">3.14. reverse, reverse_copy</a></li>
-<li><a href="#org1ec74df">3.15. rotate, rotate_copy</a></li>
-<li><a href="#org76f3469">3.16. random_shuffle, shuffle</a></li>
-<li><a href="#org82b4bec">3.17. unique, unique_copy</a></li>
+<li><a href="#orgdef7f50">3.1. copy, copy_if</a></li>
+<li><a href="#orgfeb6006">3.2. copy_n</a></li>
+<li><a href="#orga89b8fc">3.3. copy_backward</a></li>
+<li><a href="#orge374ca5">3.4. move</a></li>
+<li><a href="#orga9d1b9b">3.5. move_backward</a></li>
+<li><a href="#org038b334">3.6. fill, fill_n</a></li>
+<li><a href="#org85b42ba">3.7. transform</a></li>
+<li><a href="#org01e4bb8">3.8. generate, generate_n</a></li>
+<li><a href="#orgb55ddc0">3.9. remove, remove_if</a></li>
+<li><a href="#orgb793090">3.10. remove_copy, remove_copy_if</a></li>
+<li><a href="#orgfde6a78">3.11. replace, replace_if</a></li>
+<li><a href="#orga2456b3">3.12. replace_copy, replace_copy_if</a></li>
+<li><a href="#orgdb24b1d">3.13. swap, swap_ranges, iter_swap</a></li>
+<li><a href="#org444508a">3.14. reverse, reverse_copy</a></li>
+<li><a href="#org9620c4a">3.15. rotate, rotate_copy</a></li>
+<li><a href="#orgfa94991">3.16. random_shuffle, shuffle</a></li>
+<li><a href="#org28f8c78">3.17. unique, unique_copy</a></li>
 </ul>
 </li>
-<li><a href="#orgf74d587">4. Partitioning operations</a></li>
-<li><a href="#org8504613">5. Sorting operations</a></li>
-<li><a href="#org8c76b93">6. Binary search operations (on sorted ranges)</a></li>
-<li><a href="#org69aa46e">7. Set operations (on sorted ranges)</a></li>
-<li><a href="#orgaf7e803">8. Heap operations</a></li>
-<li><a href="#org057a393">9. Minimum/maximum operations</a></li>
-<li><a href="#org1d42643">10. Numeric operations (&lt;numeric&gt;)</a></li>
-<li><a href="#orgb4ca3c3">11. C library (&lt;cstdlib&gt;)</a></li>
+<li><a href="#org2f48d02">4. Partitioning operations</a></li>
+<li><a href="#org97d4b10">5. Sorting operations</a></li>
+<li><a href="#orge8f2155">6. Binary search operations (on sorted ranges)</a></li>
+<li><a href="#org6251f26">7. Set operations (on sorted ranges)</a></li>
+<li><a href="#orgb21b84b">8. Heap operations</a></li>
+<li><a href="#org61ecf35">9. Minimum/maximum operations</a></li>
+<li><a href="#orgd9b7b2a">10. Numeric operations (&lt;numeric&gt;)</a></li>
+<li><a href="#orgf262184">11. C library (&lt;cstdlib&gt;)</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org3ffd45e" class="outline-2">
-<h2 id="org3ffd45e"><span class="section-number-2">1.</span> Snippets</h2>
+<div id="outline-container-orge96ace0" class="outline-2">
+<h2 id="orge96ace0"><span class="section-number-2">1.</span> Snippets</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-c++"><span class="org-constant">std</span>::copy(v.cbegin(), v.cend(), ostream_iterator&lt;<span class="org-type">int</span>&gt;(cout, <span class="org-string">", "</span>));
-<span class="org-constant">std</span>::distance(v.begin(), result);
+<pre class="src src-c++">std::copy(v.cbegin(), v.cend(), ostream_iterator&lt;int&gt;(cout, ", "));
+std::distance(v.begin(), result);
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org409a23e" class="outline-2">
-<h2 id="org409a23e"><span class="section-number-2">2.</span> Non-modifying sequence operations</h2>
+<div id="outline-container-org8a03aeb" class="outline-2">
+<h2 id="org8a03aeb"><span class="section-number-2">2.</span> Non-modifying sequence operations</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org9e678db" class="outline-3">
-<h3 id="org9e678db"><span class="section-number-3">2.1.</span> all_of, any_of, none_of</h3>
+<div id="outline-container-org34149ac" class="outline-3">
+<h3 id="org34149ac"><span class="section-number-3">2.1.</span> all_of, any_of, none_of</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryPredicate</span>&gt;
-  <span class="org-type">bool</span> <span class="org-function-name">all_of</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>) {
-    <span class="org-keyword">return</span> <span class="org-constant">std</span>::find_if_not(first, last, p) == last;
+<pre class="src src-c++">  template &lt;class InputIt, class UnaryPredicate&gt;
+  bool all_of(InputIt first, InputIt last, UnaryPredicate p) {
+    return std::find_if_not(first, last, p) == last;
   }
 
-  <span class="org-type">bool</span> <span class="org-function-name">any_of</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>) {
-    <span class="org-keyword">return</span> <span class="org-constant">std</span>::find_if(first, last, p) != last;
+  bool any_of(InputIt first, InputIt last, UnaryPredicate p) {
+    return std::find_if(first, last, p) != last;
   }
 
-  <span class="org-type">bool</span> <span class="org-function-name">none_of</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>) {
-    <span class="org-keyword">return</span> <span class="org-constant">std</span>::find_if(first, last, p) == last;
+  bool none_of(InputIt first, InputIt last, UnaryPredicate p) {
+    return std::find_if(first, last, p) == last;
   }
 
-  <span class="org-constant">std</span>::all_of(v.cbegin(), v.cend(), [](<span class="org-type">int</span> <span class="org-variable-name">i</span>) { <span class="org-keyword">return</span> i % <span class="org-highlight-numbers-number">2</span> == <span class="org-highlight-numbers-number">0</span>; });
+  std::all_of(v.cbegin(), v.cend(), [](int i) { return i % 2 == 0; });
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org970a715" class="outline-3">
-<h3 id="org970a715"><span class="section-number-3">2.2.</span> for_each</h3>
+<div id="outline-container-orgbffdb71" class="outline-3">
+<h3 id="orgbffdb71"><span class="section-number-3">2.2.</span> for_each</h3>
 <div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryFunction</span>&gt;
-  <span class="org-type">UnaryFunction</span> <span class="org-function-name">for_each</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryFunction</span> <span class="org-variable-name">f</span>) {
-    <span class="org-keyword">for</span> (; first != last; ++first) {
+<pre class="src src-c++">  template &lt;class InputIt, class UnaryFunction&gt;
+  UnaryFunction for_each(InputIt first, InputIt last, UnaryFunction f) {
+    for (; first != last; ++first) {
       f(*first);
     }
-    <span class="org-keyword">return</span> f;
+    return f;
   }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org813122d" class="outline-3">
-<h3 id="org813122d"><span class="section-number-3">2.3.</span> count, count_if</h3>
+<div id="outline-container-org2969f87" class="outline-3">
+<h3 id="org2969f87"><span class="section-number-3">2.3.</span> count, count_if</h3>
 <div class="outline-text-3" id="text-2-3">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
-  <span class="org-type">int</span> <span class="org-function-name">count</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>) {
-    <span class="org-type">int</span> <span class="org-variable-name">ret</span> = <span class="org-highlight-numbers-number">0</span>;
-    <span class="org-keyword">for</span> (; first != last; ++first) {
-      <span class="org-keyword">if</span> (*first == value) {
+<pre class="src src-c++">  template &lt;class InputIt, class T&gt;
+  int count(InputIt first, InputIt last, const T &amp;value) {
+    int ret = 0;
+    for (; first != last; ++first) {
+      if (*first == value) {
         ret++;
       }
     }
-    <span class="org-keyword">return</span> ret;
+    return ret;
   }
 
-  <span class="org-type">int</span> <span class="org-function-name">count_if</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
+  int count_if(InputIt first, InputIt last, UnaryPredicate p);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc0731a1" class="outline-3">
-<h3 id="orgc0731a1"><span class="section-number-3">2.4.</span> mismatch</h3>
+<div id="outline-container-org527a093" class="outline-3">
+<h3 id="org527a093"><span class="section-number-3">2.4.</span> mismatch</h3>
 <div class="outline-text-3" id="text-2-4">
 <div class="org-src-container">
 <pre class="src src-c++">
-  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt1</span>, <span class="org-keyword">class</span> <span class="org-type">InputIt2</span>&gt;
-  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-type">InputIt1</span>, <span class="org-type">InputIt2</span>&gt;
-    <span class="org-function-name">mismatch</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>) {
-    <span class="org-keyword">while</span> (first1 != last1 &amp;&amp; *first1 == *first2) {
+  template &lt;class InputIt1, class InputIt2&gt;
+  std::pair&lt;InputIt1, InputIt2&gt;
+    mismatch(InputIt1 first1, InputIt1 last1, InputIt2 first2) {
+    while (first1 != last1 &amp;&amp; *first1 == *first2) {
       ++first1, ++first2;
     }
-    <span class="org-keyword">return</span> <span class="org-constant">std</span>::make_pair(first1, first2);
+    return std::make_pair(first1, first2);
   }
 
-  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-type">InputIt1</span>, <span class="org-type">InputIt2</span>&gt;
-    <span class="org-function-name">mismatch</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">BinaryPredicate</span> <span class="org-variable-name">p</span>);
+  std::pair&lt;InputIt1, InputIt2&gt;
+    mismatch(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPredicate p);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd0bffb7" class="outline-3">
-<h3 id="orgd0bffb7"><span class="section-number-3">2.5.</span> equal</h3>
+<div id="outline-container-org399f31b" class="outline-3">
+<h3 id="org399f31b"><span class="section-number-3">2.5.</span> equal</h3>
 <div class="outline-text-3" id="text-2-5">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt1</span>, <span class="org-keyword">class</span> <span class="org-type">InputIt2</span>&gt;
-  <span class="org-type">bool</span> <span class="org-function-name">equal</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>) {
-    <span class="org-keyword">for</span> (; first1 != last1; ++first1, ++first2) {
-      <span class="org-keyword">if</span> (<span class="org-negation-char">!</span>(*first1 == *first2)) {
-        <span class="org-keyword">return</span> <span class="org-constant">false</span>;
+<pre class="src src-c++">  template &lt;class InputIt1, class InputIt2&gt;
+  bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2) {
+    for (; first1 != last1; ++first1, ++first2) {
+      if (!(*first1 == *first2)) {
+        return false;
       }
     }
-    <span class="org-keyword">return</span> <span class="org-constant">true</span>;
+    return true;
   }
-  <span class="org-type">bool</span> <span class="org-function-name">equal</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">BinaryPredicate</span> <span class="org-variable-name">p</span>);
+  bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPredicate p);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3901eb0" class="outline-3">
-<h3 id="org3901eb0"><span class="section-number-3">2.6.</span> find, find_if, find_if_not</h3>
+<div id="outline-container-org0f7b3cf" class="outline-3">
+<h3 id="org0f7b3cf"><span class="section-number-3">2.6.</span> find, find_if, find_if_not</h3>
 <div class="outline-text-3" id="text-2-6">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
-  <span class="org-type">InputIt</span> <span class="org-function-name">find</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>) {
-    <span class="org-keyword">for</span> (; first != last; ++first) {
-      <span class="org-keyword">if</span> (*first == value) {
-        <span class="org-keyword">return</span> first;
+<pre class="src src-c++">  template &lt;class InputIt, class T&gt;
+  InputIt find(InputIt first, InputIt last, const T &amp;value) {
+    for (; first != last; ++first) {
+      if (*first == value) {
+        return first;
       }
     }
-    <span class="org-keyword">return</span> last;
+    return last;
   }
-  <span class="org-type">InputIt</span> <span class="org-function-name">find_if</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
-  <span class="org-type">InputIt</span> <span class="org-function-name">find_if_not</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">q</span>);
+  InputIt find_if(InputIt first, InputIt last, UnaryPredicate p);
+  InputIt find_if_not(InputIt first, InputIt last, UnaryPredicate q);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgaba156b" class="outline-3">
-<h3 id="orgaba156b"><span class="section-number-3">2.7.</span> find_end</h3>
+<div id="outline-container-orgc2616a8" class="outline-3">
+<h3 id="orgc2616a8"><span class="section-number-3">2.7.</span> find_end</h3>
 <div class="outline-text-3" id="text-2-7">
 <p>
 find last range using <code>std::search</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">v</span>{<span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>};
-  <span class="org-constant">std</span>::<span class="org-constant">vector</span>&lt;<span class="org-type">int</span>&gt;::<span class="org-type">iterator</span> <span class="org-variable-name">result</span>;
-  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">t1</span>{<span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>};
-  result = <span class="org-constant">std</span>::find_end(v.begin(), v.end(), t1.begin(), t1.end());
-  <span class="org-comment-delimiter">// </span><span class="org-comment">std::distance(v.begin(), result) == 8</span>
+<pre class="src src-c++">  std::vector&lt;int&gt; v{1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4};
+  std::vector&lt;int&gt;::iterator result;
+  std::vector&lt;int&gt; t1{1, 2, 3};
+  result = std::find_end(v.begin(), v.end(), t1.begin(), t1.end());
+  // std::distance(v.begin(), result) == 8
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7295455" class="outline-3">
-<h3 id="org7295455"><span class="section-number-3">2.8.</span> find_first_of</h3>
+<div id="outline-container-org4b169be" class="outline-3">
+<h3 id="org4b169be"><span class="section-number-3">2.8.</span> find_first_of</h3>
 <div class="outline-text-3" id="text-2-8">
 <p>
 find first one of &#x2026;
 </p>
 <div class="org-src-container">
 <pre class="src src-c++">
-  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">v</span>{<span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">25</span>, <span class="org-highlight-numbers-number">5</span>};
-  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">t</span>{<span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">19</span>, <span class="org-highlight-numbers-number">10</span>, <span class="org-highlight-numbers-number">2</span>};
-  <span class="org-keyword">auto</span> <span class="org-variable-name">result</span> = <span class="org-constant">std</span>::find_first_of(v.begin(), v.end(), t.begin(), t.end());
-  <span class="org-comment-delimiter">// </span><span class="org-comment">*result == 2</span>
+  std::vector&lt;int&gt; v{0, 2, 3, 25, 5};
+  std::vector&lt;int&gt; t{3, 19, 10, 2};
+  auto result = std::find_first_of(v.begin(), v.end(), t.begin(), t.end());
+  // *result == 2
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgea4b39f" class="outline-3">
-<h3 id="orgea4b39f"><span class="section-number-3">2.9.</span> adjacent_find</h3>
+<div id="outline-container-orgf7403c5" class="outline-3">
+<h3 id="orgf7403c5"><span class="section-number-3">2.9.</span> adjacent_find</h3>
 <div class="outline-text-3" id="text-2-9">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>&gt;
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">adjacent_find</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>);
-  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">BinaryPredicate</span>&gt;
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">adjacent_find</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">BinaryPredicate</span> <span class="org-variable-name">p</span>);
+<pre class="src src-c++">  template &lt;class ForwardIt&gt;
+  ForwardIt adjacent_find(ForwardIt first, ForwardIt last);
+  template &lt;class ForwardIt, class BinaryPredicate&gt;
+  ForwardIt adjacent_find(ForwardIt first, ForwardIt last, BinaryPredicate p);
 
-  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">v1</span>{<span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">40</span>, <span class="org-highlight-numbers-number">40</span>, <span class="org-highlight-numbers-number">41</span>, <span class="org-highlight-numbers-number">41</span>, <span class="org-highlight-numbers-number">5</span>};
-  <span class="org-keyword">auto</span> <span class="org-variable-name">i1</span> = <span class="org-constant">std</span>::adjacent_find(v1.begin(), v1.end());
-  <span class="org-comment-delimiter">// </span><span class="org-comment">std::distance(v1.begin(), i1) == 4</span>
-  <span class="org-keyword">auto</span> <span class="org-variable-name">i2</span> = <span class="org-constant">std</span>::adjacent_find(v1.begin(), v1.end(), <span class="org-constant">std</span>::greater&lt;<span class="org-type">int</span>&gt;());
-  <span class="org-comment-delimiter">// </span><span class="org-comment">std::distance(v1.begin(), i2) == 7</span>
+  std::vector&lt;int&gt; v1{0, 1, 2, 3, 40, 40, 41, 41, 5};
+  auto i1 = std::adjacent_find(v1.begin(), v1.end());
+  // std::distance(v1.begin(), i1) == 4
+  auto i2 = std::adjacent_find(v1.begin(), v1.end(), std::greater&lt;int&gt;());
+  // std::distance(v1.begin(), i2) == 7
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0e36056" class="outline-3">
-<h3 id="org0e36056"><span class="section-number-3">2.10.</span> search, search_n</h3>
+<div id="outline-container-org3a0f448" class="outline-3">
+<h3 id="org3a0f448"><span class="section-number-3">2.10.</span> search, search_n</h3>
 <div class="outline-text-3" id="text-2-10">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-constant">std</span>::<span class="org-type">string</span> <span class="org-variable-name">cont</span> = <span class="org-string">"why waste time learning, when ignorance is instantaneous?"</span>;
-  <span class="org-constant">std</span>::<span class="org-type">string</span> <span class="org-variable-name">s</span> = <span class="org-string">"learning"</span>;
-  <span class="org-constant">std</span>::search(cont.begin(), cont.end(), s.begin(), s.end()) != cont.end();
+<pre class="src src-c++">  std::string cont = "why waste time learning, when ignorance is instantaneous?";
+  std::string s = "learning";
+  std::search(cont.begin(), cont.end(), s.begin(), s.end()) != cont.end();
 </pre>
 </div>
 <p>
@@ -261,112 +445,112 @@ find first one of &#x2026;
 </div>
 </div>
 </div>
-<div id="outline-container-org47975e4" class="outline-2">
-<h2 id="org47975e4"><span class="section-number-2">3.</span> Modifying sequence operations</h2>
+<div id="outline-container-org9a083aa" class="outline-2">
+<h2 id="org9a083aa"><span class="section-number-2">3.</span> Modifying sequence operations</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org8ce8b36" class="outline-3">
-<h3 id="org8ce8b36"><span class="section-number-3">3.1.</span> copy, copy_if</h3>
+<div id="outline-container-orgdef7f50" class="outline-3">
+<h3 id="orgdef7f50"><span class="section-number-3">3.1.</span> copy, copy_if</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Copy [first, last) into [d_first, &#x2026;)
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>&gt;
-  <span class="org-type">OutputIt</span> <span class="org-function-name">copy</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>) {
-    <span class="org-keyword">while</span> (first != last) {
+<pre class="src src-c++">  template &lt;class InputIt, class OutputIt&gt;
+  OutputIt copy(InputIt first, InputIt last, OutputIt d_first) {
+    while (first != last) {
       *d_first++ = *first++;
     }
-    <span class="org-keyword">return</span> d_first;
+    return d_first;
   }
-  <span class="org-type">OutputIt</span> <span class="org-function-name">copy_if</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>,
-                   <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">pred</span>);
+  OutputIt copy_if(InputIt first, InputIt last, OutputIt d_first,
+                   UnaryPredicate pred);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga302960" class="outline-3">
-<h3 id="orga302960"><span class="section-number-3">3.2.</span> copy_n</h3>
+<div id="outline-container-orgfeb6006" class="outline-3">
+<h3 id="orgfeb6006"><span class="section-number-3">3.2.</span> copy_n</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 copy n elements start from <code>first</code> to <code>result</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">Size</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>&gt;
-  <span class="org-type">OutputIt</span> <span class="org-function-name">copy_n</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">Size</span> <span class="org-variable-name">count</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">result</span>) {
-    <span class="org-keyword">if</span> (count &gt; <span class="org-highlight-numbers-number">0</span>) {
+<pre class="src src-c++">  template &lt;class InputIt, class Size, class OutputIt&gt;
+  OutputIt copy_n(InputIt first, Size count, OutputIt result) {
+    if (count &gt; 0) {
       *result++ = *first;
-      <span class="org-keyword">for</span> (<span class="org-type">Size</span> <span class="org-variable-name">i</span> = <span class="org-highlight-numbers-number">1</span>; i &lt; count; ++i) {
+      for (Size i = 1; i &lt; count; ++i) {
         *result++ = *++first;
       }
     }
-    <span class="org-keyword">return</span> result;
+    return result;
   }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9455fac" class="outline-3">
-<h3 id="org9455fac"><span class="section-number-3">3.3.</span> copy_backward</h3>
+<div id="outline-container-orga89b8fc" class="outline-3">
+<h3 id="orga89b8fc"><span class="section-number-3">3.3.</span> copy_backward</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Copy (last, first] into (&#x2026;, d_first]
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">BidirIt1</span>, <span class="org-keyword">class</span> <span class="org-type">BidirIt2</span>&gt;
-  <span class="org-type">BidirIt2</span> <span class="org-function-name">copy_backward</span>(<span class="org-type">BidirIt1</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt1</span> <span class="org-variable-name">last</span>, <span class="org-type">BidirIt2</span> <span class="org-variable-name">d_last</span>) {
-    <span class="org-keyword">while</span> (first != last) {
+<pre class="src src-c++">  template &lt;class BidirIt1, class BidirIt2&gt;
+  BidirIt2 copy_backward(BidirIt1 first, BidirIt1 last, BidirIt2 d_last) {
+    while (first != last) {
       *(--d_last) = *(--last);
     }
-    <span class="org-keyword">return</span> d_last;
+    return d_last;
   }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org617d37f" class="outline-3">
-<h3 id="org617d37f"><span class="section-number-3">3.4.</span> move</h3>
+<div id="outline-container-orge374ca5" class="outline-3">
+<h3 id="orge374ca5"><span class="section-number-3">3.4.</span> move</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 batch <code>move</code>, not really delete those in [first, last)
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>&gt;
-  <span class="org-type">OutputIt</span> <span class="org-function-name">move</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>) {
-    <span class="org-keyword">while</span> (first != last) {
-      *d_first++ = <span class="org-constant">std</span>::move(*first++);
+<pre class="src src-c++">  template &lt;class InputIt, class OutputIt&gt;
+  OutputIt move(InputIt first, InputIt last, OutputIt d_first) {
+    while (first != last) {
+      *d_first++ = std::move(*first++);
     }
-    <span class="org-keyword">return</span> d_first;
+    return d_first;
   }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc8e5f59" class="outline-3">
-<h3 id="orgc8e5f59"><span class="section-number-3">3.5.</span> move_backward</h3>
+<div id="outline-container-orga9d1b9b" class="outline-3">
+<h3 id="orga9d1b9b"><span class="section-number-3">3.5.</span> move_backward</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 same as <code>copy_backward</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org39178fe" class="outline-3">
-<h3 id="org39178fe"><span class="section-number-3">3.6.</span> fill, fill_n</h3>
+<div id="outline-container-org038b334" class="outline-3">
+<h3 id="org038b334"><span class="section-number-3">3.6.</span> fill, fill_n</h3>
 <div class="outline-text-3" id="text-3-6">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
-  <span class="org-type">void</span> <span class="org-function-name">fill</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>) {
-    <span class="org-keyword">for</span> (; first != last; ++first) {
+<pre class="src src-c++">  template &lt;class ForwardIt, class T&gt;
+  void fill(ForwardIt first, ForwardIt last, const T &amp;value) {
+    for (; first != last; ++first) {
       *first = value;
     }
   }
-  <span class="org-type">OutputIt</span> <span class="org-function-name">fill_n</span>(<span class="org-type">OutputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">Size</span> <span class="org-variable-name">count</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>);
+  OutputIt fill_n(OutputIt first, Size count, const T &amp;value);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org262c3f4" class="outline-3">
-<h3 id="org262c3f4"><span class="section-number-3">3.7.</span> transform</h3>
+<div id="outline-container-org85b42ba" class="outline-3">
+<h3 id="org85b42ba"><span class="section-number-3">3.7.</span> transform</h3>
 <div class="outline-text-3" id="text-3-7">
 <p>
 applies a function to a range of elements
@@ -374,41 +558,41 @@ applies a function to a range of elements
 <div class="org-src-container">
 <pre class="src src-c++">
 
-  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">InputIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryOperation</span>&gt;
-  <span class="org-type">OutputIt</span> <span class="org-function-name">transform</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last1</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>,
-                     <span class="org-type">UnaryOperation</span> <span class="org-variable-name">unary_op</span>) {
-    <span class="org-keyword">while</span> (first1 != last1) {
+  template &lt;class InputIt, class OutputIt, class UnaryOperation&gt;
+  OutputIt transform(InputIt first1, InputIt last1, OutputIt d_first,
+                     UnaryOperation unary_op) {
+    while (first1 != last1) {
       *d_first++ = unary_op(*first1++);
     }
-    <span class="org-keyword">return</span> d_first;
+    return d_first;
   }
-  <span class="org-type">OutputIt</span> <span class="org-function-name">transform</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>,
-                     <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>, <span class="org-type">BinaryOperation</span> <span class="org-variable-name">binary_op</span>);
+  OutputIt transform(InputIt1 first1, InputIt1 last1, InputIt2 first2,
+                     OutputIt d_first, BinaryOperation binary_op);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org6041361" class="outline-3">
-<h3 id="org6041361"><span class="section-number-3">3.8.</span> generate, generate_n</h3>
+<div id="outline-container-org01e4bb8" class="outline-3">
+<h3 id="org01e4bb8"><span class="section-number-3">3.8.</span> generate, generate_n</h3>
 <div class="outline-text-3" id="text-3-8">
 <p>
 saves the result of a function in a range
 saves the result of N applications of a function
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">Generator</span>&gt;
-  <span class="org-type">void</span> <span class="org-function-name">generate</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">Generator</span> <span class="org-variable-name">g</span>) {
-    <span class="org-keyword">while</span> (first != last) {
+<pre class="src src-c++">  template &lt;class ForwardIt, class Generator&gt;
+  void generate(ForwardIt first, ForwardIt last, Generator g) {
+    while (first != last) {
       *first++ = g();
     }
   }
-  <span class="org-type">OutputIt</span> <span class="org-function-name">generate_n</span>(<span class="org-type">OutputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">Size</span> <span class="org-variable-name">count</span>, <span class="org-type">Generator</span> <span class="org-variable-name">g</span>);
+  OutputIt generate_n(OutputIt first, Size count, Generator g);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd18dc9a" class="outline-3">
-<h3 id="orgd18dc9a"><span class="section-number-3">3.9.</span> remove, remove_if</h3>
+<div id="outline-container-orgb55ddc0" class="outline-3">
+<h3 id="orgb55ddc0"><span class="section-number-3">3.9.</span> remove, remove_if</h3>
 <div class="outline-text-3" id="text-3-9">
 <p>
 Removes all elements satisfying specific criteria from the range [first, last).
@@ -416,304 +600,304 @@ Returns a past-the-end iterator for the new end of the range.
 Done by <b>shifting</b>.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">remove</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>) {
-    first = <span class="org-constant">std</span>::find(first, last, value);
-    <span class="org-keyword">if</span> (first != last)
-      <span class="org-keyword">for</span> (<span class="org-type">ForwardIt</span> <span class="org-variable-name">i</span> = first; ++i != last;)
-        <span class="org-keyword">if</span> (<span class="org-negation-char">!</span>(*i == value))
-          *first++ = <span class="org-constant">std</span>::move(*i);
-    <span class="org-keyword">return</span> first;
+<pre class="src src-c++">  template &lt;class ForwardIt, class T&gt;
+  ForwardIt remove(ForwardIt first, ForwardIt last, const T &amp;value) {
+    first = std::find(first, last, value);
+    if (first != last)
+      for (ForwardIt i = first; ++i != last;)
+        if (!(*i == value))
+          *first++ = std::move(*i);
+    return first;
   }
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">remove_if</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
+  ForwardIt remove_if(ForwardIt first, ForwardIt last, UnaryPredicate p);
 
-  <span class="org-constant">std</span>::<span class="org-type">string</span> <span class="org-variable-name">str1</span> = <span class="org-string">"Text with some   spaces"</span>;
-  str1.erase(<span class="org-constant">std</span>::remove(str1.begin(), str1.end(), <span class="org-string">' '</span>), str1.end());
+  std::string str1 = "Text with some   spaces";
+  str1.erase(std::remove(str1.begin(), str1.end(), ' '), str1.end());
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9821a0c" class="outline-3">
-<h3 id="org9821a0c"><span class="section-number-3">3.10.</span> remove_copy, remove_copy_if</h3>
+<div id="outline-container-orgb793090" class="outline-3">
+<h3 id="orgb793090"><span class="section-number-3">3.10.</span> remove_copy, remove_copy_if</h3>
 <div class="outline-text-3" id="text-3-10">
 <p>
 copy and omit some
 </p>
 </div>
 </div>
-<div id="outline-container-orga356aa4" class="outline-3">
-<h3 id="orga356aa4"><span class="section-number-3">3.11.</span> replace, replace_if</h3>
+<div id="outline-container-orgfde6a78" class="outline-3">
+<h3 id="orgfde6a78"><span class="section-number-3">3.11.</span> replace, replace_if</h3>
 <div class="outline-text-3" id="text-3-11">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>, <span class="org-keyword">class</span> <span class="org-type">T</span>&gt;
-  <span class="org-type">void</span> <span class="org-function-name">replace</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">old_value</span>,
-               <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">new_value</span>) {
-    <span class="org-keyword">for</span> (; first != last; ++first) {
-      <span class="org-keyword">if</span> (*first == old_value) {
+<pre class="src src-c++">  template &lt;class ForwardIt, class T&gt;
+  void replace(ForwardIt first, ForwardIt last, const T &amp;old_value,
+               const T &amp;new_value) {
+    for (; first != last; ++first) {
+      if (*first == old_value) {
         *first = new_value;
       }
     }
   }
-  <span class="org-type">void</span> <span class="org-function-name">replace_if</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>,
-                  <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">new_value</span>);
+  void replace_if(ForwardIt first, ForwardIt last, UnaryPredicate p,
+                  const T &amp;new_value);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5ac5e19" class="outline-3">
-<h3 id="org5ac5e19"><span class="section-number-3">3.12.</span> replace_copy, replace_copy_if</h3>
+<div id="outline-container-orga2456b3" class="outline-3">
+<h3 id="orga2456b3"><span class="section-number-3">3.12.</span> replace_copy, replace_copy_if</h3>
 <div class="outline-text-3" id="text-3-12">
 <p>
 copy and replace some
 </p>
 </div>
 </div>
-<div id="outline-container-org6141ae5" class="outline-3">
-<h3 id="org6141ae5"><span class="section-number-3">3.13.</span> swap, swap_ranges, iter_swap</h3>
+<div id="outline-container-orgdb24b1d" class="outline-3">
+<h3 id="orgdb24b1d"><span class="section-number-3">3.13.</span> swap, swap_ranges, iter_swap</h3>
 <div class="outline-text-3" id="text-3-13">
 <p>
 Swaps value / <b>container</b> a and b.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">int</span> <span class="org-variable-name">a</span> = <span class="org-highlight-numbers-number">5</span>, <span class="org-variable-name">b</span> = <span class="org-highlight-numbers-number">3</span>;
-  <span class="org-constant">std</span>::swap(a, b);
+<pre class="src src-c++">  int a = 5, b = 3;
+  std::swap(a, b);
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt1</span>, <span class="org-keyword">class</span> <span class="org-type">ForwardIt2</span>&gt;
-  <span class="org-type">void</span> <span class="org-function-name">iter_swap</span>(<span class="org-type">ForwardIt1</span> <span class="org-variable-name">a</span>, <span class="org-type">ForwardIt2</span> <span class="org-variable-name">b</span>) {
-    <span class="org-keyword">using</span> <span class="org-constant">std</span>::<span class="org-constant">swap</span>;
+<pre class="src src-c++">  template &lt;class ForwardIt1, class ForwardIt2&gt;
+  void iter_swap(ForwardIt1 a, ForwardIt2 b) {
+    using std::swap;
     swap(*a, *b);
   }
-  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt1</span>, <span class="org-keyword">class</span> <span class="org-type">ForwardIt2</span>&gt;
-  <span class="org-type">ForwardIt2</span> <span class="org-function-name">swap_ranges</span>(<span class="org-type">ForwardIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">ForwardIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">ForwardIt2</span> <span class="org-variable-name">first2</span>) {
-    <span class="org-keyword">while</span> (first1 != last1) {
-      <span class="org-constant">std</span>::iter_swap(first1++, first2++);
+  template &lt;class ForwardIt1, class ForwardIt2&gt;
+  ForwardIt2 swap_ranges(ForwardIt1 first1, ForwardIt1 last1, ForwardIt2 first2) {
+    while (first1 != last1) {
+      std::iter_swap(first1++, first2++);
     }
-    <span class="org-keyword">return</span> first2;
+    return first2;
   }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org659fb98" class="outline-3">
-<h3 id="org659fb98"><span class="section-number-3">3.14.</span> reverse, reverse_copy</h3>
+<div id="outline-container-org444508a" class="outline-3">
+<h3 id="org444508a"><span class="section-number-3">3.14.</span> reverse, reverse_copy</h3>
 <div class="outline-text-3" id="text-3-14">
 <p>
 just use <b>swap</b> on bidirectional iterators
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">BidirIt</span>&gt; <span class="org-type">void</span> <span class="org-function-name">reverse</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>) {
-    <span class="org-keyword">while</span> ((first != last) &amp;&amp; (first != --last)) {
-      <span class="org-constant">std</span>::iter_swap(first++, last);
+<pre class="src src-c++">  template &lt;class BidirIt&gt; void reverse(BidirIt first, BidirIt last) {
+    while ((first != last) &amp;&amp; (first != --last)) {
+      std::iter_swap(first++, last);
     }
   }
-  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">BidirIt</span>, <span class="org-keyword">class</span> <span class="org-type">OutputIt</span>&gt;
-  <span class="org-type">OutputIt</span> <span class="org-function-name">reverse_copy</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>) {
-    <span class="org-keyword">while</span> (first != last) {
+  template &lt;class BidirIt, class OutputIt&gt;
+  OutputIt reverse_copy(BidirIt first, BidirIt last, OutputIt d_first) {
+    while (first != last) {
       *(d_first++) = *(--last);
     }
-    <span class="org-keyword">return</span> d_first;
+    return d_first;
   }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org1ec74df" class="outline-3">
-<h3 id="org1ec74df"><span class="section-number-3">3.15.</span> rotate, rotate_copy</h3>
+<div id="outline-container-org9620c4a" class="outline-3">
+<h3 id="org9620c4a"><span class="section-number-3">3.15.</span> rotate, rotate_copy</h3>
 <div class="outline-text-3" id="text-3-15">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>&gt;
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">rotate</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">n_first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>) {
-    <span class="org-type">ForwardIt</span> <span class="org-variable-name">next</span> = n_first;
-    <span class="org-keyword">while</span> (first != next) {
-      <span class="org-constant">std</span>::iter_swap(first++, next++);
-      <span class="org-keyword">if</span> (next == last) {
+<pre class="src src-c++">  template &lt;class ForwardIt&gt;
+  ForwardIt rotate(ForwardIt first, ForwardIt n_first, ForwardIt last) {
+    ForwardIt next = n_first;
+    while (first != next) {
+      std::iter_swap(first++, next++);
+      if (next == last) {
         next = n_first;
-      } <span class="org-keyword">else</span> <span class="org-keyword">if</span> (first == n_first) {
+      } else if (first == n_first) {
         n_first = next;
       }
     }
-    <span class="org-keyword">return</span> next;
+    return next;
   }
 
-  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">v</span>{<span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">10</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">1</span>};
-  <span class="org-comment-delimiter">// </span><span class="org-comment">simple rotation to the left</span>
-  <span class="org-constant">std</span>::rotate(v.begin(), v.begin() + <span class="org-highlight-numbers-number">1</span>, v.end());
-  <span class="org-comment-delimiter">// </span><span class="org-comment">simple rotation to the right</span>
-  <span class="org-constant">std</span>::rotate(v.rbegin(), v.rbegin() + <span class="org-highlight-numbers-number">1</span>, v.rend());
-  <span class="org-comment-delimiter">// </span><span class="org-comment">insertion sort</span>
-  <span class="org-keyword">for</span> (<span class="org-keyword">auto</span> <span class="org-variable-name">i</span> = v.begin(); i != v.end(); ++i) {
-    <span class="org-constant">std</span>::rotate(<span class="org-constant">std</span>::upper_bound(v.begin(), i, *i), i, i + <span class="org-highlight-numbers-number">1</span>);
+  std::vector&lt;int&gt; v{2, 4, 2, 0, 5, 10, 7, 3, 7, 1};
+  // simple rotation to the left
+  std::rotate(v.begin(), v.begin() + 1, v.end());
+  // simple rotation to the right
+  std::rotate(v.rbegin(), v.rbegin() + 1, v.rend());
+  // insertion sort
+  for (auto i = v.begin(); i != v.end(); ++i) {
+    std::rotate(std::upper_bound(v.begin(), i, *i), i, i + 1);
   }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org76f3469" class="outline-3">
-<h3 id="org76f3469"><span class="section-number-3">3.16.</span> random_shuffle, shuffle</h3>
+<div id="outline-container-orgfa94991" class="outline-3">
+<h3 id="orgfa94991"><span class="section-number-3">3.16.</span> random_shuffle, shuffle</h3>
 <div class="outline-text-3" id="text-3-16">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">RandomIt</span>&gt; <span class="org-type">void</span> <span class="org-function-name">random_shuffle</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>) {
-    <span class="org-keyword">typename</span> <span class="org-constant">std</span>::<span class="org-constant">iterator_traits</span>&lt;<span class="org-type">RandomIt</span>&gt;::<span class="org-type">difference_type</span> <span class="org-variable-name">i</span>, <span class="org-variable-name">n</span>;
+<pre class="src src-c++">  template &lt;class RandomIt&gt; void random_shuffle(RandomIt first, RandomIt last) {
+    typename std::iterator_traits&lt;RandomIt&gt;::difference_type i, n;
     n = last - first;
-    <span class="org-keyword">for</span> (i = n - <span class="org-highlight-numbers-number">1</span>; i &gt; <span class="org-highlight-numbers-number">0</span>; --i) {
-      <span class="org-keyword">using</span> <span class="org-constant">std</span>::<span class="org-constant">swap</span>;
-      swap(first[i], first[<span class="org-constant">std</span>::rand() % (i + <span class="org-highlight-numbers-number">1</span>)]);
+    for (i = n - 1; i &gt; 0; --i) {
+      using std::swap;
+      swap(first[i], first[std::rand() % (i + 1)]);
     }
   }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org82b4bec" class="outline-3">
-<h3 id="org82b4bec"><span class="section-number-3">3.17.</span> unique, unique_copy</h3>
+<div id="outline-container-org28f8c78" class="outline-3">
+<h3 id="org28f8c78"><span class="section-number-3">3.17.</span> unique, unique_copy</h3>
 <div class="outline-text-3" id="text-3-17">
 <p>
 Removes all <b>consecutive duplicate elements</b> from the range [first, last).
 Returns a past-the-end iterator for the new logical end of the range.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">ForwardIt</span>&gt; <span class="org-type">ForwardIt</span> <span class="org-function-name">unique</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>) {
-    <span class="org-keyword">if</span> (first == last)
-      <span class="org-keyword">return</span> last;
-    <span class="org-type">ForwardIt</span> <span class="org-variable-name">result</span> = first;
-    <span class="org-keyword">while</span> (++first != last) {
-      <span class="org-keyword">if</span> (<span class="org-negation-char">!</span>(*result == *first) &amp;&amp; ++result != first) {
-        *result = <span class="org-constant">std</span>::move(*first);
+<pre class="src src-c++">  template &lt;class ForwardIt&gt; ForwardIt unique(ForwardIt first, ForwardIt last) {
+    if (first == last)
+      return last;
+    ForwardIt result = first;
+    while (++first != last) {
+      if (!(*result == *first) &amp;&amp; ++result != first) {
+        *result = std::move(*first);
       }
     }
-    <span class="org-keyword">return</span> ++result;
+    return ++result;
   }
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf74d587" class="outline-2">
-<h2 id="orgf74d587"><span class="section-number-2">4.</span> Partitioning operations</h2>
+<div id="outline-container-org2f48d02" class="outline-2">
+<h2 id="org2f48d02"><span class="section-number-2">4.</span> Partitioning operations</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">template</span> &lt;<span class="org-keyword">class</span> <span class="org-type">BidirIt</span>, <span class="org-keyword">class</span> <span class="org-type">UnaryPredicate</span>&gt;
-  <span class="org-type">BidirIt</span> <span class="org-function-name">partition</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>) {
-    <span class="org-keyword">while</span> (<span class="org-highlight-numbers-number">1</span>) {
-      <span class="org-keyword">while</span> ((first != last) &amp;&amp; p(*first)) {
+<pre class="src src-c++">  template &lt;class BidirIt, class UnaryPredicate&gt;
+  BidirIt partition(BidirIt first, BidirIt last, UnaryPredicate p) {
+    while (1) {
+      while ((first != last) &amp;&amp; p(*first)) {
         ++first;
       }
-      <span class="org-keyword">if</span> (first == last--)
-        <span class="org-keyword">break</span>;
-      <span class="org-keyword">while</span> ((first != last) &amp;&amp; <span class="org-negation-char">!</span>p(*last)) {
+      if (first == last--)
+        break;
+      while ((first != last) &amp;&amp; !p(*last)) {
         --last;
       }
-      <span class="org-keyword">if</span> (first == last)
-        <span class="org-keyword">break</span>;
-      <span class="org-constant">std</span>::iter_swap(first++, last);
+      if (first == last)
+        break;
+      std::iter_swap(first++, last);
     }
-    <span class="org-keyword">return</span> first;
+    return first;
   }
-  <span class="org-type">bool</span> <span class="org-function-name">is_partitioned</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
-  <span class="org-type">BidirIt</span> <span class="org-function-name">stable_partition</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">partition_point</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-type">UnaryPredicate</span> <span class="org-variable-name">p</span>);
+  bool is_partitioned(InputIt first, InputIt last, UnaryPredicate p);
+  BidirIt stable_partition(BidirIt first, BidirIt last, UnaryPredicate p);
+  ForwardIt partition_point(ForwardIt first, ForwardIt last, UnaryPredicate p);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8504613" class="outline-2">
-<h2 id="org8504613"><span class="section-number-2">5.</span> Sorting operations</h2>
+<div id="outline-container-org97d4b10" class="outline-2">
+<h2 id="org97d4b10"><span class="section-number-2">5.</span> Sorting operations</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-c++">
-  <span class="org-comment-delimiter">// </span><span class="org-comment">reverse sort</span>
-  <span class="org-constant">std</span>::sort(s.begin(), s.end(), <span class="org-constant">std</span>::greater&lt;<span class="org-type">int</span>&gt;());
-  <span class="org-constant">std</span>::sort(s.begin(), s.end(), [](<span class="org-type">int</span> <span class="org-variable-name">a</span>, <span class="org-type">int</span> <span class="org-variable-name">b</span>) { <span class="org-keyword">return</span> b &lt; a; });
-  <span class="org-comment-delimiter">// </span><span class="org-comment">partial sort</span>
-  <span class="org-constant">std</span>::<span class="org-type">array</span>&lt;<span class="org-type">int</span>, <span class="org-highlight-numbers-number">10</span>&gt; <span class="org-variable-name">s</span>{<span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">8</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">9</span>, <span class="org-highlight-numbers-number">0</span>, <span class="org-highlight-numbers-number">3</span>};
-  <span class="org-constant">std</span>::partial_sort(s.begin(), s.begin() + <span class="org-highlight-numbers-number">3</span>, s.end());
-  <span class="org-comment-delimiter">// </span><span class="org-comment">n-th element</span>
-  <span class="org-constant">std</span>::<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">v</span>{<span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">9</span>, <span class="org-highlight-numbers-number">3</span>};
-  <span class="org-constant">std</span>::nth_element(v.begin(), v.begin() + v.size() / <span class="org-highlight-numbers-number">2</span>, v.end());
-  <span class="org-comment-delimiter">// </span><span class="org-comment">others</span>
-  <span class="org-type">bool</span> <span class="org-function-name">is_sorted</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>);
-  <span class="org-type">void</span> <span class="org-function-name">stable_sort</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
+  // reverse sort
+  std::sort(s.begin(), s.end(), std::greater&lt;int&gt;());
+  std::sort(s.begin(), s.end(), [](int a, int b) { return b &lt; a; });
+  // partial sort
+  std::array&lt;int, 10&gt; s{5, 7, 4, 2, 8, 6, 1, 9, 0, 3};
+  std::partial_sort(s.begin(), s.begin() + 3, s.end());
+  // n-th element
+  std::vector&lt;int&gt; v{5, 6, 4, 3, 2, 6, 7, 9, 3};
+  std::nth_element(v.begin(), v.begin() + v.size() / 2, v.end());
+  // others
+  bool is_sorted(ForwardIt first, ForwardIt last);
+  void stable_sort(RandomIt first, RandomIt last);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8c76b93" class="outline-2">
-<h2 id="org8c76b93"><span class="section-number-2">6.</span> Binary search operations (on sorted ranges)</h2>
+<div id="outline-container-orge8f2155" class="outline-2">
+<h2 id="orge8f2155"><span class="section-number-2">6.</span> Binary search operations (on sorted ranges)</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">bool</span> <span class="org-function-name">binary_search</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">the first that is no less than</span>
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">lower_bound</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">the first that is greater than</span>
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">lower_bound</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">value</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">range containing all elements equivalent to value</span>
-  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-type">ForwardIt</span>,<span class="org-type">ForwardIt</span>&gt;
-    <span class="org-function-name">equal_range</span>( <span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>, <span class="org-keyword">const</span> <span class="org-type">T</span>&amp; <span class="org-variable-name">value</span> );
+<pre class="src src-c++">  bool binary_search(ForwardIt first, ForwardIt last, const T &amp;value);
+  // the first that is no less than
+  ForwardIt lower_bound(ForwardIt first, ForwardIt last, const T &amp;value);
+  // the first that is greater than
+  ForwardIt lower_bound(ForwardIt first, ForwardIt last, const T &amp;value);
+  // range containing all elements equivalent to value
+  std::pair&lt;ForwardIt,ForwardIt&gt;
+    equal_range( ForwardIt first, ForwardIt last, const T&amp; value );
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org69aa46e" class="outline-2">
-<h2 id="org69aa46e"><span class="section-number-2">7.</span> Set operations (on sorted ranges)</h2>
+<div id="outline-container-org6251f26" class="outline-2">
+<h2 id="org6251f26"><span class="section-number-2">7.</span> Set operations (on sorted ranges)</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 just copy
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">OutputIt</span> <span class="org-function-name">merge</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                 <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>);
-  <span class="org-type">void</span> <span class="org-function-name">inplace_merge</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">middle</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">if [first1, last1) includes all elms in [first2, last2)</span>
-  <span class="org-type">bool</span> <span class="org-function-name">includes</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">[first1, last1) - [first2, last2)</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">set_difference</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                          <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">[first1, last1) &amp; [first2, last2)</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">set_intersection</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                            <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">in either of the ranges, but not in both of them</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">set_symmetric_difference</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                                    <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>,
-                                    <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">in both, without duplicates</span>
-  <span class="org-type">OutputIt</span> <span class="org-function-name">set_union</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                     <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>, <span class="org-type">OutputIt</span> <span class="org-variable-name">d_first</span>);
+<pre class="src src-c++">  OutputIt merge(InputIt1 first1, InputIt1 last1,
+                 InputIt2 first2, InputIt2 last2, OutputIt d_first);
+  void inplace_merge(BidirIt first, BidirIt middle, BidirIt last);
+  // if [first1, last1) includes all elms in [first2, last2)
+  bool includes(InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2);
+  // [first1, last1) - [first2, last2)
+  OutputIt set_difference(InputIt1 first1, InputIt1 last1,
+                          InputIt2 first2, InputIt2 last2, OutputIt d_first);
+  // [first1, last1) &amp; [first2, last2)
+  OutputIt set_intersection(InputIt1 first1, InputIt1 last1,
+                            InputIt2 first2, InputIt2 last2, OutputIt d_first);
+  // in either of the ranges, but not in both of them
+  OutputIt set_symmetric_difference(InputIt1 first1, InputIt1 last1,
+                                    InputIt2 first2, InputIt2 last2,
+                                    OutputIt d_first);
+  // in both, without duplicates
+  OutputIt set_union(InputIt1 first1, InputIt1 last1,
+                     InputIt2 first2, InputIt2 last2, OutputIt d_first);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgaf7e803" class="outline-2">
-<h2 id="orgaf7e803"><span class="section-number-2">8.</span> Heap operations</h2>
+<div id="outline-container-orgb21b84b" class="outline-2">
+<h2 id="orgb21b84b"><span class="section-number-2">8.</span> Heap operations</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 the default is a max heap
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">bool</span> <span class="org-function-name">is_heap</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
-  <span class="org-type">void</span> <span class="org-function-name">make_heap</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">insert the elem at last-1 into the max heap [first, last-1)</span>
-  <span class="org-type">void</span> <span class="org-function-name">push_heap</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">that elem is at position last-1 now</span>
-  <span class="org-type">void</span> <span class="org-function-name">pop_heap</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">max heap to sorted range</span>
-  <span class="org-type">void</span> <span class="org-function-name">sort_heap</span>(<span class="org-type">RandomIt</span> <span class="org-variable-name">first</span>, <span class="org-type">RandomIt</span> <span class="org-variable-name">last</span>);
+<pre class="src src-c++">  bool is_heap(RandomIt first, RandomIt last);
+  void make_heap(RandomIt first, RandomIt last);
+  // insert the elem at last-1 into the max heap [first, last-1)
+  void push_heap(RandomIt first, RandomIt last);
+  // that elem is at position last-1 now
+  void pop_heap(RandomIt first, RandomIt last);
+  // max heap to sorted range
+  void sort_heap(RandomIt first, RandomIt last);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org057a393" class="outline-2">
-<h2 id="org057a393"><span class="section-number-2">9.</span> Minimum/maximum operations</h2>
+<div id="outline-container-org61ecf35" class="outline-2">
+<h2 id="org61ecf35"><span class="section-number-2">9.</span> Minimum/maximum operations</h2>
 <div class="outline-text-2" id="text-9">
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-function-name">max</span>(<span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">a</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">b</span>);
-  <span class="org-type">T</span> <span class="org-function-name">max</span>(<span class="org-constant">std</span>::<span class="org-type">initializer_list</span>&lt;<span class="org-type">T</span>&gt; <span class="org-variable-name">ilist</span>);
-  <span class="org-type">ForwardIt</span> <span class="org-function-name">max_element</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>);
+<pre class="src src-c++">  const T &amp;max(const T &amp;a, const T &amp;b);
+  T max(std::initializer_list&lt;T&gt; ilist);
+  ForwardIt max_element(ForwardIt first, ForwardIt last);
 
-  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-keyword">const</span> <span class="org-type">T</span> &amp;, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;&gt; <span class="org-function-name">minmax</span>(<span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">a</span>, <span class="org-keyword">const</span> <span class="org-type">T</span> &amp;<span class="org-variable-name">b</span>);
-  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-type">T</span>, <span class="org-type">T</span>&gt; <span class="org-function-name">minmax</span>(<span class="org-constant">std</span>::<span class="org-type">initializer_list</span>&lt;<span class="org-type">T</span>&gt; <span class="org-variable-name">ilist</span>);
-  <span class="org-constant">std</span>::<span class="org-type">pair</span>&lt;<span class="org-type">ForwardIt</span>, <span class="org-type">ForwardIt</span>&gt; <span class="org-function-name">minmax_element</span>(<span class="org-type">ForwardIt</span> <span class="org-variable-name">first</span>, <span class="org-type">ForwardIt</span> <span class="org-variable-name">last</span>);
+  std::pair&lt;const T &amp;, const T &amp;&gt; minmax(const T &amp;a, const T &amp;b);
+  std::pair&lt;T, T&gt; minmax(std::initializer_list&lt;T&gt; ilist);
+  std::pair&lt;ForwardIt, ForwardIt&gt; minmax_element(ForwardIt first, ForwardIt last);
 </pre>
 </div>
 
@@ -721,8 +905,8 @@ the default is a max heap
 string/list compasion
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">bool</span> <span class="org-function-name">lexicographical_compare</span>(<span class="org-type">InputIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">InputIt1</span> <span class="org-variable-name">last1</span>,
-                               <span class="org-type">InputIt2</span> <span class="org-variable-name">first2</span>, <span class="org-type">InputIt2</span> <span class="org-variable-name">last2</span>);
+<pre class="src src-c++">  bool lexicographical_compare(InputIt1 first1, InputIt1 last1,
+                               InputIt2 first2, InputIt2 last2);
 </pre>
 </div>
 
@@ -730,25 +914,25 @@ string/list compasion
 permutation
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-comment-delimiter">// </span><span class="org-comment">if [first1, last1) is a permutation of [first2,last2)</span>
-  <span class="org-type">bool</span> <span class="org-function-name">is_permutation</span>(<span class="org-type">ForwardIt1</span> <span class="org-variable-name">first1</span>, <span class="org-type">ForwardIt1</span> <span class="org-variable-name">last1</span>, <span class="org-type">ForwardIt2</span> <span class="org-variable-name">first2</span>);
+<pre class="src src-c++">  // if [first1, last1) is a permutation of [first2,last2)
+  bool is_permutation(ForwardIt1 first1, ForwardIt1 last1, ForwardIt2 first2);
 
-  <span class="org-type">bool</span> <span class="org-function-name">next_permutation</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>);
-  <span class="org-type">bool</span> <span class="org-function-name">prev_permutation</span>(<span class="org-type">BidirIt</span> <span class="org-variable-name">first</span>, <span class="org-type">BidirIt</span> <span class="org-variable-name">last</span>);
+  bool next_permutation(BidirIt first, BidirIt last);
+  bool prev_permutation(BidirIt first, BidirIt last);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org1d42643" class="outline-2">
-<h2 id="org1d42643"><span class="section-number-2">10.</span> Numeric operations (&lt;numeric&gt;)</h2>
+<div id="outline-container-orgd9b7b2a" class="outline-2">
+<h2 id="orgd9b7b2a"><span class="section-number-2">10.</span> Numeric operations (&lt;numeric&gt;)</h2>
 <div class="outline-text-2" id="text-10">
 <p>
 range()
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-constant">std</span>::<span class="org-type">list</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">l</span>(<span class="org-highlight-numbers-number">10</span>);
-  <span class="org-constant">std</span>::iota(l.begin(), l.end(), -<span class="org-highlight-numbers-number">4</span>);
-  <span class="org-comment-delimiter">// </span><span class="org-comment">-4 -3 -2 -1 0 1 2 3 4 5</span>
+<pre class="src src-c++">  std::list&lt;int&gt; l(10);
+  std::iota(l.begin(), l.end(), -4);
+  // -4 -3 -2 -1 0 1 2 3 4 5
 </pre>
 </div>
 
@@ -756,7 +940,7 @@ range()
 sum()
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">T</span> <span class="org-function-name">accumulate</span>(<span class="org-type">InputIt</span> <span class="org-variable-name">first</span>, <span class="org-type">InputIt</span> <span class="org-variable-name">last</span>, <span class="org-type">T</span> <span class="org-variable-name">init</span>);
+<pre class="src src-c++">  T accumulate(InputIt first, InputIt last, T init);
 </pre>
 </div>
 
@@ -765,8 +949,8 @@ inner_product, adjacent_difference, partial_sum
 </p>
 </div>
 </div>
-<div id="outline-container-orgb4ca3c3" class="outline-2">
-<h2 id="orgb4ca3c3"><span class="section-number-2">11.</span> C library (&lt;cstdlib&gt;)</h2>
+<div id="outline-container-orgf262184" class="outline-2">
+<h2 id="orgf262184"><span class="section-number-2">11.</span> C library (&lt;cstdlib&gt;)</h2>
 <div class="outline-text-2" id="text-11">
 <ol class="org-ol">
 <li>ptr - pointer to the array to sort</li>
@@ -779,35 +963,40 @@ inner_product, adjacent_difference, partial_sum
 </ol>
 
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">void</span> <span class="org-function-name">qsort</span>(<span class="org-type">void</span> *<span class="org-variable-name">ptr</span>, <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">count</span>, <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">size</span>,
-             <span class="org-type">int</span> (*<span class="org-function-name">comp</span>)(<span class="org-keyword">const</span> <span class="org-type">void</span> *, <span class="org-keyword">const</span> <span class="org-type">void</span> *));
+<pre class="src src-c++">  void qsort(void *ptr, std::size_t count, std::size_t size,
+             int (*comp)(const void *, const void *));
 
-  <span class="org-type">int</span> <span class="org-variable-name">a</span>[] = {-<span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">99</span>, <span class="org-highlight-numbers-number">0</span>, -<span class="org-highlight-numbers-number">743</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-constant">INT_MIN</span>, <span class="org-highlight-numbers-number">4</span>};
-  <span class="org-keyword">constexpr</span> <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">size</span> = <span class="org-keyword">sizeof</span> a / <span class="org-keyword">sizeof</span> *a;
+  int a[] = {-2, 99, 0, -743, 2, INT_MIN, 4};
+  constexpr std::size_t size = sizeof a / sizeof *a;
 
-  <span class="org-constant">std</span>::qsort(a, size, <span class="org-keyword">sizeof</span> *a, [](<span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">a</span>, <span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">b</span>) {
-    <span class="org-type">int</span> <span class="org-variable-name">arg1</span> = *<span class="org-keyword">static_cast</span>&lt;<span class="org-keyword">const</span> <span class="org-type">int</span> *&gt;(a);
-    <span class="org-type">int</span> <span class="org-variable-name">arg2</span> = *<span class="org-keyword">static_cast</span>&lt;<span class="org-keyword">const</span> <span class="org-type">int</span> *&gt;(b);
-    <span class="org-keyword">if</span> (arg1 &lt; arg2) <span class="org-keyword">return</span> -<span class="org-highlight-numbers-number">1</span>;
-    <span class="org-keyword">if</span> (arg1 &gt; arg2) <span class="org-keyword">return</span> <span class="org-highlight-numbers-number">1</span>;
-    <span class="org-keyword">return</span> <span class="org-highlight-numbers-number">0</span>;
-    <span class="org-comment-delimiter">// </span><span class="org-comment">return (arg1 &gt; arg2) - (arg1 &lt; arg2); // possible shortcut</span>
-    <span class="org-comment-delimiter">// </span><span class="org-comment">return arg1 - arg2; // erroneous shortcut (fails if INT_MIN is present)</span>
+  std::qsort(a, size, sizeof *a, [](const void *a, const void *b) {
+    int arg1 = *static_cast&lt;const int *&gt;(a);
+    int arg2 = *static_cast&lt;const int *&gt;(b);
+    if (arg1 &lt; arg2) return -1;
+    if (arg1 &gt; arg2) return 1;
+    return 0;
+    // return (arg1 &gt; arg2) - (arg1 &lt; arg2); // possible shortcut
+    // return arg1 - arg2; // erroneous shortcut (fails if INT_MIN is present)
   });
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-c++">  <span class="org-type">void</span> *<span class="org-function-name">bsearch</span>(<span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">key</span>, <span class="org-keyword">const</span> <span class="org-type">void</span> *<span class="org-variable-name">ptr</span>, <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">count</span>,
-                <span class="org-constant">std</span>::<span class="org-type">size_t</span> <span class="org-variable-name">size</span>, <span class="org-type">int</span> (*<span class="org-function-name">comp</span>)(<span class="org-keyword">const</span> <span class="org-type">void</span> *, <span class="org-keyword">const</span> <span class="org-type">void</span> *));
+<pre class="src src-c++">  void *bsearch(const void *key, const void *ptr, std::size_t count,
+                std::size_t size, int (*comp)(const void *, const void *));
 
-  <span class="org-keyword">const</span> <span class="org-type">int</span> <span class="org-variable-name">SIZE</span> = <span class="org-highlight-numbers-number">8</span>; <span class="org-type">int</span> <span class="org-variable-name">key1</span> = <span class="org-highlight-numbers-number">4</span>;
-  <span class="org-type">int</span> <span class="org-variable-name">arr</span>[<span class="org-constant">SIZE</span>] = {<span class="org-highlight-numbers-number">1</span>, <span class="org-highlight-numbers-number">2</span>, <span class="org-highlight-numbers-number">3</span>, <span class="org-highlight-numbers-number">4</span>, <span class="org-highlight-numbers-number">5</span>, <span class="org-highlight-numbers-number">6</span>, <span class="org-highlight-numbers-number">7</span>, <span class="org-highlight-numbers-number">8</span>};
-  <span class="org-type">int</span> *<span class="org-variable-name">p1</span> = (<span class="org-type">int</span> *)<span class="org-constant">std</span>::bsearch(&amp;key1, arr, <span class="org-constant">SIZE</span>, <span class="org-keyword">sizeof</span>(arr[<span class="org-highlight-numbers-number">0</span>]), compare);
+  const int SIZE = 8; int key1 = 4;
+  int arr[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8};
+  int *p1 = (int *)std::bsearch(&amp;key1, arr, SIZE, sizeof(arr[0]), compare);
 </pre>
 </div>
 </div>
 </div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: scturtle</p>
+<p class="date">Created: 2023-06-14 Wed 17:59</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
