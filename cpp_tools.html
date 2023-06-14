@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-06-14 Wed 17:59 -->
+<!-- 2023-06-14 Wed 18:53 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>C++ Tools</title>
@@ -202,29 +202,29 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org57ec3ba">1. Language Server Protocol</a></li>
-<li><a href="#org6c2dd7d">2. C++ Servers</a>
+<li><a href="#orgad243ee">1. Language Server Protocol</a></li>
+<li><a href="#org87dd310">2. C++ Servers</a>
 <ul>
-<li><a href="#org3eab4f8">2.1. ccls</a></li>
-<li><a href="#org285f20f">2.2. clangd</a></li>
+<li><a href="#org9c32996">2.1. ccls</a></li>
+<li><a href="#org9a1ccae">2.2. clangd</a></li>
 </ul>
 </li>
-<li><a href="#orgd62ca93">3. vim(neovim) &amp; clangd &amp; coc.nvim</a>
+<li><a href="#orgf9f13b4">3. vim(neovim) &amp; clangd &amp; coc.nvim</a>
 <ul>
-<li><a href="#org178e9e0">3.1. vim-plug</a></li>
-<li><a href="#org9098a4f">3.2. coc.nvim</a></li>
+<li><a href="#orge7a2252">3.1. vim-plug</a></li>
+<li><a href="#org2394a36">3.2. coc.nvim</a></li>
 </ul>
 </li>
-<li><a href="#org4cc52f3">4. vscode &amp; clangd</a></li>
-<li><a href="#org2d7b5e3">5. clang-format</a></li>
-<li><a href="#org62d3790">6. clang-tidy</a></li>
-<li><a href="#orgb864ad2">7. iwyu</a></li>
+<li><a href="#orgf6f8f96">4. vscode &amp; clangd</a></li>
+<li><a href="#org1a5c39d">5. clang-format</a></li>
+<li><a href="#orgcf4ac0f">6. clang-tidy</a></li>
+<li><a href="#org826cd79">7. iwyu</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org57ec3ba" class="outline-2">
-<h2 id="org57ec3ba"><span class="section-number-2">1.</span> Language Server Protocol</h2>
+<div id="outline-container-orgad243ee" class="outline-2">
+<h2 id="orgad243ee"><span class="section-number-2">1.</span> Language Server Protocol</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <a href="https://langserver.org">https://langserver.org</a>
@@ -232,8 +232,8 @@
 </div>
 </div>
 
-<div id="outline-container-org6c2dd7d" class="outline-2">
-<h2 id="org6c2dd7d"><span class="section-number-2">2.</span> C++ Servers</h2>
+<div id="outline-container-org87dd310" class="outline-2">
+<h2 id="org87dd310"><span class="section-number-2">2.</span> C++ Servers</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 几乎所有 clang 相关的工具都会依赖 <code>compile_commands.json</code>, 最好链接到根目录下:
@@ -244,8 +244,8 @@
 </div>
 </div>
 
-<div id="outline-container-org3eab4f8" class="outline-3">
-<h3 id="org3eab4f8"><span class="section-number-3">2.1.</span> ccls</h3>
+<div id="outline-container-org9c32996" class="outline-3">
+<h3 id="org9c32996"><span class="section-number-3">2.1.</span> ccls</h3>
 <div class="outline-text-3" id="text-2-1">
 <ul class="org-ul">
 <li><a href="https://github.com/MaskRay/ccls">https://github.com/MaskRay/ccls</a></li>
@@ -254,8 +254,8 @@
 </div>
 </div>
 
-<div id="outline-container-org285f20f" class="outline-3">
-<h3 id="org285f20f"><span class="section-number-3">2.2.</span> clangd</h3>
+<div id="outline-container-org9a1ccae" class="outline-3">
+<h3 id="org9a1ccae"><span class="section-number-3">2.2.</span> clangd</h3>
 <div class="outline-text-3" id="text-2-2">
 <ul class="org-ul">
 <li><a href="https://clangd.llvm.org">https://clangd.llvm.org</a></li>
@@ -271,12 +271,12 @@ $ ln -s /usr/bin/clangd-10 ~/.local/bin/clangd
 </div>
 </div>
 
-<div id="outline-container-orgd62ca93" class="outline-2">
-<h2 id="orgd62ca93"><span class="section-number-2">3.</span> vim(neovim) &amp; clangd &amp; coc.nvim</h2>
+<div id="outline-container-orgf9f13b4" class="outline-2">
+<h2 id="orgf9f13b4"><span class="section-number-2">3.</span> vim(neovim) &amp; clangd &amp; coc.nvim</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org178e9e0" class="outline-3">
-<h3 id="org178e9e0"><span class="section-number-3">3.1.</span> vim-plug</h3>
+<div id="outline-container-orge7a2252" class="outline-3">
+<h3 id="orge7a2252"><span class="section-number-3">3.1.</span> vim-plug</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 安装: <a href="https://github.com/junegunn/vim-plug">https://github.com/junegunn/vim-plug</a>
@@ -298,8 +298,8 @@ vim 里使用 <code>:PlugInstall</code> 安装 coc.nvim。安装到 <code>~/.vim
 </div>
 </div>
 
-<div id="outline-container-org9098a4f" class="outline-3">
-<h3 id="org9098a4f"><span class="section-number-3">3.2.</span> coc.nvim</h3>
+<div id="outline-container-org2394a36" class="outline-3">
+<h3 id="org2394a36"><span class="section-number-3">3.2.</span> coc.nvim</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 依赖 vim &gt;= 8.1.1719 或 neovim &gt;= 0.4.0。可能需要添加 <a href="https://launchpad.net/~jonathonf/+archive/ubuntu/vim">PPA 源</a> 或者使用 <a href="https://docs.brew.sh/Homebrew-on-Linux">linuxbrew</a> 提高 vim 版本。
@@ -337,8 +337,8 @@ vim 里使用 <code>:CocInstall coc-clangd</code> 安装 clangd 支持插件。�
 </div>
 </div>
 
-<div id="outline-container-org4cc52f3" class="outline-2">
-<h2 id="org4cc52f3"><span class="section-number-2">4.</span> vscode &amp; clangd</h2>
+<div id="outline-container-orgf6f8f96" class="outline-2">
+<h2 id="orgf6f8f96"><span class="section-number-2">4.</span> vscode &amp; clangd</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 <a href="https://code.visualstudio.com/download">https://code.visualstudio.com/download</a>
@@ -362,8 +362,8 @@ vim 里使用 <code>:CocInstall coc-clangd</code> 安装 clangd 支持插件。�
 </div>
 </div>
 
-<div id="outline-container-org2d7b5e3" class="outline-2">
-<h2 id="org2d7b5e3"><span class="section-number-2">5.</span> clang-format</h2>
+<div id="outline-container-org1a5c39d" class="outline-2">
+<h2 id="org1a5c39d"><span class="section-number-2">5.</span> clang-format</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-plain">$ sudo apt install clang-format-10
@@ -395,16 +395,16 @@ $ ln -s /usr/bin/clang-format-10 ~/.local/bin/clang-format
 代码中可以跳过部分内容的格式化:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">// clang-format off
+<pre class="src src-c++"><span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">clang-format off</span>
 ...code that are formatted manually...
-// clang-format on
+<span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">clang-format on</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org62d3790" class="outline-2">
-<h2 id="org62d3790"><span class="section-number-2">6.</span> clang-tidy</h2>
+<div id="outline-container-orgcf4ac0f" class="outline-2">
+<h2 id="orgcf4ac0f"><span class="section-number-2">6.</span> clang-tidy</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-plain">$ sudo apt install clang-tidy-10
@@ -437,8 +437,8 @@ HeaderFilterRegex: '^include'
 </div>
 </div>
 
-<div id="outline-container-orgb864ad2" class="outline-2">
-<h2 id="orgb864ad2"><span class="section-number-2">7.</span> iwyu</h2>
+<div id="outline-container-org826cd79" class="outline-2">
+<h2 id="org826cd79"><span class="section-number-2">7.</span> iwyu</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 <a href="https://include-what-you-use.org">https://include-what-you-use.org</a>
@@ -475,7 +475,7 @@ $ ln -s $PWD/iwyu_tool.py ~/.local/bin/
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: scturtle</p>
-<p class="date">Created: 2023-06-14 Wed 17:59</p>
+<p class="date">Created: 2023-06-14 Wed 18:53</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

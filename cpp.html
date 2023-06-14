@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-06-14 Wed 17:59 -->
+<!-- 2023-06-14 Wed 18:53 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Note of "A Tour of C++"</title>
@@ -202,46 +202,46 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgb61a0d9">1. The Basics</a></li>
-<li><a href="#orgdf736dd">2. User-Defined Types</a></li>
-<li><a href="#org6751b88">3. Modularity</a></li>
-<li><a href="#orgb397c8d">4. Classes</a>
+<li><a href="#org1b27064">1. The Basics</a></li>
+<li><a href="#orga29411f">2. User-Defined Types</a></li>
+<li><a href="#org3082419">3. Modularity</a></li>
+<li><a href="#orge5f7864">4. Classes</a>
 <ul>
-<li><a href="#org3c9e62a">4.1. Dynamic Casting</a></li>
-<li><a href="#orgf827a50">4.2. Copy and Move</a></li>
-<li><a href="#orgcda26a1">4.3. Essential Operations</a></li>
+<li><a href="#orgfe1d4a6">4.1. Dynamic Casting</a></li>
+<li><a href="#orgb92f08e">4.2. Copy and Move</a></li>
+<li><a href="#org358acfc">4.3. Essential Operations</a></li>
 </ul>
 </li>
-<li><a href="#org59276ab">5. Templates</a></li>
-<li><a href="#orgf02dc4f">6. Library Overview</a></li>
-<li><a href="#orgc8c873e">7. Strings and Regular Expressions</a>
+<li><a href="#org6fd399f">5. Templates</a></li>
+<li><a href="#org1720a7b">6. Library Overview</a></li>
+<li><a href="#org68c6c83">7. Strings and Regular Expressions</a>
 <ul>
-<li><a href="#org0649632">7.1. Regular Expressions</a></li>
+<li><a href="#orgafd6020">7.1. Regular Expressions</a></li>
 </ul>
 </li>
-<li><a href="#org219a6d5">8. I/O Streams</a></li>
-<li><a href="#orgee115ba">9. Containers</a></li>
-<li><a href="#org7f6a9d2">10. Algorithms</a></li>
-<li><a href="#org451364d">11. Utilities</a>
+<li><a href="#org69c0fa2">8. I/O Streams</a></li>
+<li><a href="#org7175607">9. Containers</a></li>
+<li><a href="#org42e75f7">10. Algorithms</a></li>
+<li><a href="#org79d1d41">11. Utilities</a>
 <ul>
-<li><a href="#org5db590c">11.1. Smart Pointers</a></li>
-<li><a href="#org1e09671">11.2. Specialized Containers</a></li>
+<li><a href="#orga8483d7">11.1. Smart Pointers</a></li>
+<li><a href="#org7a54d3b">11.2. Specialized Containers</a></li>
 </ul>
 </li>
-<li><a href="#org04a31e7">12. Numerics</a></li>
-<li><a href="#org92a1b7a">13. Concurrency</a></li>
+<li><a href="#org63659fe">12. Numerics</a></li>
+<li><a href="#org72b2de8">13. Concurrency</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb61a0d9" class="outline-2">
-<h2 id="orgb61a0d9"><span class="section-number-2">1.</span> The Basics</h2>
+<div id="outline-container-org1b27064" class="outline-2">
+<h2 id="org1b27064"><span class="section-number-2">1.</span> The Basics</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The minimal C++ program:
 </p>
 <div class="org-src-container">
-<pre class="src src-C++">int main() { }
+<pre class="src src-C++"><span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>() { }
 </pre>
 </div>
 
@@ -254,7 +254,7 @@ indicating successful completion.
 A function declaration may contain argument names.
 </p>
 <div class="org-src-container">
-<pre class="src src-C++">double square(double); // return the square of the argument
+<pre class="src src-C++"><span style="color: #6434A3;">double</span> <span style="color: #006699;">square</span>(<span style="color: #6434A3;">double</span>); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">return the square of the argument</span>
 </pre>
 </div>
 
@@ -309,8 +309,8 @@ Fundamental types: bool, char, int, double, unsigned.
 Universal form based on curly-brace-delimited initializer lists:
 </p>
 <div class="org-src-container">
-<pre class="src src-C++">  double d2 {2.3};
-  complex&lt;double&gt; z3 = {1,2}; // the = is optional with { ... }
+<pre class="src src-C++">  <span style="color: #6434A3;">double</span> <span style="color: #BA36A5;">d2</span> {2.3};
+  <span style="color: #6434A3;">complex</span>&lt;<span style="color: #6434A3;">double</span>&gt; <span style="color: #BA36A5;">z3</span> = {1,2}; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">the = is optional with { ... }</span>
 </pre>
 </div>
 
@@ -318,7 +318,7 @@ Universal form based on curly-brace-delimited initializer lists:
 <code>auto</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">auto b = true;
+<pre class="src src-c++"><span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">b</span> = <span style="color: #D0372D;">true</span>;
 </pre>
 </div>
 
@@ -326,8 +326,8 @@ Universal form based on curly-brace-delimited initializer lists:
 <i>Range-for-statement</i>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">int v[] = {0,1,2,3,4,5,6,7,8,9};
-for (auto&amp; x : v) cout &lt;&lt; x &lt;&lt; '\n';
+<pre class="src src-c++"><span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">v</span>[] = {0,1,2,3,4,5,6,7,8,9};
+<span style="color: #0000FF;">for</span> (<span style="color: #0000FF;">auto</span>&amp; <span style="color: #BA36A5;">x</span> : v) cout &lt;&lt; x &lt;&lt; <span style="color: #008000;">'\n'</span>;
 </pre>
 </div>
 
@@ -342,14 +342,14 @@ prefer the <code>=</code> syntax for the initialization in declarations using <c
 </div>
 </div>
 
-<div id="outline-container-orgdf736dd" class="outline-2">
-<h2 id="orgdf736dd"><span class="section-number-2">2.</span> User-Defined Types</h2>
+<div id="outline-container-orga29411f" class="outline-2">
+<h2 id="orga29411f"><span class="section-number-2">2.</span> User-Defined Types</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A <code>struct</code> is simply a class with members public by default:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">struct V{ int val; };
+<pre class="src src-c++"><span style="color: #0000FF;">struct</span> <span style="color: #6434A3;">V</span>{ <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">val</span>; };
 </pre>
 </div>
 
@@ -357,15 +357,15 @@ A <code>struct</code> is simply a class with members public by default:
 Class:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  class Vector {
-  public:
-    Vector(int s) : elem{new double[s]}, sz{s} {} // member initializer list
-    double &amp;operator[](int i) { return elem[i]; } // operation
-    int size() { return sz; }
+<pre class="src src-c++">  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Vector</span> {
+  <span style="color: #0000FF;">public</span>:
+    <span style="color: #006699;">Vector</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">s</span>) : elem{<span style="color: #0000FF;">new</span> <span style="color: #6434A3;">double</span>[s]}, sz{s} {} <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">member initializer list</span>
+    <span style="color: #6434A3;">double</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">[]</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span>) { <span style="color: #0000FF;">return</span> elem[i]; } <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">operation</span>
+    <span style="color: #6434A3;">int</span> <span style="color: #006699;">size</span>() { <span style="color: #0000FF;">return</span> sz; }
 
-  private:
-    double* elem;
-    int sz;
+  <span style="color: #0000FF;">private</span>:
+    <span style="color: #6434A3;">double</span>* <span style="color: #BA36A5;">elem</span>;
+    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">sz</span>;
   };
 </pre>
 </div>
@@ -376,9 +376,9 @@ so that the <code>union</code> occupies only as much space as its largest member
 Naturally, a <code>union</code> can hold a value for only one member at a time.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  union Value {
-    char* s;
-    int i;
+<pre class="src src-c++">  <span style="color: #0000FF;">union</span> <span style="color: #6434A3;">Value</span> {
+    <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">s</span>;
+    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span>;
   };
 </pre>
 </div>
@@ -388,8 +388,8 @@ Naturally, a <code>union</code> can hold a value for only one member at a time.
 Enumeration:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">enum class Color { red, blue, green };
-Color col = Color::red;
+<pre class="src src-c++"><span style="color: #0000FF;">enum</span> <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Color</span> { <span style="color: #BA36A5;">red</span>, <span style="color: #BA36A5;">blue</span>, <span style="color: #BA36A5;">green</span> };
+<span style="color: #6434A3;">Color</span> <span style="color: #BA36A5;">col</span> = <span style="color: #D0372D;">Color</span>::red;
 </pre>
 </div>
 
@@ -401,20 +401,20 @@ You can remove the <code>class</code> from <code>enum</code> class to get a plai
 </div>
 </div>
 
-<div id="outline-container-org6751b88" class="outline-2">
-<h2 id="org6751b88"><span class="section-number-2">3.</span> Modularity</h2>
+<div id="outline-container-org3082419" class="outline-2">
+<h2 id="org3082419"><span class="section-number-2">3.</span> Modularity</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Declarations / interfaces, <code>Vector.h</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  class Vector {
-  public:
-    Vector(int s);
-    double&amp; operator[](int i);
-    int size();
-  private:
-    double* elem;
+<pre class="src src-c++">  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Vector</span> {
+  <span style="color: #0000FF;">public</span>:
+    <span style="color: #006699;">Vector</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">s</span>);
+    <span style="color: #6434A3;">double</span>&amp; <span style="color: #0000FF;">operator</span><span style="color: #006699;">[]</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span>);
+    <span style="color: #6434A3;">int</span> <span style="color: #006699;">size</span>();
+  <span style="color: #0000FF;">private</span>:
+    <span style="color: #6434A3;">double</span>* <span style="color: #BA36A5;">elem</span>;
   };
 </pre>
 </div>
@@ -427,10 +427,10 @@ Avoid non-inline function definitions in headers.
 Definitions / implementations, <code>Vector.cpp</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  #include "Vector.h"
-  Vector::Vector(int s) :elem{new double[s]}, sz{s} { }
-  double&amp; Vector::operator[](int i) { return elem[i]; }
-  int Vector::size() { return sz; }
+<pre class="src src-c++"><span style="color: #808080; font-weight: bold;">  #include</span> <span style="color: #008000;">"Vector.h"</span>
+  <span style="color: #D0372D;">Vector</span>::<span style="color: #006699;">Vector</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">s</span>) :elem{<span style="color: #0000FF;">new</span> <span style="color: #6434A3;">double</span>[s]}, sz{s} { }
+  <span style="color: #6434A3;">double</span>&amp; <span style="color: #D0372D;">Vector</span>::<span style="color: #0000FF;">operator</span>[](<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span>) { <span style="color: #0000FF;">return</span> elem[i]; }
+  <span style="color: #6434A3;">int</span> <span style="color: #D0372D;">Vector</span>::<span style="color: #006699;">size</span>() { <span style="color: #0000FF;">return</span> sz; }
 </pre>
 </div>
 
@@ -438,16 +438,16 @@ Definitions / implementations, <code>Vector.cpp</code>:
 Namespaces:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  namespace My_code {
-    class complex {
-      // ...
+<pre class="src src-c++">  <span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">My_code</span> {
+    <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">complex</span> {
+      <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
     };
-    complex sqrt(complex);
-    // ...
-    int main();
+    <span style="color: #6434A3;">complex</span> <span style="color: #006699;">sqrt</span>(<span style="color: #6434A3;">complex</span>);
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
+    <span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>();
   }
-  int My_code::main(){
-    // ...
+  <span style="color: #6434A3;">int</span> <span style="color: #D0372D;">My_code</span>::<span style="color: #006699;">main</span>(){
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   };
 </pre>
 </div>
@@ -460,12 +460,12 @@ Don't put a using-directive in a header file.
 Exceptions:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  #include&lt;stdexcept&gt;
-  throw out_of_range{"Vector::operator[]"};
+<pre class="src src-c++"><span style="color: #808080; font-weight: bold;">  #include</span><span style="color: #008000;">&lt;stdexcept&gt;</span>
+  <span style="color: #0000FF;">throw</span> out_of_range{<span style="color: #008000;">"Vector::operator[]"</span>};
 
-  try { /* ... */ }
-  catch (out_of_range) { /* ... */ }
-  catch (...) { /* any exception */ }
+  <span style="color: #0000FF;">try</span> { <span style="color: #8D8D84; font-style: italic;">/* </span><span style="color: #8D8D84; font-style: italic;">...</span><span style="color: #8D8D84; font-style: italic;"> */</span> }
+  <span style="color: #0000FF;">catch</span> (out_of_range) { <span style="color: #8D8D84; font-style: italic;">/* </span><span style="color: #8D8D84; font-style: italic;">...</span><span style="color: #8D8D84; font-style: italic;"> */</span> }
+  <span style="color: #0000FF;">catch</span> (...) { <span style="color: #8D8D84; font-style: italic;">/* </span><span style="color: #8D8D84; font-style: italic;">any exception</span><span style="color: #8D8D84; font-style: italic;"> */</span> }
 </pre>
 </div>
 
@@ -481,7 +481,7 @@ Runtime errors: <code>runtime_error</code>, <code>range_error</code>, <code>over
 A function that should never throw an exception can be declared noexcept:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">void user(int sz) noexcept;
+<pre class="src src-c++"><span style="color: #6434A3;">void</span> <span style="color: #006699;">user</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">sz</span>) <span style="color: #0000FF;">noexcept</span>;
 </pre>
 </div>
 
@@ -494,9 +494,9 @@ If still throws, the standard-library function <code>terminate()</code>
 If operator <code>new</code> can't find memory to allocate, it throws a <code>std::bad_alloc</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  try { /* ... */ }
-  catch (std::bad_alloc) {
-    std::terminate(); // handle memory exhaustion
+<pre class="src src-c++">  <span style="color: #0000FF;">try</span> { <span style="color: #8D8D84; font-style: italic;">/* </span><span style="color: #8D8D84; font-style: italic;">...</span><span style="color: #8D8D84; font-style: italic;"> */</span> }
+  <span style="color: #0000FF;">catch</span> (<span style="color: #D0372D;">std</span>::bad_alloc) {
+    <span style="color: #D0372D;">std</span>::terminate(); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">handle memory exhaustion</span>
   }
 </pre>
 </div>
@@ -505,9 +505,9 @@ If operator <code>new</code> can't find memory to allocate, it throws a <code>st
 To rethrow the exception, we simply write <code>throw</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  catch (std::length_error) {
-    cout &lt;&lt; "test failed: length error\n";
-    throw; // rethrow
+<pre class="src src-c++">  <span style="color: #0000FF;">catch</span> (<span style="color: #D0372D;">std</span>::length_error) {
+    cout &lt;&lt; <span style="color: #008000;">"test failed: length error\n"</span>;
+    <span style="color: #0000FF;">throw</span>; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">rethrow</span>
   }
 </pre>
 </div>
@@ -516,20 +516,20 @@ To rethrow the exception, we simply write <code>throw</code>:
 Compile time check:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  static_assert(4 &lt;= sizeof(int), "integers are too small");
+<pre class="src src-c++">  static_assert(4 &lt;= <span style="color: #0000FF;">sizeof</span>(<span style="color: #6434A3;">int</span>), <span style="color: #008000;">"integers are too small"</span>);
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb397c8d" class="outline-2">
-<h2 id="orgb397c8d"><span class="section-number-2">4.</span> Classes</h2>
+<div id="outline-container-orge5f7864" class="outline-2">
+<h2 id="orge5f7864"><span class="section-number-2">4.</span> Classes</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 <code>const</code> function:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  double real() const { return re; }
+<pre class="src src-c++">  <span style="color: #6434A3;">double</span> <span style="color: #006699;">real</span>() <span style="color: #0000FF;">const</span> { <span style="color: #0000FF;">return</span> re; }
 </pre>
 </div>
 
@@ -537,7 +537,7 @@ Compile time check:
 Operations change object itself should return reference:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  complex&amp; operator+=(complex z) { re+=z.re, im+=z.im; return *this; }
+<pre class="src src-c++">  <span style="color: #6434A3;">complex</span>&amp; <span style="color: #0000FF;">operator</span><span style="color: #006699;">+=</span>(<span style="color: #6434A3;">complex</span> <span style="color: #BA36A5;">z</span>) { re+=z.re, im+=z.im; <span style="color: #0000FF;">return</span> *<span style="color: #0000FF;">this</span>; }
 </pre>
 </div>
 
@@ -551,9 +551,9 @@ preceeding a function declaration with the keyword <code>inline</code>.
 Clever ways of implementing operations:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  complex operator−(complex a, complex b) { return a −= b; }
-  // unary minus
-  complex operator−(complex a) { return {−a.real(), −a.imag()}; }
+<pre class="src src-c++">  complex <span style="color: #0000FF;">operator</span>&#8722;(<span style="color: #6434A3;">complex</span> <span style="color: #BA36A5;">a</span>, complex b) { <span style="color: #0000FF;">return</span> a &#8722;= b; }
+  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">unary minus</span>
+  complex <span style="color: #0000FF;">operator</span>&#8722;(complex a) { <span style="color: #0000FF;">return</span> {&#8722;a.real(), &#8722;a.imag()}; }
 </pre>
 </div>
 
@@ -561,7 +561,7 @@ Clever ways of implementing operations:
 Destructor:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  ~Vector() { delete[] elem; }
+<pre class="src src-c++">  ~<span style="color: #006699;">Vector</span>() { <span style="color: #0000FF;">delete</span>[] elem; }
 </pre>
 </div>
 
@@ -569,8 +569,8 @@ Destructor:
 Initializer-list constructor:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  Vector::Vector(std::initializer_list&lt;double&gt; lst)
-      : elem{new double[lst.size()]}, sz{static_cast&lt;int&gt;(lst.size())} {
+<pre class="src src-c++">  <span style="color: #D0372D;">Vector</span>::<span style="color: #006699;">Vector</span>(<span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">initializer_list</span>&lt;<span style="color: #6434A3;">double</span>&gt; <span style="color: #BA36A5;">lst</span>)
+      : elem{<span style="color: #0000FF;">new</span> <span style="color: #6434A3;">double</span>[lst.size()]}, sz{<span style="color: #0000FF;">static_cast</span>&lt;<span style="color: #6434A3;">int</span>&gt;(lst.size())} {
     copy(lst.begin(), lst.end(), elem);
   }
 </pre>
@@ -580,11 +580,11 @@ Initializer-list constructor:
 <code>push_back</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  Vector read(istream &amp;is) {
-    Vector v;
-    for (double d; is &gt;&gt; d;)
+<pre class="src src-c++">  <span style="color: #6434A3;">Vector</span> <span style="color: #006699;">read</span>(<span style="color: #6434A3;">istream</span> &amp;<span style="color: #BA36A5;">is</span>) {
+    <span style="color: #6434A3;">Vector</span> <span style="color: #BA36A5;">v</span>;
+    <span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">double</span> <span style="color: #BA36A5;">d</span>; is &gt;&gt; d;)
       v.push_back(d);
-    return v;
+    <span style="color: #0000FF;">return</span> v;
   }
 </pre>
 </div>
@@ -593,14 +593,14 @@ Initializer-list constructor:
 Abstract type:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  class Container {
-  public:
-    // pure virtual function
-    virtual double &amp;operator[](int) = 0;
-    // const member function
-    virtual int size() const = 0;
-    // destructor
-    virtual  ~Container() {}
+<pre class="src src-c++">  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Container</span> {
+  <span style="color: #0000FF;">public</span>:
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">pure virtual function</span>
+    <span style="color: #0000FF;">virtual</span> <span style="color: #6434A3;">double</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">[]</span>(<span style="color: #6434A3;">int</span>) = 0;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">const member function</span>
+    <span style="color: #0000FF;">virtual</span> <span style="color: #6434A3;">int</span> <span style="color: #006699;">size</span>() <span style="color: #0000FF;">const</span> = 0;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">destructor</span>
+    <span style="color: #0000FF;">virtual</span>  ~<span style="color: #006699;">Container</span>() {}
   };
 </pre>
 </div>
@@ -625,14 +625,14 @@ On the other hand, it <b>does</b> have a destructor and that destructor is <code
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c++">  class Vector_container : public Container {
-    Vector v;
+<pre class="src src-c++">  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Vector_container</span> : <span style="color: #0000FF;">public</span> <span style="color: #6434A3;">Container</span> {
+    <span style="color: #6434A3;">Vector</span> <span style="color: #BA36A5;">v</span>;
 
-  public:
-    Vector_container(int s) : v(s) {}
-    ~Vector_container() {}
-    double &amp;operator[](int i) { return v[i]; }
-    int size() const { return v.size(); }
+  <span style="color: #0000FF;">public</span>:
+    <span style="color: #006699;">Vector_container</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">s</span>) : v(s) {}
+    ~<span style="color: #006699;">Vector_container</span>() {}
+    <span style="color: #6434A3;">double</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">[]</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span>) { <span style="color: #0000FF;">return</span> v[i]; }
+    <span style="color: #6434A3;">int</span> <span style="color: #006699;">size</span>() <span style="color: #0000FF;">const</span> { <span style="color: #0000FF;">return</span> v.size(); }
   };
 </pre>
 </div>
@@ -660,19 +660,19 @@ may be intended to override or it may be intended to be a separate function.
 Explicitly state that a function is meant to override:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  void move(Point to) override;
+<pre class="src src-c++">  <span style="color: #6434A3;">void</span> <span style="color: #006699;">move</span>(<span style="color: #6434A3;">Point</span> <span style="color: #BA36A5;">to</span>) <span style="color: #0000FF;">override</span>;
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org3c9e62a" class="outline-3">
-<h3 id="org3c9e62a"><span class="section-number-3">4.1.</span> Dynamic Casting</h3>
+<div id="outline-container-orgfe1d4a6" class="outline-3">
+<h3 id="orgfe1d4a6"><span class="section-number-3">4.1.</span> Dynamic Casting</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Dynamic casting:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  if (Smiley* p = dynamic_cast&lt;Smiley*&gt;(ps)) { /* ... */ }
+<pre class="src src-c++">  <span style="color: #0000FF;">if</span> (<span style="color: #6434A3;">Smiley</span>* <span style="color: #BA36A5;">p</span> = <span style="color: #0000FF;">dynamic_cast</span>&lt;<span style="color: #6434A3;">Smiley</span>*&gt;(ps)) { <span style="color: #8D8D84; font-style: italic;">/* </span><span style="color: #8D8D84; font-style: italic;">...</span><span style="color: #8D8D84; font-style: italic;"> */</span> }
 </pre>
 </div>
 <p>
@@ -686,7 +686,7 @@ When a different type is unacceptable, we can simply <code>dynamic_cast</code> t
 If the object is not of the expected type, <code>bad_cast</code> is thrown:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  Smiley &amp;r{dynamic_cast&lt;Smiley &amp;&gt;(*ps)};
+<pre class="src src-c++">  <span style="color: #6434A3;">Smiley</span> &amp;<span style="color: #BA36A5;">r</span>{<span style="color: #0000FF;">dynamic_cast</span>&lt;<span style="color: #6434A3;">Smiley</span> &amp;&gt;(*ps)};
 </pre>
 </div>
 
@@ -695,8 +695,8 @@ Better resource handling: return <code>unique_ptr</code> rather than
 a naked pointer and store <code>unique_ptrs</code> in the container:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  vector&lt;unique_ptr&lt;Shape&gt;&gt; v;
-  v.push_back(unique_ptr&lt;Shape&gt;{new Circle{p, r}});
+<pre class="src src-c++">  <span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">unique_ptr</span>&lt;Shape&gt;&gt; <span style="color: #BA36A5;">v</span>;
+  v.push_back(<span style="color: #6434A3;">unique_ptr</span>&lt;Shape&gt;{<span style="color: #0000FF;">new</span> <span style="color: #6434A3;">Circle</span>{p, r}});
 </pre>
 </div>
 
@@ -707,8 +707,8 @@ when it is no longer needed, that is, when its <code>unique_ptr</code> goes out 
 </div>
 </div>
 
-<div id="outline-container-orgf827a50" class="outline-3">
-<h3 id="orgf827a50"><span class="section-number-3">4.2.</span> Copy and Move</h3>
+<div id="outline-container-orgb92f08e" class="outline-3">
+<h3 id="orgb92f08e"><span class="section-number-3">4.2.</span> Copy and Move</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 By default, objects can be copied.
@@ -716,9 +716,9 @@ The default meaning of copy is memberwise copy: copy each member.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c++">  complex z2{z1}; // copy initialization
-  complex z3;
-  z3 = z2;        // copy assignment
+<pre class="src src-c++">  <span style="color: #6434A3;">complex</span> <span style="color: #BA36A5;">z2</span>{z1}; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">copy initialization</span>
+  <span style="color: #6434A3;">complex</span> <span style="color: #BA36A5;">z3</span>;
+  z3 = z2;        <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">copy assignment</span>
 </pre>
 </div>
 
@@ -726,22 +726,22 @@ The default meaning of copy is memberwise copy: copy each member.
 Copy constructor and copy assignment:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  Vector(const Vector &amp;a);            // copy constructor
-  Vector &amp;operator=(const Vector &amp;a); // copy assignment
+<pre class="src src-c++">  Vector(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">Vector</span> &amp;<span style="color: #BA36A5;">a</span>);            <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">copy constructor</span>
+  <span style="color: #6434A3;">Vector</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">=</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">Vector</span> &amp;<span style="color: #BA36A5;">a</span>); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">copy assignment</span>
 
-  Vector::Vector(const Vector &amp;a) : elem{new double[a.sz]}, sz{a.sz} {
-    for (int i = 0; i != sz; ++i)
+  <span style="color: #D0372D;">Vector</span>::<span style="color: #006699;">Vector</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">Vector</span> &amp;<span style="color: #BA36A5;">a</span>) : elem{<span style="color: #0000FF;">new</span> <span style="color: #6434A3;">double</span>[a.sz]}, sz{a.sz} {
+    <span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span> = 0; i != sz; ++i)
       elem[i] = a.elem[i];
   }
 
-  Vector &amp;Vector::operator=(const Vector &amp;a) {
-    double* p = new double[a.sz];
-    for (int i = 0; i != a.sz; ++i)
+  <span style="color: #6434A3;">Vector</span> &amp;<span style="color: #D0372D;">Vector</span>::<span style="color: #0000FF;">operator</span>=(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">Vector</span> &amp;<span style="color: #BA36A5;">a</span>) {
+    <span style="color: #6434A3;">double</span>* <span style="color: #BA36A5;">p</span> = <span style="color: #0000FF;">new</span> <span style="color: #6434A3;">double</span>[a.sz];
+    <span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">i</span> = 0; i != a.sz; ++i)
       p[i] = a.elem[i];
-    delete[] elem; // delete old elements
+    <span style="color: #0000FF;">delete</span>[] elem; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">delete old elements</span>
     elem = p;
     sz = a.sz;
-    return *this;
+    <span style="color: #0000FF;">return</span> *<span style="color: #0000FF;">this</span>;
   }
 </pre>
 </div>
@@ -750,10 +750,10 @@ Copy constructor and copy assignment:
 To avoid copying in returning value:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  Vector foo(/* ... */) {
-    Vector res;
-    // ...
-    return res;
+<pre class="src src-c++">  <span style="color: #6434A3;">Vector</span> <span style="color: #006699;">foo</span>(<span style="color: #8D8D84; font-style: italic;">/* </span><span style="color: #8D8D84; font-style: italic;">...</span><span style="color: #8D8D84; font-style: italic;"> */</span>) {
+    <span style="color: #6434A3;">Vector</span> <span style="color: #BA36A5;">res</span>;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
+    <span style="color: #0000FF;">return</span> res;
   }
 
 </pre>
@@ -763,12 +763,12 @@ To avoid copying in returning value:
 Move constructor and move assignment should be implemented:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  Vector(Vector &amp;&amp;a);            // move constructor
-  Vector &amp;operator=(Vector &amp;&amp;a); // move assignment
+<pre class="src src-c++">  Vector(<span style="color: #6434A3;">Vector</span> &amp;&amp;<span style="color: #BA36A5;">a</span>);            <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">move constructor</span>
+  <span style="color: #6434A3;">Vector</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">=</span>(<span style="color: #6434A3;">Vector</span> &amp;&amp;<span style="color: #BA36A5;">a</span>); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">move assignment</span>
 
-  Vector::Vector(Vector &amp;&amp;a)
-      : elem{a.elem}, sz{a.sz} { // "grab the elements" from a
-    a.elem = nullptr; a.sz = 0;  // now a has no elements
+  <span style="color: #D0372D;">Vector</span>::<span style="color: #006699;">Vector</span>(<span style="color: #6434A3;">Vector</span> &amp;&amp;<span style="color: #BA36A5;">a</span>)
+      : elem{a.elem}, sz{a.sz} { <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">"grab the elements" from a</span>
+    a.elem = <span style="color: #D0372D;">nullptr</span>; a.sz = 0;  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">now a has no elements</span>
   }
 </pre>
 </div>
@@ -792,11 +792,11 @@ as an initializer or as the right-hand side of an assignment.
 Manually move with <code>std::move</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  Vector f() {
-    // ...
-    z = x;            // we get a copy
-    y = std::move(x); // we get a move
-    return z;         // we get a move
+<pre class="src src-c++">  <span style="color: #6434A3;">Vector</span> <span style="color: #006699;">f</span>() {
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
+    z = x;            <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">we get a copy</span>
+    y = <span style="color: #D0372D;">std</span>::move(x); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">we get a move</span>
+    <span style="color: #0000FF;">return</span> z;         <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">we get a move</span>
   }
 </pre>
 </div>
@@ -804,20 +804,20 @@ Manually move with <code>std::move</code>:
 </div>
 
 
-<div id="outline-container-orgcda26a1" class="outline-3">
-<h3 id="orgcda26a1"><span class="section-number-3">4.3.</span> Essential Operations</h3>
+<div id="outline-container-org358acfc" class="outline-3">
+<h3 id="org358acfc"><span class="section-number-3">4.3.</span> Essential Operations</h3>
 <div class="outline-text-3" id="text-4-3">
 <div class="org-src-container">
-<pre class="src src-c++">  class X {
-  public:
-    X(Sometype);             // ordinary constructor: create an object
-    X();                     // default constructor
-    X(const X &amp;);            // copy constructor
-    X(X &amp;&amp;);                 // move constructor
-    X &amp;operator=(const X &amp;); // copy assignment: clean up target and copy
-    X &amp;operator=(X &amp;&amp;);      // move assignment: clean up target and move
-    ~X();                    // destructor: clean up
-    // ...
+<pre class="src src-c++">  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">X</span> {
+  <span style="color: #0000FF;">public</span>:
+    X(Sometype);             <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">ordinary constructor: create an object</span>
+    <span style="color: #006699;">X</span>();                     <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">default constructor</span>
+    <span style="color: #006699;">X</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">X</span> &amp;);            <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">copy constructor</span>
+    <span style="color: #006699;">X</span>(<span style="color: #6434A3;">X</span> &amp;&amp;);                 <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">move constructor</span>
+    <span style="color: #6434A3;">X</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">=</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">X</span> &amp;); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">copy assignment: clean up target and copy</span>
+    <span style="color: #6434A3;">X</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">=</span>(<span style="color: #6434A3;">X</span> &amp;&amp;);      <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">move assignment: clean up target and move</span>
+    ~<span style="color: #006699;">X</span>();                    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">destructor: clean up</span>
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   };
 </pre>
 </div>
@@ -826,12 +826,12 @@ Manually move with <code>std::move</code>:
 Except for the ordinary constructor, these can be generated by compiler:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  class Y {
-  public:
+<pre class="src src-c++">  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Y</span> {
+  <span style="color: #0000FF;">public</span>:
     Y(Sometype);
-    Y(const Y &amp;) = default; // I really want the default copy constructor
-    Y(Y &amp;&amp;) = default;      // I really want the default copy constructor
-    // ...
+    <span style="color: #006699;">Y</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">Y</span> &amp;) = <span style="color: #0000FF;">default</span>; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">I really want the default copy constructor</span>
+    <span style="color: #006699;">Y</span>(<span style="color: #6434A3;">Y</span> &amp;&amp;) = <span style="color: #0000FF;">default</span>;      <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">I really want the default copy constructor</span>
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   };
 </pre>
 </div>
@@ -845,16 +845,16 @@ other default definitions will not be generated.
 Eliminate the default definitions of those two operations:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  class Shape {
-  public:
-    // no copy operations
-    Shape(const Shape &amp;) = delete;
-    Shape &amp;operator=(const Shape &amp;) = delete;
-    // no move operations
-    Shape(Shape &amp;&amp;) = delete;
-    Shape &amp;operator=(Shape &amp;&amp;) = delete;
-    ~Shape();
-    // ...
+<pre class="src src-c++">  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Shape</span> {
+  <span style="color: #0000FF;">public</span>:
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">no copy operations</span>
+    <span style="color: #006699;">Shape</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">Shape</span> &amp;) = <span style="color: #0000FF;">delete</span>;
+    <span style="color: #6434A3;">Shape</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">=</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">Shape</span> &amp;) = <span style="color: #0000FF;">delete</span>;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">no move operations</span>
+    <span style="color: #006699;">Shape</span>(<span style="color: #6434A3;">Shape</span> &amp;&amp;) = <span style="color: #0000FF;">delete</span>;
+    <span style="color: #6434A3;">Shape</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">=</span>(<span style="color: #6434A3;">Shape</span> &amp;&amp;) = <span style="color: #0000FF;">delete</span>;
+    ~<span style="color: #006699;">Shape</span>();
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   };
 </pre>
 </div>
@@ -864,10 +864,10 @@ A constructor taking a single argument defines a conversion from its argument ty
 but if only <code>explicit</code> conversion is allowed:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  class Vector {
-  public:
-    explicit Vector(int s); // no implicit conversion from int to Vector
-    // ...
+<pre class="src src-c++">  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Vector</span> {
+  <span style="color: #0000FF;">public</span>:
+    <span style="color: #0000FF;">explicit</span> <span style="color: #006699;">Vector</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">s</span>); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">no implicit conversion from int to Vector</span>
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   };
 </pre>
 </div>
@@ -887,17 +887,17 @@ In the C++ standard library, RAII (Resource Acquisition Is Initialization) is pe
 </div>
 </div>
 
-<div id="outline-container-org59276ab" class="outline-2">
-<h2 id="org59276ab"><span class="section-number-2">5.</span> Templates</h2>
+<div id="outline-container-org6fd399f" class="outline-2">
+<h2 id="org6fd399f"><span class="section-number-2">5.</span> Templates</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
-<pre class="src src-c++">  template&lt;typename T&gt;
-  class Vector {
-  private:
-    T* elem;
-    // ...
+<pre class="src src-c++">  <span style="color: #0000FF;">template</span>&lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">T</span>&gt;
+  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Vector</span> {
+  <span style="color: #0000FF;">private</span>:
+    <span style="color: #6434A3;">T</span>* <span style="color: #BA36A5;">elem</span>;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   }
-  Vector&lt;T&gt;::Vector(int s) { // ...
+  <span style="color: #D0372D;">Vector</span>&lt;<span style="color: #6434A3;">T</span>&gt;::<span style="color: #006699;">Vector</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">s</span>) { <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
 </pre>
 </div>
 
@@ -916,19 +916,19 @@ It is not (as in C++98) necessary to place a space between the two &gt;s.
 Provide <code>begin()</code> and <code>end()</code> to support <code>range-for</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  template &lt;typename T&gt;
-  T *begin(Vector&lt;T&gt; &amp;x) {
-    // pointer to first element or nullptr
-    return x.size() ? &amp;x[0] : nullptr;
+<pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">T</span>&gt;
+  <span style="color: #6434A3;">T</span> *<span style="color: #006699;">begin</span>(<span style="color: #6434A3;">Vector</span>&lt;<span style="color: #6434A3;">T</span>&gt; &amp;<span style="color: #BA36A5;">x</span>) {
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">pointer to first element or nullptr</span>
+    <span style="color: #0000FF;">return</span> x.size() ? &amp;x[0] : <span style="color: #D0372D;">nullptr</span>;
   }
-  template &lt;typename T&gt;
-  T *end(Vector&lt;T&gt; &amp;x) {
-    // pointer to one-past-last element
-    return begin(x) + x.size();
+  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">T</span>&gt;
+  <span style="color: #6434A3;">T</span> *<span style="color: #006699;">end</span>(<span style="color: #6434A3;">Vector</span>&lt;<span style="color: #6434A3;">T</span>&gt; &amp;<span style="color: #BA36A5;">x</span>) {
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">pointer to one-past-last element</span>
+    <span style="color: #0000FF;">return</span> begin(x) + x.size();
   }
-  void f2(Vector&lt;string&gt; &amp;vs) {
-    for (auto &amp;s : vs)
-      cout &lt;&lt; s &lt;&lt; '\n';
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">f2</span>(<span style="color: #6434A3;">Vector</span>&lt;<span style="color: #6434A3;">string</span>&gt; &amp;<span style="color: #BA36A5;">vs</span>) {
+    <span style="color: #0000FF;">for</span> (<span style="color: #0000FF;">auto</span> &amp;<span style="color: #BA36A5;">s</span> : vs)
+      cout &lt;&lt; s &lt;&lt; <span style="color: #008000;">'\n'</span>;
   }
 </pre>
 </div>
@@ -942,12 +942,12 @@ so their use incurs no run-time overhead compared to hand-crafted code.
 A template can take value arguments:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  template&lt;typename T, int N&gt;
-  struct Buffer {
-    using value_type = T;
-    constexpr int size() { return N; }
+<pre class="src src-c++">  <span style="color: #0000FF;">template</span>&lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">T</span>, <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">N</span>&gt;
+  <span style="color: #0000FF;">struct</span> <span style="color: #6434A3;">Buffer</span> {
+    <span style="color: #0000FF;">using</span> <span style="color: #6434A3;">value_type</span> = T;
+    <span style="color: #0000FF;">constexpr</span> <span style="color: #6434A3;">int</span> <span style="color: #006699;">size</span>() { <span style="color: #0000FF;">return</span> N; }
     T[N];
-    // ...
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   };
 </pre>
 </div>
@@ -961,7 +961,7 @@ to allow users (read-only) access to the template arguments.
 Can be used to create arbitrarily sized buffers on stack:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  Buffer&lt;char,1024&gt; glob;
+<pre class="src src-c++">  <span style="color: #6434A3;">Buffer</span>&lt;<span style="color: #6434A3;">char</span>,1024&gt; <span style="color: #BA36A5;">glob</span>;
 </pre>
 </div>
 
@@ -969,15 +969,15 @@ Can be used to create arbitrarily sized buffers on stack:
 Function object: objects that can be called like functions:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  template&lt;typename T&gt;
-  class Less_than {
-    const T val; // value to compare against
-  public:
-    Less_than(const T &amp;v) : val(v) {}
-    bool operator()(const T &amp;x) const { return x &lt; val; } // call operator
+<pre class="src src-c++">  <span style="color: #0000FF;">template</span>&lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">T</span>&gt;
+  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Less_than</span> {
+    <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">T</span> <span style="color: #BA36A5;">val</span>; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">value to compare against</span>
+  <span style="color: #0000FF;">public</span>:
+    <span style="color: #006699;">Less_than</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">T</span> &amp;<span style="color: #BA36A5;">v</span>) : val(v) {}
+    <span style="color: #6434A3;">bool</span> <span style="color: #0000FF;">operator</span><span style="color: #006699;">()</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">T</span> &amp;<span style="color: #BA36A5;">x</span>) <span style="color: #0000FF;">const</span> { <span style="color: #0000FF;">return</span> x &lt; val; } <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">call operator</span>
   };
 
-  count(vec, Less_than&lt;int&gt;{x});
+  count(vec, <span style="color: #6434A3;">Less_than</span>&lt;<span style="color: #6434A3;">int</span>&gt;{x});
 </pre>
 </div>
 
@@ -985,7 +985,7 @@ Function object: objects that can be called like functions:
 Lambda expression:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  count(vec, [&amp;](int a) { return a &lt; x; });
+<pre class="src src-c++">  count(vec, [&amp;](<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">a</span>) { <span style="color: #0000FF;">return</span> a &lt; x; });
 </pre>
 </div>
 
@@ -1004,11 +1004,11 @@ we could have said so: <code>[=x]</code> .
 Variadic templates:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  void f() { } // do nothing
-  template&lt;typename T, typename... Tail&gt;
-  void f(T head, Tail... tail) {
-    g(head);    // do something to head
-    f(tail...); // try again with tail
+<pre class="src src-c++">  <span style="color: #6434A3;">void</span> <span style="color: #006699;">f</span>() { } <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">do nothing</span>
+  <span style="color: #0000FF;">template</span>&lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">T</span>, <span style="color: #0000FF;">typename</span>... <span style="color: #6434A3;">Tail</span>&gt;
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">f</span>(<span style="color: #6434A3;">T</span> <span style="color: #BA36A5;">head</span>, <span style="color: #6434A3;">Tail</span>... <span style="color: #BA36A5;">tail</span>) {
+    g(head);    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">do something to head</span>
+    f(tail...); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">try again with tail</span>
   }
 </pre>
 </div>
@@ -1017,9 +1017,9 @@ Variadic templates:
 Another example in chapter 11:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  template &lt;typename T, typename... Args&gt;
-  unique_ptr&lt;T&gt; make_unique(Args &amp;&amp;... args) {
-    return std::unique_ptr&lt;T&gt;{new T{std::forward&lt;Args&gt;(args)...}};
+<pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">T</span>, <span style="color: #0000FF;">typename</span>... <span style="color: #6434A3;">Args</span>&gt;
+  <span style="color: #6434A3;">unique_ptr</span>&lt;<span style="color: #6434A3;">T</span>&gt; <span style="color: #006699;">make_unique</span>(<span style="color: #6434A3;">Args</span> &amp;&amp;... <span style="color: #BA36A5;">args</span>) {
+    <span style="color: #0000FF;">return</span> <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">unique_ptr</span>&lt;<span style="color: #6434A3;">T</span>&gt;{<span style="color: #0000FF;">new</span> <span style="color: #6434A3;">T</span>{<span style="color: #D0372D;">std</span>::forward&lt;<span style="color: #6434A3;">Args</span>&gt;(args)...}};
   }
 </pre>
 </div>
@@ -1028,8 +1028,8 @@ Another example in chapter 11:
 Aliases:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  // in &lt;cstddef&gt;
-  using size_t = unsigned int;
+<pre class="src src-c++">  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">in &lt;cstddef&gt;</span>
+  <span style="color: #0000FF;">using</span> <span style="color: #6434A3;">size_t</span> = <span style="color: #6434A3;">unsigned</span> <span style="color: #6434A3;">int</span>;
 </pre>
 </div>
 
@@ -1038,11 +1038,11 @@ It is very common for a parameterized type to provide
 an alias for types related to their template arguments.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  template&lt;typename T&gt;
-  class Vector {
-  public:
-    using value_type = T;
-    // ...
+<pre class="src src-c++">  <span style="color: #0000FF;">template</span>&lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">T</span>&gt;
+  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">Vector</span> {
+  <span style="color: #0000FF;">public</span>:
+    <span style="color: #0000FF;">using</span> <span style="color: #6434A3;">value_type</span> = T;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   };
 </pre>
 </div>
@@ -1052,13 +1052,13 @@ In fact, every standard-library container provides
 <code>value_type</code> as the name of its value type.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  template &lt;typename C&gt;
-  using Element_type = typename C::value_type;
+<pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">C</span>&gt;
+  <span style="color: #0000FF;">using</span> <span style="color: #6434A3;">Element_type</span> = <span style="color: #0000FF;">typename</span> <span style="color: #D0372D;">C</span>::value_type;
 
-  template &lt;typename Container&gt;
-  void algo(Container &amp;c) {
-    Vector&lt;Element_type&lt;Container&gt;&gt; vec;
-    // ...
+  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">Container</span>&gt;
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">algo</span>(<span style="color: #6434A3;">Container</span> &amp;<span style="color: #BA36A5;">c</span>) {
+    <span style="color: #6434A3;">Vector</span>&lt;<span style="color: #6434A3;">Element_type</span>&lt;<span style="color: #6434A3;">Container</span>&gt;&gt; <span style="color: #BA36A5;">vec</span>;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   }
 </pre>
 </div>
@@ -1068,23 +1068,23 @@ A function template argument needs to be explicitly mentioned
 only if it cannot be deduced or if there is no default:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  template &lt;typename Target = string, typename Source = string&gt;
-  Target to(Source arg) {
-    // ...
+<pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">Target</span> = <span style="color: #6434A3;">string</span>, <span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">Source</span> = <span style="color: #6434A3;">string</span>&gt;
+  <span style="color: #6434A3;">Target</span> <span style="color: #006699;">to</span>(<span style="color: #6434A3;">Source</span> <span style="color: #BA36A5;">arg</span>) {
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   }
-  int main() {
-    auto x1 = to&lt;string, double&gt;(1.2);
-    auto x2 = to&lt;string&gt;(1.2); // Source is deduced to double
-    auto x3 = to&lt;&gt;(1.2);
-    auto x4 = to(1.2);
+  <span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>() {
+    <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">x1</span> = to&lt;<span style="color: #6434A3;">string</span>, <span style="color: #6434A3;">double</span>&gt;(1.2);
+    <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">x2</span> = to&lt;<span style="color: #6434A3;">string</span>&gt;(1.2); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">Source is deduced to double</span>
+    <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">x3</span> = to&lt;&gt;(1.2);
+    <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">x4</span> = to(1.2);
   }
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf02dc4f" class="outline-2">
-<h2 id="orgf02dc4f"><span class="section-number-2">6.</span> Library Overview</h2>
+<div id="outline-container-org1720a7b" class="outline-2">
+<h2 id="org1720a7b"><span class="section-number-2">6.</span> Library Overview</h2>
 <div class="outline-text-2" id="text-6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 1:</span> Selected Standard Library Headers</caption>
@@ -1221,8 +1221,8 @@ only if it cannot be deduced or if there is no default:
 </div>
 </div>
 
-<div id="outline-container-orgc8c873e" class="outline-2">
-<h2 id="orgc8c873e"><span class="section-number-2">7.</span> Strings and Regular Expressions</h2>
+<div id="outline-container-org68c6c83" class="outline-2">
+<h2 id="org68c6c83"><span class="section-number-2">7.</span> Strings and Regular Expressions</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 A string is mutable: <code>=</code>, <code>+=</code>, <code>[]</code>.
@@ -1243,7 +1243,7 @@ and only longer strings are placed on free store.
 with the character type <code>char</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">using string = basic_string&lt;char&gt;
+<pre class="src src-c++"><span style="color: #0000FF;">using</span> <span style="color: #6434A3;">string</span> = <span style="color: #6434A3;">basic_string</span>&lt;<span style="color: #6434A3;">char</span>&gt;
 </pre>
 </div>
 
@@ -1252,14 +1252,14 @@ with the character type <code>char</code>:
 </p>
 </div>
 
-<div id="outline-container-org0649632" class="outline-3">
-<h3 id="org0649632"><span class="section-number-3">7.1.</span> Regular Expressions</h3>
+<div id="outline-container-orgafd6020" class="outline-3">
+<h3 id="orgafd6020"><span class="section-number-3">7.1.</span> Regular Expressions</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
 Pattern:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">regex pat (R"(\w{2}\s∗\d{5}(−\d{4})?)");
+<pre class="src src-c++"><span style="color: #6434A3;">regex</span> <span style="color: #006699;">pat</span> (R"<span style="color: #008000;">(\w{2}\s&#8727;\d{5}(&#8722;\d{4})?)</span>");
 </pre>
 </div>
 
@@ -1268,12 +1268,12 @@ Pattern:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c++">  int lineno = 0;
-  for (string line; getline(cin, line);) {
+<pre class="src src-c++">  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">lineno</span> = 0;
+  <span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">line</span>; getline(cin, line);) {
     ++lineno;
-    smatch matches;
-    if (regex_search(line, matches, pat))
-      cout &lt;&lt; lineno &lt;&lt; ": " &lt;&lt; matches[0] &lt;&lt; '\n';
+    <span style="color: #6434A3;">smatch</span> <span style="color: #BA36A5;">matches</span>;
+    <span style="color: #0000FF;">if</span> (regex_search(line, matches, pat))
+      cout &lt;&lt; lineno &lt;&lt; <span style="color: #008000;">": "</span> &lt;&lt; matches[0] &lt;&lt; <span style="color: #008000;">'\n'</span>;
   }
 </pre>
 </div>
@@ -1287,8 +1287,8 @@ The first element, here <code>matches[0]</code>, is the complete match.
 Sub-match:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  if (1 &lt; matches.size() &amp;&amp; matches[1].matched)
-    cout &lt;&lt; "\t: " &lt;&lt; matches[1] &lt;&lt; '\n';
+<pre class="src src-c++">  <span style="color: #0000FF;">if</span> (1 &lt; matches.size() &amp;&amp; matches[1].matched)
+    cout &lt;&lt; <span style="color: #008000;">"\t: "</span> &lt;&lt; matches[1] &lt;&lt; <span style="color: #008000;">'\n'</span>;
 </pre>
 </div>
 
@@ -1304,11 +1304,11 @@ Character classes and abbreviations (skipped here).
 Iterator:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  string input = "aa as; asd ++eˆasdf asdfg";
-  regex pat{R"(\s+(\w+))"};
-  for (sregex_iterator p(input.begin(), input.end(), pat);
+<pre class="src src-c++">  <span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">input</span> = <span style="color: #008000;">"aa as; asd ++e&#710;asdf asdfg"</span>;
+  <span style="color: #6434A3;">regex</span> <span style="color: #BA36A5;">pat</span>{R"<span style="color: #008000;">(\s+(\w+))</span>"};
+  <span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">sregex_iterator</span> <span style="color: #006699;">p</span>(input.begin(), input.end(), pat);
        p != sregex_iterator{}; ++p)
-    cout &lt;&lt; (*p)[1] &lt;&lt; '\n';
+    cout &lt;&lt; (*p)[1] &lt;&lt; <span style="color: #008000;">'\n'</span>;
 </pre>
 </div>
 
@@ -1324,8 +1324,8 @@ for numeric conversion of strings.
 </div>
 </div>
 
-<div id="outline-container-org219a6d5" class="outline-2">
-<h2 id="org219a6d5"><span class="section-number-2">8.</span> I/O Streams</h2>
+<div id="outline-container-org69c0fa2" class="outline-2">
+<h2 id="org69c0fa2"><span class="section-number-2">8.</span> I/O Streams</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 By default, <code>&gt;&gt;</code> skips initial whitespace.
@@ -1344,16 +1344,16 @@ You can read a whole line (including the terminating newline character) using th
 I/O state:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  while (cin &gt;&gt; i)
+<pre class="src src-c++">  <span style="color: #0000FF;">while</span> (cin &gt;&gt; i)
     res.push_back(i);
 
-  if (cin.eof()) {
-    // ...
-  } else if (cin.fail()) { // a potentially recoverable error
-    cin.clear();           // reset the state to good()
-    // ...
-    // if fail again
-    cin.setstate(ios_base::failbit); // add fail() to cin's state
+  <span style="color: #0000FF;">if</span> (cin.eof()) {
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
+  } <span style="color: #0000FF;">else</span> <span style="color: #0000FF;">if</span> (cin.fail()) { <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">a potentially recoverable error</span>
+    cin.clear();           <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">reset the state to good()</span>
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">if fail again</span>
+    cin.setstate(<span style="color: #D0372D;">ios_base</span>::failbit); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">add fail() to cin's state</span>
   }
 </pre>
 </div>
@@ -1362,27 +1362,27 @@ I/O state:
 Custom <code>&lt;&lt;</code> and <code>&gt;&gt;</code> :
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  ostream &amp;operator&lt;&lt;(ostream &amp;os, const Entry &amp;e) {
-    return os &lt;&lt; "{\"" &lt;&lt; e.name &lt;&lt; "\", " &lt;&lt; e.number &lt;&lt; "}";
+<pre class="src src-c++">  <span style="color: #6434A3;">ostream</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">&lt;&lt;</span>(<span style="color: #6434A3;">ostream</span> &amp;<span style="color: #BA36A5;">os</span>, <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">Entry</span> &amp;<span style="color: #BA36A5;">e</span>) {
+    <span style="color: #0000FF;">return</span> os &lt;&lt; <span style="color: #008000;">"{\""</span> &lt;&lt; e.name &lt;&lt; <span style="color: #008000;">"\", "</span> &lt;&lt; e.number &lt;&lt; <span style="color: #008000;">"}"</span>;
   }
 
-  istream &amp;operator&gt;&gt;(istream &amp;is, Entry &amp;e) {
-    char c, c2;
-    if (is &gt;&gt; c &amp;&amp; c == '{' &amp;&amp; is &gt;&gt; c2 &amp;&amp; c2 == '"') { // start with a {"
-      string name;                                      // read a string name
-      while (is.get(c) &amp;&amp; c != '"')                     // end with "
+  <span style="color: #6434A3;">istream</span> &amp;<span style="color: #0000FF;">operator</span><span style="color: #006699;">&gt;&gt;</span>(<span style="color: #6434A3;">istream</span> &amp;<span style="color: #BA36A5;">is</span>, <span style="color: #6434A3;">Entry</span> &amp;<span style="color: #BA36A5;">e</span>) {
+    <span style="color: #6434A3;">char</span> <span style="color: #BA36A5;">c</span>, <span style="color: #BA36A5;">c2</span>;
+    <span style="color: #0000FF;">if</span> (is &gt;&gt; c &amp;&amp; c == <span style="color: #008000;">'{'</span> &amp;&amp; is &gt;&gt; c2 &amp;&amp; c2 == <span style="color: #008000;">'"'</span>) { <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">start with a {"</span>
+      <span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">name</span>;                                      <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">read a string name</span>
+      <span style="color: #0000FF;">while</span> (is.get(c) &amp;&amp; c != <span style="color: #008000;">'"'</span>)                     <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">end with "</span>
         name += c;
-      if (is &gt;&gt; c &amp;&amp; c == ',') { // seperated by ,
-        int number = 0;
-        if (is &gt;&gt; number &gt;&gt; c &amp;&amp; c == '}') { // read the number and a }
+      <span style="color: #0000FF;">if</span> (is &gt;&gt; c &amp;&amp; c == <span style="color: #008000;">','</span>) { <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">seperated by ,</span>
+        <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">number</span> = 0;
+        <span style="color: #0000FF;">if</span> (is &gt;&gt; number &gt;&gt; c &amp;&amp; c == <span style="color: #008000;">'}'</span>) { <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">read the number and a }</span>
           e = {name, number};
-          return is;
+          <span style="color: #0000FF;">return</span> is;
         }
       }
     }
-    // oh no
-    is.setstate(ios_base::failbit);
-    return is;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">oh no</span>
+    is.setstate(<span style="color: #D0372D;">ios_base</span>::failbit);
+    <span style="color: #0000FF;">return</span> is;
   }
 </pre>
 </div>
@@ -1391,24 +1391,24 @@ Custom <code>&lt;&lt;</code> and <code>&gt;&gt;</code> :
 Formatting:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  #include&lt;iostream&gt;
-  #include&lt;ios&gt;
-  using namespace std;
+<pre class="src src-c++"><span style="color: #808080; font-weight: bold;">  #include</span><span style="color: #008000;">&lt;iostream&gt;</span>
+<span style="color: #808080; font-weight: bold;">  #include</span><span style="color: #008000;">&lt;ios&gt;</span>
+  <span style="color: #0000FF;">using</span> <span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">std</span>;
 
-  int main(){
-    cout &lt;&lt; 1234 &lt;&lt; ','
-         &lt;&lt; hex &lt;&lt; 1234 &lt;&lt; ','
-         &lt;&lt; oct &lt;&lt; 1234 &lt;&lt; '\n';
-    // 1234,4d2,2322
-    constexpr double d = 123.456;
-    cout &lt;&lt; d &lt;&lt; "; "
-         &lt;&lt; scientific &lt;&lt; d &lt;&lt; "; "
-         &lt;&lt; fixed &lt;&lt; d &lt;&lt; "; "
-         &lt;&lt; defaultfloat &lt;&lt; d &lt;&lt; '\n';
-    // 123.456; 1.234560e+02; 123.456000; 123.456
+  <span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>(){
+    cout &lt;&lt; 1234 &lt;&lt; <span style="color: #008000;">','</span>
+         &lt;&lt; hex &lt;&lt; 1234 &lt;&lt; <span style="color: #008000;">','</span>
+         &lt;&lt; oct &lt;&lt; 1234 &lt;&lt; <span style="color: #008000;">'\n'</span>;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">1234,4d2,2322</span>
+    <span style="color: #0000FF;">constexpr</span> <span style="color: #6434A3;">double</span> <span style="color: #BA36A5;">d</span> = 123.456;
+    cout &lt;&lt; d &lt;&lt; <span style="color: #008000;">"; "</span>
+         &lt;&lt; scientific &lt;&lt; d &lt;&lt; <span style="color: #008000;">"; "</span>
+         &lt;&lt; fixed &lt;&lt; d &lt;&lt; <span style="color: #008000;">"; "</span>
+         &lt;&lt; defaultfloat &lt;&lt; d &lt;&lt; <span style="color: #008000;">'\n'</span>;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">123.456; 1.234560e+02; 123.456000; 123.456</span>
     cout.precision(2);
-    cout &lt;&lt; fixed &lt;&lt; d &lt;&lt; '\n';
-    // 123.46
+    cout &lt;&lt; fixed &lt;&lt; d &lt;&lt; <span style="color: #008000;">'\n'</span>;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">123.46</span>
   }
 </pre>
 </div>
@@ -1425,10 +1425,10 @@ Formatting:
 Test files for reading and writing:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  ofstream ofs("target");
-  if (!ofs) error("couldn't open 'target' for writing");
-  ifstream ifs("source");
-  if (!ifs) error("couldn't open 'source' for reading");
+<pre class="src src-c++">  <span style="color: #6434A3;">ofstream</span> <span style="color: #BA36A5;">ofs</span>(<span style="color: #008000;">"target"</span>);
+  <span style="color: #0000FF;">if</span> (<span style="color: #a277ff; font-weight: bold;">!</span>ofs) error(<span style="color: #008000;">"couldn't open 'target' for writing"</span>);
+  <span style="color: #6434A3;">ifstream</span> <span style="color: #BA36A5;">ifs</span>(<span style="color: #008000;">"source"</span>);
+  <span style="color: #0000FF;">if</span> (<span style="color: #a277ff; font-weight: bold;">!</span>ifs) error(<span style="color: #008000;">"couldn't open 'source' for reading"</span>);
 </pre>
 </div>
 
@@ -1446,8 +1446,8 @@ Use <code>stringstream</code> for in-memory formatting.
 </div>
 </div>
 
-<div id="outline-container-orgee115ba" class="outline-2">
-<h2 id="orgee115ba"><span class="section-number-2">9.</span> Containers</h2>
+<div id="outline-container-org7175607" class="outline-2">
+<h2 id="org7175607"><span class="section-number-2">9.</span> Containers</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 typical implementation of vector:
@@ -1463,10 +1463,10 @@ typical implementation of vector:
 Initilize:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  vector&lt;int&gt; v1 = {1, 2, 3, 4}; // size is 4
-  vector&lt;string&gt; v2;             // size is 0
-  vector&lt;Shape*&gt; v3(23);         // size is 23; initial element value: nullptr
-  vector&lt;double&gt; v4(32, 9.9);    // size is 32; initial element value: 9.9
+<pre class="src src-c++">  <span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">int</span>&gt; <span style="color: #BA36A5;">v1</span> = {1, 2, 3, 4}; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">size is 4</span>
+  <span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">string</span>&gt; <span style="color: #BA36A5;">v2</span>;             <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">size is 0</span>
+  <span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">Shape</span>*&gt; <span style="color: #BA36A5;">v3</span>(23);         <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">size is 23; initial element value: nullptr</span>
+  <span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">double</span>&gt; <span style="color: #BA36A5;">v4</span>(32, 9.9);    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">size is 32; initial element value: 9.9</span>
 </pre>
 </div>
 
@@ -1474,7 +1474,7 @@ Initilize:
 A vector can be copied in assignments and initializations:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  vector&lt;Entry&gt; book2 = phone_book;
+<pre class="src src-c++">  <span style="color: #6434A3;">vector</span>&lt;Entry&gt; <span style="color: #BA36A5;">book2</span> = phone_book;
 </pre>
 </div>
 
@@ -1510,19 +1510,19 @@ If necessary, you can provide your own.
 A hash function is often provided as a function object:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  struct Record {
-    string name;
-    int product_code;
-    // ...
+<pre class="src src-c++">  <span style="color: #0000FF;">struct</span> <span style="color: #6434A3;">Record</span> {
+    <span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">name</span>;
+    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">product_code</span>;
+    <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   };
-  // a hash function for Record
-  struct Rhash {
-    size_t operator()(const Record &amp;r) const {
-      return hash&lt;string&gt;()(r.name) ^ hash&lt;int&gt;()(r.product_code);
+  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">a hash function for Record</span>
+  <span style="color: #0000FF;">struct</span> <span style="color: #6434A3;">Rhash</span> {
+    <span style="color: #6434A3;">size_t</span> <span style="color: #0000FF;">operator</span><span style="color: #006699;">()</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">Record</span> &amp;<span style="color: #BA36A5;">r</span>) <span style="color: #0000FF;">const</span> {
+      <span style="color: #0000FF;">return</span> hash&lt;<span style="color: #6434A3;">string</span>&gt;()(r.name) ^ hash&lt;<span style="color: #6434A3;">int</span>&gt;()(r.product_code);
     }
   };
-  // set of Recoreds using Rhash for lookup
-  unordered_set&lt;Record, Rhash&gt; my_set;
+  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">set of Recoreds using Rhash for lookup</span>
+  <span style="color: #6434A3;">unordered_set</span>&lt;<span style="color: #6434A3;">Record</span>, <span style="color: #6434A3;">Rhash</span>&gt; <span style="color: #BA36A5;">my_set</span>;
 </pre>
 </div>
 
@@ -1558,8 +1558,8 @@ Pass a container by reference and return a container by value.
 </div>
 </div>
 
-<div id="outline-container-org7f6a9d2" class="outline-2">
-<h2 id="org7f6a9d2"><span class="section-number-2">10.</span> Algorithms</h2>
+<div id="outline-container-org42e75f7" class="outline-2">
+<h2 id="org42e75f7"><span class="section-number-2">10.</span> Algorithms</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-c++">  sort(vec.begin(), vec.end());
@@ -1569,8 +1569,8 @@ Pass a container by reference and return a container by value.
 </div>
 
 <div class="org-src-container">
-<pre class="src src-c++">   if (find(s.begin(), s.end(), c) != s.end())
-     /* ... */;
+<pre class="src src-c++">   <span style="color: #0000FF;">if</span> (find(s.begin(), s.end(), c) != s.end())
+     <span style="color: #8D8D84; font-style: italic;">/* </span><span style="color: #8D8D84; font-style: italic;">...</span><span style="color: #8D8D84; font-style: italic;"> */</span>;
 </pre>
 </div>
 
@@ -1580,8 +1580,8 @@ under the conventional names <code>iterator</code> and <code>const_iterator</cod
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c++">  template &lt;typename C, typename V&gt;
-  vector&lt;typename C::iterator&gt; find_all(C &amp;c, V v) {
+<pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">C</span>, <span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">V</span>&gt;
+  <span style="color: #6434A3;">vector</span>&lt;<span style="color: #0000FF;">typename</span> <span style="color: #D0372D;">C</span>::<span style="color: #6434A3;">iterator</span>&gt; <span style="color: #006699;">find_all</span>(<span style="color: #6434A3;">C</span> &amp;<span style="color: #BA36A5;">c</span>, <span style="color: #6434A3;">V</span> <span style="color: #BA36A5;">v</span>) {
 </pre>
 </div>
 
@@ -1594,11 +1594,11 @@ C's iterator is supposed to be a type and not a value of some type.
 With aliases:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">template&lt;typename T&gt;
-using Iterator = typename T::iterator;
+<pre class="src src-c++"><span style="color: #0000FF;">template</span>&lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">T</span>&gt;
+<span style="color: #0000FF;">using</span> <span style="color: #6434A3;">Iterator</span> = <span style="color: #0000FF;">typename</span> <span style="color: #D0372D;">T</span>::iterator;
 
-template&lt;typename C, typename V&gt;
-vector&lt;Iterator&lt;C&gt;&gt; find_all(C&amp; c, V v) {
+<span style="color: #0000FF;">template</span>&lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">C</span>, <span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">V</span>&gt;
+<span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">Iterator</span>&lt;<span style="color: #6434A3;">C</span>&gt;&gt; <span style="color: #006699;">find_all</span>(<span style="color: #6434A3;">C</span>&amp; <span style="color: #BA36A5;">c</span>, <span style="color: #6434A3;">V</span> <span style="color: #BA36A5;">v</span>) {
 </pre>
 </div>
 
@@ -1606,13 +1606,13 @@ vector&lt;Iterator&lt;C&gt;&gt; find_all(C&amp; c, V v) {
 Stream iterator:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  int main() {
-    ostream_iterator&lt;string&gt; oo{cout}; // write strings to cout
-    *oo = "Hello, ";  // meaning cout&lt;&lt;"Hello, "
+<pre class="src src-c++">  <span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>() {
+    <span style="color: #6434A3;">ostream_iterator</span>&lt;<span style="color: #6434A3;">string</span>&gt; <span style="color: #BA36A5;">oo</span>{cout}; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">write strings to cout</span>
+    *oo = <span style="color: #008000;">"Hello, "</span>;  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">meaning cout&lt;&lt;"Hello, "</span>
     ++oo;
-    *oo = "world!\n"; // meaning cout&lt;&lt;"world!\n"
-    istream_iterator&lt;string&gt; ii{cin};
-    istream_iterator&lt;string&gt; eos{}; // indicate the end of input
+    *oo = <span style="color: #008000;">"world!\n"</span>; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">meaning cout&lt;&lt;"world!\n"</span>
+    <span style="color: #6434A3;">istream_iterator</span>&lt;<span style="color: #6434A3;">string</span>&gt; <span style="color: #BA36A5;">ii</span>{cin};
+    <span style="color: #6434A3;">istream_iterator</span>&lt;<span style="color: #6434A3;">string</span>&gt; <span style="color: #BA36A5;">eos</span>{}; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">indicate the end of input</span>
   }
 </pre>
 </div>
@@ -1621,12 +1621,12 @@ Stream iterator:
 Manipulate files:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  int unique_copy(string from, string to) {
-    ifstream is{from};
-    ofstream os{to};
-    set&lt;string&gt; b{istream_iterator&lt;string&gt;{is}, istream_iterator&lt;string&gt;{}};
-    copy(b.begin(), b.end(), ostream_iterator&lt;string&gt;{os, "\n"});
-    return !is.eof() || !os;
+<pre class="src src-c++">  <span style="color: #6434A3;">int</span> <span style="color: #006699;">unique_copy</span>(<span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">from</span>, <span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">to</span>) {
+    <span style="color: #6434A3;">ifstream</span> <span style="color: #BA36A5;">is</span>{from};
+    <span style="color: #6434A3;">ofstream</span> <span style="color: #BA36A5;">os</span>{to};
+    <span style="color: #6434A3;">set</span>&lt;<span style="color: #6434A3;">string</span>&gt; <span style="color: #BA36A5;">b</span>{<span style="color: #6434A3;">istream_iterator</span>&lt;<span style="color: #6434A3;">string</span>&gt;{is}, <span style="color: #6434A3;">istream_iterator</span>&lt;<span style="color: #6434A3;">string</span>&gt;{}};
+    copy(b.begin(), b.end(), <span style="color: #6434A3;">ostream_iterator</span>&lt;<span style="color: #6434A3;">string</span>&gt;{os, <span style="color: #008000;">"\n"</span>});
+    <span style="color: #0000FF;">return</span> <span style="color: #a277ff; font-weight: bold;">!</span>is.eof() || <span style="color: #a277ff; font-weight: bold;">!</span>os;
   }
 </pre>
 </div>
@@ -1635,15 +1635,15 @@ Manipulate files:
 Predictors:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  struct Greater_than {
-    int val;
-    Greater_than(int v) : val{v} {}
-    bool operator()(const pair&lt;string, int&gt; &amp;r) { return r.second &gt; val; }
+<pre class="src src-c++">  <span style="color: #0000FF;">struct</span> <span style="color: #6434A3;">Greater_than</span> {
+    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">val</span>;
+    <span style="color: #006699;">Greater_than</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">v</span>) : val{v} {}
+    <span style="color: #6434A3;">bool</span> <span style="color: #0000FF;">operator</span><span style="color: #006699;">()</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">pair</span>&lt;<span style="color: #6434A3;">string</span>, <span style="color: #6434A3;">int</span>&gt; &amp;<span style="color: #BA36A5;">r</span>) { <span style="color: #0000FF;">return</span> r.second &gt; val; }
   };
-  // use as
-  auto p = find_if(m.begin(), m.end(), Greater_than{42});
-  // or lambda
-  auto p = find_if(m.begin(), m.end(), [](const pair&lt;string,int&gt;&amp; r) { return r.second&gt;42; });
+  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">use as</span>
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">p</span> = find_if(m.begin(), m.end(), Greater_than{42});
+  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">or lambda</span>
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">p</span> = find_if(m.begin(), m.end(), [](<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">pair</span>&lt;<span style="color: #6434A3;">string</span>,<span style="color: #6434A3;">int</span>&gt;&amp; <span style="color: #BA36A5;">r</span>) { <span style="color: #0000FF;">return</span> r.second&gt;42; });
 </pre>
 </div>
 
@@ -1661,13 +1661,13 @@ Functions in <code>&lt;algorithm&gt;</code>:
   n = count_if(b, e, f);
   replace(b, e, v, v2);
   replace_if(b, e, f, v2);
-  p = copy(b, e, out); // from [b:e) to [out:p)
+  p = copy(b, e, out); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">from [b:e) to [out:p)</span>
   p = copy_if(b, e, out, f);
   p = move(b, e, out);
   p = unique_copy(b, e, out);
   sort(b, e);
-  sort(b, e, f);                   // Sort elements of [b:e) using f
-  (p1, p2) = equal_range(b, e, v); // [p1:p2) is the subsequence with the value v
+  sort(b, e, f);                   <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">Sort elements of [b:e) using f</span>
+  (p1, p2) = equal_range(b, e, v); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">[p1:p2) is the subsequence with the value v</span>
   p = merge(b, e, b2, e2, out);
 </pre>
 </div>
@@ -1684,12 +1684,12 @@ such as an <code>back_inserter</code> that knows about the container.
 </div>
 </div>
 
-<div id="outline-container-org451364d" class="outline-2">
-<h2 id="org451364d"><span class="section-number-2">11.</span> Utilities</h2>
+<div id="outline-container-org79d1d41" class="outline-2">
+<h2 id="org79d1d41"><span class="section-number-2">11.</span> Utilities</h2>
 <div class="outline-text-2" id="text-11">
 </div>
-<div id="outline-container-org5db590c" class="outline-3">
-<h3 id="org5db590c"><span class="section-number-3">11.1.</span> Smart Pointers</h3>
+<div id="outline-container-orga8483d7" class="outline-3">
+<h3 id="orga8483d7"><span class="section-number-3">11.1.</span> Smart Pointers</h3>
 <div class="outline-text-3" id="text-11-1">
 <p>
 In <code>&lt;memory&gt;</code>, the stan- dard library provides two 
@@ -1714,8 +1714,8 @@ that object is destroyed when the last of its shared_ptrs is destroyed.
 the standard library (in <code>&lt;memory&gt;</code>) provides a function <code>make_shared()</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  shared_ptr&lt;S&gt; p1{new S{1, "Ankh Morpork", 4.65}};
-  auto p2 = make_shared&lt;S&gt;(2, "Oz", 7.62);
+<pre class="src src-c++">  <span style="color: #6434A3;">shared_ptr</span>&lt;S&gt; <span style="color: #BA36A5;">p1</span>{<span style="color: #0000FF;">new</span> <span style="color: #6434A3;">S</span>{1, <span style="color: #008000;">"Ankh Morpork"</span>, 4.65}};
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">p2</span> = make_shared&lt;S&gt;(2, <span style="color: #008000;">"Oz"</span>, 7.62);
 </pre>
 </div>
 
@@ -1726,8 +1726,8 @@ Use <code>shared_ptr</code> to refer to shared objects.
 </div>
 </div>
 
-<div id="outline-container-org1e09671" class="outline-3">
-<h3 id="org1e09671"><span class="section-number-3">11.2.</span> Specialized Containers</h3>
+<div id="outline-container-org7a54d3b" class="outline-3">
+<h3 id="org7a54d3b"><span class="section-number-3">11.2.</span> Specialized Containers</h3>
 <div class="outline-text-3" id="text-11-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 2:</span> Almost Conainers</caption>
@@ -1787,8 +1787,8 @@ Use <code>shared_ptr</code> to refer to shared objects.
 </table>
 </div>
 
-<div id="outline-container-orgd80b02f" class="outline-4">
-<h4 id="orgd80b02f"><span class="section-number-4">11.2.1.</span> array</h4>
+<div id="outline-container-org7098981" class="outline-4">
+<h4 id="org7098981"><span class="section-number-4">11.2.1.</span> array</h4>
 <div class="outline-text-4" id="text-11-2-1">
 <p>
 An array, defined in <code>&lt;array&gt;</code>, is a fixed-size sequence of elements of a given type
@@ -1818,7 +1818,7 @@ An array does not "handle to elements."
 The element count is not optional:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  array&lt;int&gt; ax = {1, 2, 3};
+<pre class="src src-c++">  <span style="color: #6434A3;">array</span>&lt;<span style="color: #6434A3;">int</span>&gt; <span style="color: #BA36A5;">ax</span> = {1, 2, 3};
 </pre>
 </div>
 
@@ -1826,31 +1826,31 @@ The element count is not optional:
 an array can be explicitly passed to a C-style function that expects a pointer:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  void f(int∗ p, int sz); // C-style interface
-  void g() {
-    array&lt;int, 10&gt; a;
-    f(a, a.size());                         // error: no conversion
-    f(&amp;a[0], a.size());                     // C-style use
-    f(a.data(), a.size());                  // C-style use
-    auto p = find(a.begin(), a.end(), 777); // C++/STL-style use
+<pre class="src src-c++">  <span style="color: #6434A3;">void</span> <span style="color: #006699;">f</span>(<span style="color: #6434A3;">int</span>&#8727; p, <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">sz</span>); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">C-style interface</span>
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">g</span>() {
+    <span style="color: #6434A3;">array</span>&lt;<span style="color: #6434A3;">int</span>, 10&gt; <span style="color: #BA36A5;">a</span>;
+    f(a, a.size());                         <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">error: no conversion</span>
+    f(&amp;a[0], a.size());                     <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">C-style use</span>
+    f(a.data(), a.size());                  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">C-style use</span>
+    <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">p</span> = find(a.begin(), a.end(), 777); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">C++/STL-style use</span>
   }
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org70f35d5" class="outline-4">
-<h4 id="org70f35d5"><span class="section-number-4">11.2.2.</span> bitset</h4>
+<div id="outline-container-org1efe77f" class="outline-4">
+<h4 id="org1efe77f"><span class="section-number-4">11.2.2.</span> bitset</h4>
 <div class="outline-text-4" id="text-11-2-2">
 <p>
 A <code>bitset</code> can be initialized with an integer or a string:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  bitset&lt;9&gt; bs1{"110001111"};
-  bitset&lt;9&gt; bs2{399};
-  bitset&lt;9&gt; bs3 =  ̃bs1;
-  bitset&lt;9&gt; bs4 = bs1 &amp; bs3;
-  bitset&lt;9&gt; bs5 = bs1 &lt;&lt; 2;
+<pre class="src src-c++">  <span style="color: #6434A3;">bitset</span>&lt;9&gt; <span style="color: #BA36A5;">bs1</span>{<span style="color: #008000;">"110001111"</span>};
+  <span style="color: #6434A3;">bitset</span>&lt;9&gt; <span style="color: #BA36A5;">bs2</span>{399};
+  <span style="color: #6434A3;">bitset</span>&lt;9&gt; <span style="color: #BA36A5;">bs3</span> =  &#771;bs1;
+  <span style="color: #6434A3;">bitset</span>&lt;9&gt; <span style="color: #BA36A5;">bs4</span> = bs1 &amp; bs3;
+  <span style="color: #6434A3;">bitset</span>&lt;9&gt; <span style="color: #BA36A5;">bs5</span> = bs1 &lt;&lt; 2;
 </pre>
 </div>
 
@@ -1860,8 +1860,8 @@ A <code>bitset</code> can be initialized with an integer or a string:
 </div>
 </div>
 
-<div id="outline-container-org9239e64" class="outline-4">
-<h4 id="org9239e64"><span class="section-number-4">11.2.3.</span> pair and tuple</h4>
+<div id="outline-container-org94af234" class="outline-4">
+<h4 id="org94af234"><span class="section-number-4">11.2.3.</span> pair and tuple</h4>
 <div class="outline-text-4" id="text-11-2-3">
 <p>
 The make_pair() / make_tuple() function makes it easy to create
@@ -1874,8 +1874,8 @@ Elements of tuple can be accessed by <code>get&lt;0&gt;(t), get&lt;1&gt;(t), get
 </div>
 </div>
 
-<div id="outline-container-org8025e1e" class="outline-4">
-<h4 id="org8025e1e"><span class="section-number-4">11.2.4.</span> Time</h4>
+<div id="outline-container-orgc27d88b" class="outline-4">
+<h4 id="orgc27d88b"><span class="section-number-4">11.2.4.</span> Time</h4>
 <div class="outline-text-4" id="text-11-2-4">
 <p>
 The standard-library facilities for dealing with time
@@ -1886,18 +1886,18 @@ are found in the subnamespace <code>std::chrono</code> in <code>&lt;chrono&gt;</
 Timing something:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  using namespace std::chrono;
-  auto t0 = high_resolution_clock::now();
+<pre class="src src-c++">  <span style="color: #0000FF;">using</span> <span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">std</span>::<span style="color: #D0372D;">chrono</span>;
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">t0</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now();
   do_work();
-  auto t1 = high_resolution_clock::now();
-  cout &lt;&lt; duration_cast&lt;milliseconds&gt;(t1−t0).count() &lt;&lt; "msec\n";
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">t1</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now();
+  cout &lt;&lt; duration_cast&lt;milliseconds&gt;(t1&#8722;t0).count() &lt;&lt; <span style="color: #008000;">"msec\n"</span>;
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org75c9107" class="outline-4">
-<h4 id="org75c9107"><span class="section-number-4">11.2.5.</span> Function</h4>
+<div id="outline-container-orgae4f87b" class="outline-4">
+<h4 id="orgae4f87b"><span class="section-number-4">11.2.5.</span> Function</h4>
 <div class="outline-text-4" id="text-11-2-5">
 <p>
 A function adaptor takes a function as argument and returns a function object
@@ -1910,11 +1910,11 @@ also called <i>Currying</i> or <i>partial evaluation</i>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c++">  #include&lt;functional&gt;
-  void f(int, const string &amp;);
-  auto g = bind(f, 2, placeholders::_1); // bind f()’s first argument to 2
-  f(2, "hello");
-  g("hello");
+<pre class="src src-c++"><span style="color: #808080; font-weight: bold;">  #include</span><span style="color: #008000;">&lt;functional&gt;</span>
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">f</span>(<span style="color: #6434A3;">int</span>, <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">string</span> &amp;);
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">g</span> = bind(f, 2, <span style="color: #D0372D;">placeholders</span>::_1); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">bind f()&#8217;s first argument to 2</span>
+  f(2, <span style="color: #008000;">"hello"</span>);
+  g(<span style="color: #008000;">"hello"</span>);
 </pre>
 </div>
 
@@ -1923,11 +1923,11 @@ Use <code>mem_fn()</code> to create function objects that can invoke a member fu
 when called using the traditional function call notation.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  p−&gt; draw();
-  auto draw = mem_fn(&amp;Shape::draw);
+<pre class="src src-c++">  p&#8722;&gt; draw();
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">draw</span> = mem_fn(&amp;<span style="color: #D0372D;">Shape</span>::draw);
   draw(p);
 
-  for_each(v.begin(), v.end(), mem_fn(&amp;Shape::draw));
+  for_each(v.begin(), v.end(), mem_fn(&amp;<span style="color: #D0372D;">Shape</span>::draw));
 </pre>
 </div>
 
@@ -1939,12 +1939,12 @@ Often, a lambda is an alternative to using <code>bind()</code> or <code>mem_fn()
 A <code>function</code> is specified with a specific return type and a specific argument type:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  int f1(double);
-  function&lt;int(double)&gt; fct{f1}; // initialize to f1
+<pre class="src src-c++">  <span style="color: #6434A3;">int</span> <span style="color: #006699;">f1</span>(<span style="color: #6434A3;">double</span>);
+  <span style="color: #6434A3;">function</span>&lt;<span style="color: #6434A3;">int</span>(<span style="color: #6434A3;">double</span>)&gt; <span style="color: #BA36A5;">fct</span>{f1}; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">initialize to f1</span>
 
-  void user() {
-    fct = [](double d) { return round(d); }; // assign lambda to fct
-    fct = f1;                                // assign function to fct
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">user</span>() {
+    fct = [](<span style="color: #6434A3;">double</span> <span style="color: #BA36A5;">d</span>) { <span style="color: #0000FF;">return</span> round(d); }; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">assign lambda to fct</span>
+    fct = f1;                                <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">assign function to fct</span>
   }
 </pre>
 </div>
@@ -1958,8 +1958,8 @@ A type function is a function that is evaluated at compile-time
 given a type as its argument or returning a type.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  #include &lt;limits&gt;
-  constexpr float min = numeric_limits&lt;float&gt;::min(); // smallest positive float
+<pre class="src src-c++"><span style="color: #808080; font-weight: bold;">  #include</span> <span style="color: #008000;">&lt;limits&gt;</span>
+  <span style="color: #0000FF;">constexpr</span> <span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">min</span> = <span style="color: #D0372D;">numeric_limits</span>&lt;<span style="color: #6434A3;">float</span>&gt;::min(); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">smallest positive float</span>
 </pre>
 </div>
 
@@ -1980,8 +1980,8 @@ has_virtual_destructor, and is_base_of.
 </div>
 </div>
 
-<div id="outline-container-org04a31e7" class="outline-2">
-<h2 id="org04a31e7"><span class="section-number-2">12.</span> Numerics</h2>
+<div id="outline-container-org63659fe" class="outline-2">
+<h2 id="org63659fe"><span class="section-number-2">12.</span> Numerics</h2>
 <div class="outline-text-2" id="text-12">
 <p>
 <code>&lt;math&gt;</code> for float, double, long double :
@@ -1999,10 +1999,10 @@ Errors are reported by setting errno from <code>&lt;cerrno&gt;</code> to <code>E
 for a domain error and to <code>ERANGE</code> for a range error:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  errno = 0; // clear old error state
-  // ...
-  if (errno == EDOM) cerr &lt;&lt; "domain error";
-  if (errno == ERANGE) cerr &lt;&lt; "range error";
+<pre class="src src-c++">  errno = 0; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">clear old error state</span>
+  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
+  <span style="color: #0000FF;">if</span> (errno == EDOM) cerr &lt;&lt; <span style="color: #008000;">"domain error"</span>;
+  <span style="color: #0000FF;">if</span> (errno == ERANGE) cerr &lt;&lt; <span style="color: #008000;">"range error"</span>;
 </pre>
 </div>
 
@@ -2078,9 +2078,9 @@ A random number generator consists of two parts:
 </ol>
 
 <div class="org-src-container">
-<pre class="src src-c++">  auto die = bind(uniform_int_distribution&lt;&gt;{1, 6},
+<pre class="src src-c++">  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">die</span> = bind(<span style="color: #6434A3;">uniform_int_distribution</span>&lt;&gt;{1, 6},
                   default_random_engine{});
-  int x = die();
+  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">x</span> = die();
 </pre>
 </div>
 
@@ -2096,8 +2096,8 @@ Use numeric_limits to check that the numeric types are adequate for their use.
 </div>
 </div>
 
-<div id="outline-container-org92a1b7a" class="outline-2">
-<h2 id="org92a1b7a"><span class="section-number-2">13.</span> Concurrency</h2>
+<div id="outline-container-org72b2de8" class="outline-2">
+<h2 id="org72b2de8"><span class="section-number-2">13.</span> Concurrency</h2>
 <div class="outline-text-2" id="text-13">
 <p>
 threads, mutexes, lock() operations, packaged_tasks, and futures.
@@ -2114,15 +2114,15 @@ by constructing a <code>std::thread</code> (found in <code>&lt;thread&gt;</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-c++">  void f();  // function
-  struct F { // function object
-    void operator()();
+<pre class="src src-c++">  <span style="color: #6434A3;">void</span> <span style="color: #006699;">f</span>();  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">function</span>
+  <span style="color: #0000FF;">struct</span> <span style="color: #6434A3;">F</span> { <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">function object</span>
+    <span style="color: #6434A3;">void</span> <span style="color: #0000FF;">operator</span><span style="color: #006699;">()</span>();
   };
-  void user() {
-    thread t1{f};
-    thread t2{F()};
-    t1.join(); // wait for t1
-    t2.join(); // wait for t2
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">user</span>() {
+    <span style="color: #6434A3;">thread</span> <span style="color: #BA36A5;">t1</span>{f};
+    <span style="color: #6434A3;">thread</span> <span style="color: #BA36A5;">t2</span>{F()};
+    t1.join(); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">wait for t1</span>
+    t2.join(); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">wait for t2</span>
   }
 </pre>
 </div>
@@ -2143,8 +2143,8 @@ to tell the variadic template to treat some_vec as a reference,
 rather than as an object.
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  void f(vector&lt;double&gt; &amp;v);
-  thread t1{f, ref(some_vec)};
+<pre class="src src-c++">  <span style="color: #6434A3;">void</span> <span style="color: #006699;">f</span>(<span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">double</span>&gt; &amp;<span style="color: #BA36A5;">v</span>);
+  <span style="color: #6434A3;">thread</span> <span style="color: #BA36A5;">t1</span>{f, ref(some_vec)};
 </pre>
 </div>
 
@@ -2153,8 +2153,8 @@ pass the input data by const reference and to
 pass the location of a place to deposit the result as a separate argument:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  void f(const vector&lt;double&gt; &amp;v, double *res);
-  thread t1{f, cref(some_vec), &amp;res1};
+<pre class="src src-c++">  <span style="color: #6434A3;">void</span> <span style="color: #006699;">f</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">double</span>&gt; &amp;<span style="color: #BA36A5;">v</span>, <span style="color: #6434A3;">double</span> *<span style="color: #BA36A5;">res</span>);
+  <span style="color: #6434A3;">thread</span> <span style="color: #BA36A5;">t1</span>{f, cref(some_vec), &amp;res1};
 </pre>
 </div>
 <p>
@@ -2166,12 +2166,12 @@ A <code>mutex</code> in <code>&lt;mutex&gt;</code> is a mutual exclusion object.
 A thread acquires a mutex using a <code>lock()</code> operation:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  mutex m;
-  int sh;
-  void f() {
-    unique_lock&lt;mutex&gt; lck{m};
+<pre class="src src-c++">  <span style="color: #6434A3;">mutex</span> <span style="color: #BA36A5;">m</span>;
+  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">sh</span>;
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">f</span>() {
+    <span style="color: #6434A3;">unique_lock</span>&lt;<span style="color: #6434A3;">mutex</span>&gt; <span style="color: #BA36A5;">lck</span>{m};
     sh += 7;
-  } // release mutex implicitly
+  } <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">release mutex implicitly</span>
 </pre>
 </div>
 <p>
@@ -2182,10 +2182,10 @@ The <code>unique_lock</code> releases the mutex with a call <code>m.unlock()</co
 Acquiring several locks simultaneously to avoid deadlock:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  unique_lock&lt;mutex&gt; lck1 {m1,defer_lock};
-  unique_lock&lt;mutex&gt; lck2 {m2,defer_lock};
-  unique_lock&lt;mutex&gt; lck3 {m3,defer_lock};
-  // ...
+<pre class="src src-c++">  <span style="color: #6434A3;">unique_lock</span>&lt;mutex&gt; <span style="color: #BA36A5;">lck1</span> {m1,defer_lock};
+  <span style="color: #6434A3;">unique_lock</span>&lt;mutex&gt; <span style="color: #BA36A5;">lck2</span> {m2,defer_lock};
+  <span style="color: #6434A3;">unique_lock</span>&lt;mutex&gt; <span style="color: #BA36A5;">lck3</span> {m3,defer_lock};
+  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
   lock(lck1,lck2,lck3);
 </pre>
 </div>
@@ -2194,8 +2194,8 @@ Acquiring several locks simultaneously to avoid deadlock:
 Sleep:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  using namespace std::chrono;
-  this_thread::sleep_for(milliseconds{20});
+<pre class="src src-c++">  <span style="color: #0000FF;">using</span> <span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">std</span>::<span style="color: #D0372D;">chrono</span>;
+  <span style="color: #D0372D;">this_thread</span>::sleep_for(milliseconds{20});
 </pre>
 </div>
 
@@ -2205,26 +2205,26 @@ is provided by condition_variables found in <code>&lt;condition_variable&gt;</co
 A <code>condition_variable</code> is a mechanism allowing one thread to wait for another:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  queue&lt;Message&gt; mqueue;
-  condition_variable mcond;
-  mutex mmutex;
+<pre class="src src-c++">  <span style="color: #6434A3;">queue</span>&lt;Message&gt; <span style="color: #BA36A5;">mqueue</span>;
+  <span style="color: #6434A3;">condition_variable</span> <span style="color: #BA36A5;">mcond</span>;
+  <span style="color: #6434A3;">mutex</span> <span style="color: #BA36A5;">mmutex</span>;
 
-  void consumer() {
-    while (true) {
-      unique_lock&lt;mutex&gt; lck{mmutex};
-      while (mcond.wait(lck))
-        /* do nothing */;
-      auto m = mqueue.front();
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">consumer</span>() {
+    <span style="color: #0000FF;">while</span> (<span style="color: #D0372D;">true</span>) {
+      <span style="color: #6434A3;">unique_lock</span>&lt;<span style="color: #6434A3;">mutex</span>&gt; <span style="color: #BA36A5;">lck</span>{mmutex};
+      <span style="color: #0000FF;">while</span> (mcond.wait(lck))
+        <span style="color: #8D8D84; font-style: italic;">/* </span><span style="color: #8D8D84; font-style: italic;">do nothing</span><span style="color: #8D8D84; font-style: italic;"> */</span>;
+      <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">m</span> = mqueue.front();
       mqueue.pop();
       lck.unlock();
-      // process m...
+      <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">process m...</span>
     }
   }
-  void producer() {
-    while (true) {
-      Message m;
-      // ... fill the message ...
-      unique_lock&lt;mutex&gt; lck{mmutex};
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">producer</span>() {
+    <span style="color: #0000FF;">while</span> (<span style="color: #D0372D;">true</span>) {
+      <span style="color: #6434A3;">Message</span> <span style="color: #BA36A5;">m</span>;
+      <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">... fill the message ...</span>
+      <span style="color: #6434A3;">unique_lock</span>&lt;<span style="color: #6434A3;">mutex</span>&gt; <span style="color: #BA36A5;">lck</span>{mmutex};
       mqueue.push(m);
       mcond.notify_one();
     }
@@ -2242,15 +2242,15 @@ A <code>condition_variable</code> is a mechanism allowing one thread to wait for
 </ol>
 
 <div class="org-src-container">
-<pre class="src src-c++">  void f(promise&lt;X&gt; &amp;px) {
-    try {
-      X res; // ...
+<pre class="src src-c++">  <span style="color: #6434A3;">void</span> <span style="color: #006699;">f</span>(<span style="color: #6434A3;">promise</span>&lt;X&gt; &amp;<span style="color: #BA36A5;">px</span>) {
+    <span style="color: #0000FF;">try</span> {
+      <span style="color: #6434A3;">X</span> <span style="color: #BA36A5;">res</span>; <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">...</span>
       px.set_value(res);
-    } catch (...) {
-      px.set_exception(current_exception()); // pass the exception
+    } <span style="color: #0000FF;">catch</span> (...) {
+      px.set_exception(current_exception()); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">pass the exception</span>
     }
   }
-  void g(future&lt;X&gt; &amp;fx) { X v = fx.get(); /* block */ }
+  <span style="color: #6434A3;">void</span> <span style="color: #006699;">g</span>(<span style="color: #6434A3;">future</span>&lt;<span style="color: #6434A3;">X</span>&gt; &amp;<span style="color: #BA36A5;">fx</span>) { <span style="color: #6434A3;">X</span> <span style="color: #BA36A5;">v</span> = fx.get(); <span style="color: #8D8D84; font-style: italic;">/* </span><span style="color: #8D8D84; font-style: italic;">block</span><span style="color: #8D8D84; font-style: italic;"> */</span> }
 </pre>
 </div>
 
@@ -2259,20 +2259,20 @@ The packaged_task type is provided to simplify setting up tasks
 connected with futures and promises to be run on threads:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  double accum(double∗ beg, double∗ end, double init) {
-    return accumulate(beg, end, init);
+<pre class="src src-c++">  <span style="color: #6434A3;">double</span> <span style="color: #006699;">accum</span>(<span style="color: #6434A3;">double</span>&#8727; beg, <span style="color: #6434A3;">double</span>&#8727; end, <span style="color: #6434A3;">double</span> <span style="color: #BA36A5;">init</span>) {
+    <span style="color: #0000FF;">return</span> accumulate(beg, end, init);
   }
-  double sum(vector&lt;double&gt;&amp; v) {
-    using Task_type = double(double∗, double∗, double); // accumulate
-    packaged_task&lt;Task_type&gt; pt0{accum};
-    packaged_task&lt;Task_type&gt; pt1{accum};
-    future&lt;double&gt; f0{pt0.get_future()};
-    future&lt;double&gt; f1{pt1.get_future()};
+  <span style="color: #6434A3;">double</span> <span style="color: #006699;">sum</span>(<span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">double</span>&gt;&amp; <span style="color: #BA36A5;">v</span>) {
+    <span style="color: #0000FF;">using</span> <span style="color: #6434A3;">Task_type</span> = <span style="color: #6434A3;">double</span>(<span style="color: #6434A3;">double</span>&#8727;, <span style="color: #6434A3;">double</span>&#8727;, <span style="color: #6434A3;">double</span>); <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">accumulate</span>
+    <span style="color: #6434A3;">packaged_task</span>&lt;Task_type&gt; <span style="color: #BA36A5;">pt0</span>{accum};
+    <span style="color: #6434A3;">packaged_task</span>&lt;Task_type&gt; <span style="color: #BA36A5;">pt1</span>{accum};
+    <span style="color: #6434A3;">future</span>&lt;<span style="color: #6434A3;">double</span>&gt; <span style="color: #BA36A5;">f0</span>{pt0.get_future()};
+    <span style="color: #6434A3;">future</span>&lt;<span style="color: #6434A3;">double</span>&gt; <span style="color: #BA36A5;">f1</span>{pt1.get_future()};
 
-    double∗ first = &amp;v[0];
-    thread t1{move(pt0), first, first + v.size() / 2, 0};
-    thread t2{move(pt1), first + v.size() / 2, first + v.size(), 0};
-    return f0.get() + f1.get();
+    <span style="color: #6434A3;">double</span>&#8727; first = &amp;v[0];
+    <span style="color: #6434A3;">thread</span> <span style="color: #BA36A5;">t1</span>{move(pt0), first, first + v.size() / 2, 0};
+    <span style="color: #6434A3;">thread</span> <span style="color: #BA36A5;">t2</span>{move(pt1), first + v.size() / 2, first + v.size(), 0};
+    <span style="color: #0000FF;">return</span> f0.get() + f1.get();
   }
 </pre>
 </div>
@@ -2282,12 +2282,12 @@ Using <code>async()</code>, you don’t have to think about threads and locks.
 Instead, you think just in terms of tasks that potentially compute their results asynchronously:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++">  auto v0 = &amp;v[0]; auto sz = v.size();
-  auto f0 = async(accum, v0, v0 + sz / 4, 0.0);
-  auto f1 = async(accum, v0 + sz / 4, v0 + sz / 2, 0.0);
-  auto f2 = async(accum, v0 + sz / 2, v0 + sz∗3 / 4, 0.0);
-  auto f3 = async(accum, v0 + sz∗3 / 4, v0 + sz, 0.0);
-  // f0.get() + f1.get() + f2.get() + f3.get();
+<pre class="src src-c++">  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">v0</span> = &amp;v[0]; <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">sz</span> = v.size();
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">f0</span> = async(accum, v0, v0 + sz / 4, 0.0);
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">f1</span> = async(accum, v0 + sz / 4, v0 + sz / 2, 0.0);
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">f2</span> = async(accum, v0 + sz / 2, v0 + sz&#8727;3 / 4, 0.0);
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">f3</span> = async(accum, v0 + sz&#8727;3 / 4, v0 + sz, 0.0);
+  <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">f0.get() + f1.get() + f2.get() + f3.get();</span>
 </pre>
 </div>
 </div>
@@ -2295,7 +2295,7 @@ Instead, you think just in terms of tasks that potentially compute their results
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: scturtle</p>
-<p class="date">Created: 2023-06-14 Wed 17:59</p>
+<p class="date">Created: 2023-06-14 Wed 18:53</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-06-14 Wed 17:59 -->
+<!-- 2023-06-14 Wed 18:53 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Note of Modern CMake</title>
@@ -202,36 +202,36 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgfd19b4b">1. how to run</a>
+<li><a href="#org246069f">1. how to run</a>
 <ul>
-<li><a href="#org2ed0269">1.1. 初始化</a></li>
-<li><a href="#orgf1b3a02">1.2. 构建</a></li>
-<li><a href="#orgb6cfd40">1.3. 指定编译器</a></li>
+<li><a href="#org03d9ab8">1.1. 初始化</a></li>
+<li><a href="#orgdb2feb0">1.2. 构建</a></li>
+<li><a href="#orgaa4f368">1.3. 指定编译器</a></li>
 </ul>
 </li>
-<li><a href="#orgc2f9ccd">2. 语法</a>
+<li><a href="#orgf7ea118">2. 语法</a>
 <ul>
-<li><a href="#orgb525d60">2.1. 基础</a></li>
-<li><a href="#org95dec7a">2.2. 变量</a></li>
-<li><a href="#org2dff734">2.3. 控制流</a></li>
-<li><a href="#orgd55c41d">2.4. generator-expressions</a></li>
+<li><a href="#org59fe0d4">2.1. 基础</a></li>
+<li><a href="#orgdee5c53">2.2. 变量</a></li>
+<li><a href="#org48d13c0">2.3. 控制流</a></li>
+<li><a href="#org6eee85f">2.4. generator-expressions</a></li>
 </ul>
 </li>
-<li><a href="#org0912cd1">3. 目录结构</a></li>
-<li><a href="#org44e5f53">4. -fPIC</a></li>
-<li><a href="#orgbd5c730">5. find package</a></li>
-<li><a href="#org4469b00">6. tools</a></li>
-<li><a href="#orgb01f41a">7. take away</a></li>
+<li><a href="#orgf5beec5">3. 目录结构</a></li>
+<li><a href="#org8e74863">4. -fPIC</a></li>
+<li><a href="#orga9d2d0c">5. find package</a></li>
+<li><a href="#orgfa2ef89">6. tools</a></li>
+<li><a href="#org9b34ae1">7. take away</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgfd19b4b" class="outline-2">
-<h2 id="orgfd19b4b"><span class="section-number-2">1.</span> how to run</h2>
+<div id="outline-container-org246069f" class="outline-2">
+<h2 id="org246069f"><span class="section-number-2">1.</span> how to run</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org2ed0269" class="outline-3">
-<h3 id="org2ed0269"><span class="section-number-3">1.1.</span> 初始化</h3>
+<div id="outline-container-org03d9ab8" class="outline-3">
+<h3 id="org03d9ab8"><span class="section-number-3">1.1.</span> 初始化</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 指定代码根目录和构建目录：
@@ -293,8 +293,8 @@
 </div>
 </div>
 
-<div id="outline-container-orgf1b3a02" class="outline-3">
-<h3 id="orgf1b3a02"><span class="section-number-3">1.2.</span> 构建</h3>
+<div id="outline-container-orgdb2feb0" class="outline-3">
+<h3 id="orgdb2feb0"><span class="section-number-3">1.2.</span> 构建</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-plain">$ cmake --build build
@@ -315,8 +315,8 @@
 </div>
 </div>
 
-<div id="outline-container-orgb6cfd40" class="outline-3">
-<h3 id="orgb6cfd40"><span class="section-number-3">1.3.</span> 指定编译器</h3>
+<div id="outline-container-orgaa4f368" class="outline-3">
+<h3 id="orgaa4f368"><span class="section-number-3">1.3.</span> 指定编译器</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 一种方法是：
@@ -341,18 +341,18 @@
 </div>
 </div>
 
-<div id="outline-container-orgc2f9ccd" class="outline-2">
-<h2 id="orgc2f9ccd"><span class="section-number-2">2.</span> 语法</h2>
+<div id="outline-container-orgf7ea118" class="outline-2">
+<h2 id="orgf7ea118"><span class="section-number-2">2.</span> 语法</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgb525d60" class="outline-3">
-<h3 id="orgb525d60"><span class="section-number-3">2.1.</span> 基础</h3>
+<div id="outline-container-org59fe0d4" class="outline-3">
+<h3 id="org59fe0d4"><span class="section-number-3">2.1.</span> 基础</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 第一行：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
+<pre class="src src-cmake"><span style="color: #006699;">cmake_minimum_required</span>(VERSION 3.10 FATAL_ERROR)
 </pre>
 </div>
 
@@ -360,7 +360,7 @@
 第二行：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">project(YourFancyProjectName LANGUAGES CXX)
+<pre class="src src-cmake"><span style="color: #006699;">project</span>(YourFancyProjectName LANGUAGES CXX)
 </pre>
 </div>
 
@@ -368,7 +368,7 @@
 添加可执行程序的 target:
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">add_executable(main main.cc)
+<pre class="src src-cmake"><span style="color: #006699;">add_executable</span>(main main.cc)
 </pre>
 </div>
 
@@ -376,8 +376,8 @@
 添加静态库或动态库的 target:
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">add_library(mylib STATIC mylib.cc)
-add_library(mylib SHARED mylib.cc)
+<pre class="src src-cmake"><span style="color: #006699;">add_library</span>(mylib STATIC mylib.cc)
+<span style="color: #006699;">add_library</span>(mylib SHARED mylib.cc)
 </pre>
 </div>
 
@@ -389,7 +389,7 @@ add_library(mylib SHARED mylib.cc)
 添加 include 目录：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">target_include_directories(main PUBLIC include)
+<pre class="src src-cmake"><span style="color: #006699;">target_include_directories</span>(main PUBLIC include)
 </pre>
 </div>
 
@@ -423,7 +423,7 @@ add_library(mylib SHARED mylib.cc)
 对于系统库或者第三方库的头文件不报 warning：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">target_include_directories(main SYSTEM PRIVATE ...)
+<pre class="src src-cmake"><span style="color: #006699;">target_include_directories</span>(main SYSTEM PRIVATE ...)
 </pre>
 </div>
 
@@ -431,7 +431,7 @@ add_library(mylib SHARED mylib.cc)
 添加链接库：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">target_link_libraries(main PUBLIC mylib)
+<pre class="src src-cmake"><span style="color: #006699;">target_link_libraries</span>(main PUBLIC mylib)
 </pre>
 </div>
 
@@ -439,7 +439,7 @@ add_library(mylib SHARED mylib.cc)
 指定编译功能：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">target_compile_features(main PUBLIC cxx_std_11)
+<pre class="src src-cmake"><span style="color: #006699;">target_compile_features</span>(main PUBLIC cxx_std_11)
 </pre>
 </div>
 
@@ -447,7 +447,7 @@ add_library(mylib SHARED mylib.cc)
 编译选项：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">target_compile_options(main PRIVATE -Werror)
+<pre class="src src-cmake"><span style="color: #006699;">target_compile_options</span>(main PRIVATE -Werror)
 </pre>
 </div>
 
@@ -457,11 +457,11 @@ Definitions: <code>target_compile_definitions</code>.
 </div>
 </div>
 
-<div id="outline-container-org95dec7a" class="outline-3">
-<h3 id="org95dec7a"><span class="section-number-3">2.2.</span> 变量</h3>
+<div id="outline-container-orgdee5c53" class="outline-3">
+<h3 id="orgdee5c53"><span class="section-number-3">2.2.</span> 变量</h3>
 <div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
-<pre class="src src-cmake">set(VARIABLE "value")
+<pre class="src src-cmake"><span style="color: #006699;">set</span>(VARIABLE <span style="color: #008000;">"value"</span>)
 </pre>
 </div>
 
@@ -469,10 +469,10 @@ Definitions: <code>target_compile_definitions</code>.
 Debug 的时候常用：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">message(STATUS "MY_VARIABLE=${MY_VARIABLE}")
+<pre class="src src-cmake"><span style="color: #006699;">message</span>(STATUS <span style="color: #008000;">"MY_VARIABLE=${</span><span style="color: #BA36A5;">MY_VARIABLE</span><span style="color: #008000;">}"</span>)
 
-include(CMakePrintHelpers)
-cmake_print_variables(MY_VARIABLE)
+<span style="color: #006699;">include</span>(CMakePrintHelpers)
+<span style="color: #006699;">cmake_print_variables</span>(MY_VARIABLE)
 </pre>
 </div>
 
@@ -488,7 +488,7 @@ TODO: 字符串和列表相关函数。
 定义选项常用：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">option(MY_OPTION "This is settable from the command line" OFF)
+<pre class="src src-cmake"><span style="color: #006699;">option</span>(MY_OPTION <span style="color: #008000;">"This is settable from the command line"</span> OFF)
 </pre>
 </div>
 
@@ -496,8 +496,8 @@ TODO: 字符串和列表相关函数。
 使选项依赖其他选项：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">include(CMakeDependentOption)
-cmake_dependent_option(BUILD_TESTS "Build your tests" ON "VAL1;VAL2" OFF)
+<pre class="src src-cmake"><span style="color: #006699;">include</span>(CMakeDependentOption)
+<span style="color: #006699;">cmake_dependent_option</span>(BUILD_TESTS <span style="color: #008000;">"Build your tests"</span> ON <span style="color: #008000;">"VAL1;VAL2"</span> OFF)
 </pre>
 </div>
 
@@ -505,9 +505,9 @@ cmake_dependent_option(BUILD_TESTS "Build your tests" ON "VAL1;VAL2" OFF)
 属性：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">set_target_properties(TargetName PROPERTIES CXX_STANDARD 11)
-set_property(TARGET TargetName PROPERTY CXX_STANDARD 11)
-get_property(ResultVariable TARGET TargetName PROPERTY CXX_STANDARD)
+<pre class="src src-cmake"><span style="color: #006699;">set_target_properties</span>(TargetName PROPERTIES CXX_STANDARD 11)
+<span style="color: #006699;">set_property</span>(TARGET TargetName PROPERTY CXX_STANDARD 11)
+<span style="color: #006699;">get_property</span>(ResultVariable TARGET TargetName PROPERTY CXX_STANDARD)
 </pre>
 </div>
 
@@ -522,34 +522,34 @@ get_property(ResultVariable TARGET TargetName PROPERTY CXX_STANDARD)
 </div>
 
 
-<div id="outline-container-org2dff734" class="outline-3">
-<h3 id="org2dff734"><span class="section-number-3">2.3.</span> 控制流</h3>
+<div id="outline-container-org48d13c0" class="outline-3">
+<h3 id="org48d13c0"><span class="section-number-3">2.3.</span> 控制流</h3>
 <div class="outline-text-3" id="text-2-3">
 <div class="org-src-container">
-<pre class="src src-cmake">if(variable)
+<pre class="src src-cmake"><span style="color: #0000FF;">if</span>(variable)
   ...
-else()
+<span style="color: #0000FF;">else</span>()
   ...
-endif()
+<span style="color: #0000FF;">endif</span>()
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-cmake">foreach(var IN ITEMS foo bar baz) ...
-foreach(var IN LISTS my_list) ...
+<pre class="src src-cmake"><span style="color: #0000FF;">foreach</span>(var IN ITEMS foo bar baz) ...
+<span style="color: #0000FF;">foreach</span>(var IN LISTS my_list) ...
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd55c41d" class="outline-3">
-<h3 id="orgd55c41d"><span class="section-number-3">2.4.</span> <a href="https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html">generator-expressions</a></h3>
+<div id="outline-container-org6eee85f" class="outline-3">
+<h3 id="org6eee85f"><span class="section-number-3">2.4.</span> <a href="https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html">generator-expressions</a></h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 当 <code>CONFIG</code> 为 <code>Debug</code> 时才添加 <code>--myflag</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">target_compile_options(myapp PRIVATE "$&lt;$&lt;CONFIG:Debug&gt;:--myflag&gt;")
+<pre class="src src-cmake"><span style="color: #006699;">target_compile_options</span>(myapp PRIVATE <span style="color: #008000;">"$&lt;$&lt;CONFIG:Debug&gt;:--myflag&gt;"</span>)
 </pre>
 </div>
 
@@ -557,8 +557,8 @@ foreach(var IN LISTS my_list) ...
 build 和 install 时使用不同目录：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">target_include_directories(myapp PUBLIC
-  $&lt;BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include&gt;
+<pre class="src src-cmake"><span style="color: #006699;">target_include_directories</span>(myapp PUBLIC
+  $&lt;BUILD_INTERFACE:${<span style="color: #BA36A5;">CMAKE_CURRENT_SOURCE_DIR</span>}/include&gt;
   $&lt;INSTALL_INTERFACE:include&gt;
 )
 </pre>
@@ -568,7 +568,7 @@ build 和 install 时使用不同目录：
 gcc 或 clang 下使用 openmp:
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">target_link_libraries(myapp PUBLIC
+<pre class="src src-cmake"><span style="color: #006699;">target_link_libraries</span>(myapp PUBLIC
   $&lt;$&lt;CXX_COMPILER_ID:Clang&gt;:omp&gt; gomp
 )
 </pre>
@@ -581,8 +581,8 @@ TODO: function, macro.
 </div>
 </div>
 
-<div id="outline-container-org0912cd1" class="outline-2">
-<h2 id="org0912cd1"><span class="section-number-2">3.</span> 目录结构</h2>
+<div id="outline-container-orgf5beec5" class="outline-2">
+<h2 id="orgf5beec5"><span class="section-number-2">3.</span> 目录结构</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-plain">- project_name
@@ -606,7 +606,7 @@ TODO: function, macro.
 使用 <code>cmake</code> 目录下的 <code>*.cmake</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+<pre class="src src-cmake"><span style="color: #006699;">set</span>(CMAKE_MODULE_PATH <span style="color: #008000;">"${</span><span style="color: #BA36A5;">PROJECT_SOURCE_DIR</span><span style="color: #008000;">}/cmake"</span> ${<span style="color: #BA36A5;">CMAKE_MODULE_PATH</span>})
 </pre>
 </div>
 
@@ -614,18 +614,18 @@ TODO: function, macro.
 子目录导入：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">add_subdirectory(src)
-add_subdirectory(3rdparty/other_lib)
+<pre class="src src-cmake"><span style="color: #006699;">add_subdirectory</span>(src)
+<span style="color: #006699;">add_subdirectory</span>(3rdparty/other_lib)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org44e5f53" class="outline-2">
-<h2 id="org44e5f53"><span class="section-number-2">4.</span> <a href="https://murphypei.github.io/blog/2018/10/compile-fpic.html">-fPIC</a></h2>
+<div id="outline-container-org8e74863" class="outline-2">
+<h2 id="org8e74863"><span class="section-number-2">4.</span> <a href="https://murphypei.github.io/blog/2018/10/compile-fpic.html">-fPIC</a></h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
-<pre class="src src-cmake">set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+<pre class="src src-cmake"><span style="color: #006699;">set</span>(CMAKE_POSITION_INDEPENDENT_CODE ON)
 </pre>
 </div>
 
@@ -639,8 +639,8 @@ linux 编译动态库需要加，否则连接时会报错：
 </div>
 </div>
 
-<div id="outline-container-orgbd5c730" class="outline-2">
-<h2 id="orgbd5c730"><span class="section-number-2">5.</span> find package</h2>
+<div id="outline-container-orga9d2d0c" class="outline-2">
+<h2 id="orga9d2d0c"><span class="section-number-2">5.</span> find package</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 <a href="https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html#find-modules">cmake built-in find modules</a>
@@ -655,9 +655,9 @@ linux 编译动态库需要加，否则连接时会报错：
 </p>
 
 <div class="org-src-container">
-<pre class="src src-cmake">SET(OpenCV_DIR /home/build/opencv)
-find_package(OpenCV REQUIRED)
-target_link_libraries(opencv_example PRIVATE opencv::core opencv::video opencv::imgproc)
+<pre class="src src-cmake"><span style="color: #006699;">SET</span>(OpenCV_DIR /home/build/opencv)
+<span style="color: #006699;">find_package</span>(OpenCV REQUIRED)
+<span style="color: #006699;">target_link_libraries</span>(opencv_example PRIVATE opencv::core opencv::video opencv::imgproc)
 </pre>
 </div>
 
@@ -665,8 +665,8 @@ target_link_libraries(opencv_example PRIVATE opencv::core opencv::video opencv::
 使用部分组件：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">find_package(OpenCV 3.3 REQUIRED COMPONENTS highgui features2d video)
-find_package(Boost 1.50 REQUIRED COMPONENTS filesystem serialization)
+<pre class="src src-cmake"><span style="color: #006699;">find_package</span>(OpenCV 3.3 REQUIRED COMPONENTS highgui features2d video)
+<span style="color: #006699;">find_package</span>(Boost 1.50 REQUIRED COMPONENTS filesystem serialization)
 </pre>
 </div>
 
@@ -674,11 +674,11 @@ find_package(Boost 1.50 REQUIRED COMPONENTS filesystem serialization)
 对于 components 比较多的库，有时候用非 target 的 link 比较方便：
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">target_include_directories(myapp SYSTEM PUBLIC
-  ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS}
+<pre class="src src-cmake"><span style="color: #006699;">target_include_directories</span>(myapp SYSTEM PUBLIC
+  ${<span style="color: #BA36A5;">OpenCV_INCLUDE_DIRS</span>} ${<span style="color: #BA36A5;">Boost_INCLUDE_DIRS</span>}
 )
-target_link_libraries(myapp PUBLIC
-  ${OpenCV_LIBRARIES} ${Boost_LIBRARIES}
+<span style="color: #006699;">target_link_libraries</span>(myapp PUBLIC
+  ${<span style="color: #BA36A5;">OpenCV_LIBRARIES</span>} ${<span style="color: #BA36A5;">Boost_LIBRARIES</span>}
 )
 </pre>
 </div>
@@ -687,17 +687,17 @@ target_link_libraries(myapp PUBLIC
 一些 C 的包只提供了 <code>XXX.pc</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-cmake">find_package(PkgConfig REQUIRED)
-pkg_check_modules(SDL2 REQUIRED sdl2)
-target_link_libraries(my_app ${SDL2_LIBRARIES})
-target_include_directories(my_app PUBLIC ${SDL2_INCLUDE_DIRS})
+<pre class="src src-cmake"><span style="color: #006699;">find_package</span>(PkgConfig REQUIRED)
+<span style="color: #006699;">pkg_check_modules</span>(SDL2 REQUIRED sdl2)
+<span style="color: #006699;">target_link_libraries</span>(my_app ${<span style="color: #BA36A5;">SDL2_LIBRARIES</span>})
+<span style="color: #006699;">target_include_directories</span>(my_app PUBLIC ${<span style="color: #BA36A5;">SDL2_INCLUDE_DIRS</span>})
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4469b00" class="outline-2">
-<h2 id="org4469b00"><span class="section-number-2">6.</span> tools</h2>
+<div id="outline-container-orgfa2ef89" class="outline-2">
+<h2 id="orgfa2ef89"><span class="section-number-2">6.</span> tools</h2>
 <div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>&lt;lang&gt;_CLANG_TIDY</li>
@@ -708,8 +708,8 @@ target_include_directories(my_app PUBLIC ${SDL2_INCLUDE_DIRS})
 </div>
 </div>
 
-<div id="outline-container-orgb01f41a" class="outline-2">
-<h2 id="orgb01f41a"><span class="section-number-2">7.</span> take away</h2>
+<div id="outline-container-org9b34ae1" class="outline-2">
+<h2 id="org9b34ae1"><span class="section-number-2">7.</span> take away</h2>
 <div class="outline-text-2" id="text-7">
 <ul class="org-ul">
 <li>不要字符串满天飞。</li>
@@ -725,7 +725,7 @@ target_include_directories(my_app PUBLIC ${SDL2_INCLUDE_DIRS})
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: scturtle</p>
-<p class="date">Created: 2023-06-14 Wed 17:59</p>
+<p class="date">Created: 2023-06-14 Wed 18:53</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
