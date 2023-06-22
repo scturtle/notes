@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-06-19 Mon 17:49 -->
+<!-- 2023-06-22 Thu 10:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Note of STL</title>
@@ -18,57 +18,57 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0ece0b8">1. Snippets</a></li>
-<li><a href="#org556372c">2. Non-modifying sequence operations</a>
+<li><a href="#org42938bc">1. Snippets</a></li>
+<li><a href="#org8733731">2. Non-modifying sequence operations</a>
 <ul>
-<li><a href="#org07d5947">2.1. all_of, any_of, none_of</a></li>
-<li><a href="#org253da18">2.2. for_each</a></li>
-<li><a href="#org0f8a96b">2.3. count, count_if</a></li>
-<li><a href="#org9f51e78">2.4. mismatch</a></li>
-<li><a href="#orgb50ae3d">2.5. equal</a></li>
-<li><a href="#orgf2549d2">2.6. find, find_if, find_if_not</a></li>
-<li><a href="#org8d9963d">2.7. find_end</a></li>
-<li><a href="#org63fa0c7">2.8. find_first_of</a></li>
-<li><a href="#org57610df">2.9. adjacent_find</a></li>
-<li><a href="#org82b7d92">2.10. search, search_n</a></li>
+<li><a href="#org687707b">2.1. all_of, any_of, none_of</a></li>
+<li><a href="#orgc3cac91">2.2. for_each</a></li>
+<li><a href="#org3f8735c">2.3. count, count_if</a></li>
+<li><a href="#org45135d1">2.4. mismatch</a></li>
+<li><a href="#org034d721">2.5. equal</a></li>
+<li><a href="#org458cdcc">2.6. find, find_if, find_if_not</a></li>
+<li><a href="#org5feee66">2.7. find_end</a></li>
+<li><a href="#org814e87f">2.8. find_first_of</a></li>
+<li><a href="#org83a8afc">2.9. adjacent_find</a></li>
+<li><a href="#orga63e637">2.10. search, search_n</a></li>
 </ul>
 </li>
-<li><a href="#orgbdf3f9e">3. Modifying sequence operations</a>
+<li><a href="#orgfda5950">3. Modifying sequence operations</a>
 <ul>
-<li><a href="#org115b54f">3.1. copy, copy_if</a></li>
-<li><a href="#org6cc3aa0">3.2. copy_n</a></li>
-<li><a href="#org84867e9">3.3. copy_backward</a></li>
-<li><a href="#org5786f66">3.4. move</a></li>
-<li><a href="#orge736a94">3.5. move_backward</a></li>
-<li><a href="#orgfb0ce31">3.6. fill, fill_n</a></li>
-<li><a href="#org7f1d091">3.7. transform</a></li>
-<li><a href="#org3c4a918">3.8. generate, generate_n</a></li>
-<li><a href="#org14e5014">3.9. remove, remove_if</a></li>
-<li><a href="#orgeff0bd0">3.10. remove_copy, remove_copy_if</a></li>
-<li><a href="#org71f3805">3.11. replace, replace_if</a></li>
-<li><a href="#orgc97c73e">3.12. replace_copy, replace_copy_if</a></li>
-<li><a href="#orga266575">3.13. swap, swap_ranges, iter_swap</a></li>
-<li><a href="#org6c5789d">3.14. reverse, reverse_copy</a></li>
-<li><a href="#orgb892f0e">3.15. rotate, rotate_copy</a></li>
-<li><a href="#org77d3e55">3.16. random_shuffle, shuffle</a></li>
-<li><a href="#org0db3eee">3.17. unique, unique_copy</a></li>
+<li><a href="#orgb5fe6de">3.1. copy, copy_if</a></li>
+<li><a href="#orgdbf35eb">3.2. copy_n</a></li>
+<li><a href="#org38b8e01">3.3. copy_backward</a></li>
+<li><a href="#org1a491da">3.4. move</a></li>
+<li><a href="#org04a21f0">3.5. move_backward</a></li>
+<li><a href="#orgd320a0d">3.6. fill, fill_n</a></li>
+<li><a href="#org61fc29d">3.7. transform</a></li>
+<li><a href="#orge3176f0">3.8. generate, generate_n</a></li>
+<li><a href="#orgd045903">3.9. remove, remove_if</a></li>
+<li><a href="#orgae6cb50">3.10. remove_copy, remove_copy_if</a></li>
+<li><a href="#org1adb93c">3.11. replace, replace_if</a></li>
+<li><a href="#org2c84fa0">3.12. replace_copy, replace_copy_if</a></li>
+<li><a href="#org87a29b9">3.13. swap, swap_ranges, iter_swap</a></li>
+<li><a href="#org159d19e">3.14. reverse, reverse_copy</a></li>
+<li><a href="#orgd58685b">3.15. rotate, rotate_copy</a></li>
+<li><a href="#orgd47201d">3.16. random_shuffle, shuffle</a></li>
+<li><a href="#org680b4cf">3.17. unique, unique_copy</a></li>
 </ul>
 </li>
-<li><a href="#org5b51a9f">4. Partitioning operations</a></li>
-<li><a href="#org590a53e">5. Sorting operations</a></li>
-<li><a href="#org009282c">6. Binary search operations (on sorted ranges)</a></li>
-<li><a href="#orge94515b">7. Set operations (on sorted ranges)</a></li>
-<li><a href="#org0375c2f">8. Heap operations</a></li>
-<li><a href="#org0cee3d0">9. Minimum/maximum operations</a></li>
-<li><a href="#org09bf534">10. Numeric operations (&lt;numeric&gt;)</a></li>
-<li><a href="#orga0698f6">11. C library (&lt;cstdlib&gt;)</a></li>
+<li><a href="#org47b4356">4. Partitioning operations</a></li>
+<li><a href="#org43b300c">5. Sorting operations</a></li>
+<li><a href="#org9d2a88b">6. Binary search operations (on sorted ranges)</a></li>
+<li><a href="#org840ec69">7. Set operations (on sorted ranges)</a></li>
+<li><a href="#org965988a">8. Heap operations</a></li>
+<li><a href="#org53df5f5">9. Minimum/maximum operations</a></li>
+<li><a href="#org7a0143a">10. Numeric operations (&lt;numeric&gt;)</a></li>
+<li><a href="#org8ad1af0">11. C library (&lt;cstdlib&gt;)</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org0ece0b8" class="outline-2">
-<h2 id="org0ece0b8"><span class="section-number-2">1.</span> Snippets</h2>
+<div id="outline-container-org42938bc" class="outline-2">
+<h2 id="org42938bc"><span class="section-number-2">1.</span> Snippets</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #D0372D;">std</span>::copy(v.cbegin(), v.cend(), ostream_iterator&lt;<span style="color: #6434A3;">int</span>&gt;(cout, <span style="color: #008000;">", "</span>));
@@ -78,12 +78,12 @@
 </div>
 </div>
 
-<div id="outline-container-org556372c" class="outline-2">
-<h2 id="org556372c"><span class="section-number-2">2.</span> Non-modifying sequence operations</h2>
+<div id="outline-container-org8733731" class="outline-2">
+<h2 id="org8733731"><span class="section-number-2">2.</span> Non-modifying sequence operations</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org07d5947" class="outline-3">
-<h3 id="org07d5947"><span class="section-number-3">2.1.</span> all_of, any_of, none_of</h3>
+<div id="outline-container-org687707b" class="outline-3">
+<h3 id="org687707b"><span class="section-number-3">2.1.</span> all_of, any_of, none_of</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">InputIt</span>, <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">UnaryPredicate</span>&gt;
@@ -104,8 +104,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org253da18" class="outline-3">
-<h3 id="org253da18"><span class="section-number-3">2.2.</span> for_each</h3>
+<div id="outline-container-orgc3cac91" class="outline-3">
+<h3 id="orgc3cac91"><span class="section-number-3">2.2.</span> for_each</h3>
 <div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">InputIt</span>, <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">UnaryFunction</span>&gt;
@@ -119,8 +119,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org0f8a96b" class="outline-3">
-<h3 id="org0f8a96b"><span class="section-number-3">2.3.</span> count, count_if</h3>
+<div id="outline-container-org3f8735c" class="outline-3">
+<h3 id="org3f8735c"><span class="section-number-3">2.3.</span> count, count_if</h3>
 <div class="outline-text-3" id="text-2-3">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">InputIt</span>, <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">T</span>&gt;
@@ -139,8 +139,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org9f51e78" class="outline-3">
-<h3 id="org9f51e78"><span class="section-number-3">2.4.</span> mismatch</h3>
+<div id="outline-container-org45135d1" class="outline-3">
+<h3 id="org45135d1"><span class="section-number-3">2.4.</span> mismatch</h3>
 <div class="outline-text-3" id="text-2-4">
 <div class="org-src-container">
 <pre class="src src-c++">
@@ -159,8 +159,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgb50ae3d" class="outline-3">
-<h3 id="orgb50ae3d"><span class="section-number-3">2.5.</span> equal</h3>
+<div id="outline-container-org034d721" class="outline-3">
+<h3 id="org034d721"><span class="section-number-3">2.5.</span> equal</h3>
 <div class="outline-text-3" id="text-2-5">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">InputIt1</span>, <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">InputIt2</span>&gt;
@@ -177,8 +177,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgf2549d2" class="outline-3">
-<h3 id="orgf2549d2"><span class="section-number-3">2.6.</span> find, find_if, find_if_not</h3>
+<div id="outline-container-org458cdcc" class="outline-3">
+<h3 id="org458cdcc"><span class="section-number-3">2.6.</span> find, find_if, find_if_not</h3>
 <div class="outline-text-3" id="text-2-6">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">InputIt</span>, <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">T</span>&gt;
@@ -196,8 +196,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org8d9963d" class="outline-3">
-<h3 id="org8d9963d"><span class="section-number-3">2.7.</span> find_end</h3>
+<div id="outline-container-org5feee66" class="outline-3">
+<h3 id="org5feee66"><span class="section-number-3">2.7.</span> find_end</h3>
 <div class="outline-text-3" id="text-2-7">
 <p>
 find last range using <code>std::search</code>
@@ -212,8 +212,8 @@ find last range using <code>std::search</code>
 </div>
 </div>
 </div>
-<div id="outline-container-org63fa0c7" class="outline-3">
-<h3 id="org63fa0c7"><span class="section-number-3">2.8.</span> find_first_of</h3>
+<div id="outline-container-org814e87f" class="outline-3">
+<h3 id="org814e87f"><span class="section-number-3">2.8.</span> find_first_of</h3>
 <div class="outline-text-3" id="text-2-8">
 <p>
 find first one of &#x2026;
@@ -228,8 +228,8 @@ find first one of &#x2026;
 </div>
 </div>
 </div>
-<div id="outline-container-org57610df" class="outline-3">
-<h3 id="org57610df"><span class="section-number-3">2.9.</span> adjacent_find</h3>
+<div id="outline-container-org83a8afc" class="outline-3">
+<h3 id="org83a8afc"><span class="section-number-3">2.9.</span> adjacent_find</h3>
 <div class="outline-text-3" id="text-2-9">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">ForwardIt</span>&gt;
@@ -246,8 +246,8 @@ find first one of &#x2026;
 </div>
 </div>
 </div>
-<div id="outline-container-org82b7d92" class="outline-3">
-<h3 id="org82b7d92"><span class="section-number-3">2.10.</span> search, search_n</h3>
+<div id="outline-container-orga63e637" class="outline-3">
+<h3 id="orga63e637"><span class="section-number-3">2.10.</span> search, search_n</h3>
 <div class="outline-text-3" id="text-2-10">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">cont</span> = <span style="color: #008000;">"why waste time learning, when ignorance is instantaneous?"</span>;
@@ -261,12 +261,12 @@ find first one of &#x2026;
 </div>
 </div>
 </div>
-<div id="outline-container-orgbdf3f9e" class="outline-2">
-<h2 id="orgbdf3f9e"><span class="section-number-2">3.</span> Modifying sequence operations</h2>
+<div id="outline-container-orgfda5950" class="outline-2">
+<h2 id="orgfda5950"><span class="section-number-2">3.</span> Modifying sequence operations</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org115b54f" class="outline-3">
-<h3 id="org115b54f"><span class="section-number-3">3.1.</span> copy, copy_if</h3>
+<div id="outline-container-orgb5fe6de" class="outline-3">
+<h3 id="orgb5fe6de"><span class="section-number-3">3.1.</span> copy, copy_if</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Copy [first, last) into [d_first, &#x2026;)
@@ -285,8 +285,8 @@ Copy [first, last) into [d_first, &#x2026;)
 </div>
 </div>
 </div>
-<div id="outline-container-org6cc3aa0" class="outline-3">
-<h3 id="org6cc3aa0"><span class="section-number-3">3.2.</span> copy_n</h3>
+<div id="outline-container-orgdbf35eb" class="outline-3">
+<h3 id="orgdbf35eb"><span class="section-number-3">3.2.</span> copy_n</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 copy n elements start from <code>first</code> to <code>result</code>.
@@ -306,8 +306,8 @@ copy n elements start from <code>first</code> to <code>result</code>.
 </div>
 </div>
 </div>
-<div id="outline-container-org84867e9" class="outline-3">
-<h3 id="org84867e9"><span class="section-number-3">3.3.</span> copy_backward</h3>
+<div id="outline-container-org38b8e01" class="outline-3">
+<h3 id="org38b8e01"><span class="section-number-3">3.3.</span> copy_backward</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Copy (last, first] into (&#x2026;, d_first]
@@ -324,8 +324,8 @@ Copy (last, first] into (&#x2026;, d_first]
 </div>
 </div>
 </div>
-<div id="outline-container-org5786f66" class="outline-3">
-<h3 id="org5786f66"><span class="section-number-3">3.4.</span> move</h3>
+<div id="outline-container-org1a491da" class="outline-3">
+<h3 id="org1a491da"><span class="section-number-3">3.4.</span> move</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 batch <code>move</code>, not really delete those in [first, last)
@@ -342,16 +342,16 @@ batch <code>move</code>, not really delete those in [first, last)
 </div>
 </div>
 </div>
-<div id="outline-container-orge736a94" class="outline-3">
-<h3 id="orge736a94"><span class="section-number-3">3.5.</span> move_backward</h3>
+<div id="outline-container-org04a21f0" class="outline-3">
+<h3 id="org04a21f0"><span class="section-number-3">3.5.</span> move_backward</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 same as <code>copy_backward</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orgfb0ce31" class="outline-3">
-<h3 id="orgfb0ce31"><span class="section-number-3">3.6.</span> fill, fill_n</h3>
+<div id="outline-container-orgd320a0d" class="outline-3">
+<h3 id="orgd320a0d"><span class="section-number-3">3.6.</span> fill, fill_n</h3>
 <div class="outline-text-3" id="text-3-6">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">ForwardIt</span>, <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">T</span>&gt;
@@ -365,8 +365,8 @@ same as <code>copy_backward</code>
 </div>
 </div>
 </div>
-<div id="outline-container-org7f1d091" class="outline-3">
-<h3 id="org7f1d091"><span class="section-number-3">3.7.</span> transform</h3>
+<div id="outline-container-org61fc29d" class="outline-3">
+<h3 id="org61fc29d"><span class="section-number-3">3.7.</span> transform</h3>
 <div class="outline-text-3" id="text-3-7">
 <p>
 applies a function to a range of elements
@@ -388,8 +388,8 @@ applies a function to a range of elements
 </div>
 </div>
 </div>
-<div id="outline-container-org3c4a918" class="outline-3">
-<h3 id="org3c4a918"><span class="section-number-3">3.8.</span> generate, generate_n</h3>
+<div id="outline-container-orge3176f0" class="outline-3">
+<h3 id="orge3176f0"><span class="section-number-3">3.8.</span> generate, generate_n</h3>
 <div class="outline-text-3" id="text-3-8">
 <p>
 saves the result of a function in a range
@@ -407,8 +407,8 @@ saves the result of N applications of a function
 </div>
 </div>
 </div>
-<div id="outline-container-org14e5014" class="outline-3">
-<h3 id="org14e5014"><span class="section-number-3">3.9.</span> remove, remove_if</h3>
+<div id="outline-container-orgd045903" class="outline-3">
+<h3 id="orgd045903"><span class="section-number-3">3.9.</span> remove, remove_if</h3>
 <div class="outline-text-3" id="text-3-9">
 <p>
 Removes all elements satisfying specific criteria from the range [first, last).
@@ -433,16 +433,16 @@ Done by <b>shifting</b>.
 </div>
 </div>
 </div>
-<div id="outline-container-orgeff0bd0" class="outline-3">
-<h3 id="orgeff0bd0"><span class="section-number-3">3.10.</span> remove_copy, remove_copy_if</h3>
+<div id="outline-container-orgae6cb50" class="outline-3">
+<h3 id="orgae6cb50"><span class="section-number-3">3.10.</span> remove_copy, remove_copy_if</h3>
 <div class="outline-text-3" id="text-3-10">
 <p>
 copy and omit some
 </p>
 </div>
 </div>
-<div id="outline-container-org71f3805" class="outline-3">
-<h3 id="org71f3805"><span class="section-number-3">3.11.</span> replace, replace_if</h3>
+<div id="outline-container-org1adb93c" class="outline-3">
+<h3 id="org1adb93c"><span class="section-number-3">3.11.</span> replace, replace_if</h3>
 <div class="outline-text-3" id="text-3-11">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">ForwardIt</span>, <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">T</span>&gt;
@@ -460,16 +460,16 @@ copy and omit some
 </div>
 </div>
 </div>
-<div id="outline-container-orgc97c73e" class="outline-3">
-<h3 id="orgc97c73e"><span class="section-number-3">3.12.</span> replace_copy, replace_copy_if</h3>
+<div id="outline-container-org2c84fa0" class="outline-3">
+<h3 id="org2c84fa0"><span class="section-number-3">3.12.</span> replace_copy, replace_copy_if</h3>
 <div class="outline-text-3" id="text-3-12">
 <p>
 copy and replace some
 </p>
 </div>
 </div>
-<div id="outline-container-orga266575" class="outline-3">
-<h3 id="orga266575"><span class="section-number-3">3.13.</span> swap, swap_ranges, iter_swap</h3>
+<div id="outline-container-org87a29b9" class="outline-3">
+<h3 id="org87a29b9"><span class="section-number-3">3.13.</span> swap, swap_ranges, iter_swap</h3>
 <div class="outline-text-3" id="text-3-13">
 <p>
 Swaps value / <b>container</b> a and b.
@@ -496,8 +496,8 @@ Swaps value / <b>container</b> a and b.
 </div>
 </div>
 </div>
-<div id="outline-container-org6c5789d" class="outline-3">
-<h3 id="org6c5789d"><span class="section-number-3">3.14.</span> reverse, reverse_copy</h3>
+<div id="outline-container-org159d19e" class="outline-3">
+<h3 id="org159d19e"><span class="section-number-3">3.14.</span> reverse, reverse_copy</h3>
 <div class="outline-text-3" id="text-3-14">
 <p>
 just use <b>swap</b> on bidirectional iterators
@@ -519,8 +519,8 @@ just use <b>swap</b> on bidirectional iterators
 </div>
 </div>
 </div>
-<div id="outline-container-orgb892f0e" class="outline-3">
-<h3 id="orgb892f0e"><span class="section-number-3">3.15.</span> rotate, rotate_copy</h3>
+<div id="outline-container-orgd58685b" class="outline-3">
+<h3 id="orgd58685b"><span class="section-number-3">3.15.</span> rotate, rotate_copy</h3>
 <div class="outline-text-3" id="text-3-15">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">ForwardIt</span>&gt;
@@ -550,8 +550,8 @@ just use <b>swap</b> on bidirectional iterators
 </div>
 </div>
 </div>
-<div id="outline-container-org77d3e55" class="outline-3">
-<h3 id="org77d3e55"><span class="section-number-3">3.16.</span> random_shuffle, shuffle</h3>
+<div id="outline-container-orgd47201d" class="outline-3">
+<h3 id="orgd47201d"><span class="section-number-3">3.16.</span> random_shuffle, shuffle</h3>
 <div class="outline-text-3" id="text-3-16">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">RandomIt</span>&gt; <span style="color: #6434A3;">void</span> <span style="color: #006699;">random_shuffle</span>(<span style="color: #6434A3;">RandomIt</span> <span style="color: #BA36A5;">first</span>, <span style="color: #6434A3;">RandomIt</span> <span style="color: #BA36A5;">last</span>) {
@@ -566,8 +566,8 @@ just use <b>swap</b> on bidirectional iterators
 </div>
 </div>
 </div>
-<div id="outline-container-org0db3eee" class="outline-3">
-<h3 id="org0db3eee"><span class="section-number-3">3.17.</span> unique, unique_copy</h3>
+<div id="outline-container-org680b4cf" class="outline-3">
+<h3 id="org680b4cf"><span class="section-number-3">3.17.</span> unique, unique_copy</h3>
 <div class="outline-text-3" id="text-3-17">
 <p>
 Removes all <b>consecutive duplicate elements</b> from the range [first, last).
@@ -590,8 +590,8 @@ Returns a past-the-end iterator for the new logical end of the range.
 </div>
 </div>
 </div>
-<div id="outline-container-org5b51a9f" class="outline-2">
-<h2 id="org5b51a9f"><span class="section-number-2">4.</span> Partitioning operations</h2>
+<div id="outline-container-org47b4356" class="outline-2">
+<h2 id="org47b4356"><span class="section-number-2">4.</span> Partitioning operations</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span> &lt;<span style="color: #0000FF;">class</span> <span style="color: #6434A3;">BidirIt</span>, <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">UnaryPredicate</span>&gt;
@@ -618,8 +618,8 @@ Returns a past-the-end iterator for the new logical end of the range.
 </div>
 </div>
 </div>
-<div id="outline-container-org590a53e" class="outline-2">
-<h2 id="org590a53e"><span class="section-number-2">5.</span> Sorting operations</h2>
+<div id="outline-container-org43b300c" class="outline-2">
+<h2 id="org43b300c"><span class="section-number-2">5.</span> Sorting operations</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-c++">
@@ -639,8 +639,8 @@ Returns a past-the-end iterator for the new logical end of the range.
 </div>
 </div>
 </div>
-<div id="outline-container-org009282c" class="outline-2">
-<h2 id="org009282c"><span class="section-number-2">6.</span> Binary search operations (on sorted ranges)</h2>
+<div id="outline-container-org9d2a88b" class="outline-2">
+<h2 id="org9d2a88b"><span class="section-number-2">6.</span> Binary search operations (on sorted ranges)</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #6434A3;">bool</span> <span style="color: #006699;">binary_search</span>(<span style="color: #6434A3;">ForwardIt</span> <span style="color: #BA36A5;">first</span>, <span style="color: #6434A3;">ForwardIt</span> <span style="color: #BA36A5;">last</span>, <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">T</span> &amp;<span style="color: #BA36A5;">value</span>);
@@ -655,8 +655,8 @@ Returns a past-the-end iterator for the new logical end of the range.
 </div>
 </div>
 </div>
-<div id="outline-container-orge94515b" class="outline-2">
-<h2 id="orge94515b"><span class="section-number-2">7.</span> Set operations (on sorted ranges)</h2>
+<div id="outline-container-org840ec69" class="outline-2">
+<h2 id="org840ec69"><span class="section-number-2">7.</span> Set operations (on sorted ranges)</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 just copy
@@ -684,8 +684,8 @@ just copy
 </div>
 </div>
 </div>
-<div id="outline-container-org0375c2f" class="outline-2">
-<h2 id="org0375c2f"><span class="section-number-2">8.</span> Heap operations</h2>
+<div id="outline-container-org965988a" class="outline-2">
+<h2 id="org965988a"><span class="section-number-2">8.</span> Heap operations</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 the default is a max heap
@@ -703,8 +703,8 @@ the default is a max heap
 </div>
 </div>
 </div>
-<div id="outline-container-org0cee3d0" class="outline-2">
-<h2 id="org0cee3d0"><span class="section-number-2">9.</span> Minimum/maximum operations</h2>
+<div id="outline-container-org53df5f5" class="outline-2">
+<h2 id="org53df5f5"><span class="section-number-2">9.</span> Minimum/maximum operations</h2>
 <div class="outline-text-2" id="text-9">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">T</span> &amp;<span style="color: #006699;">max</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">T</span> &amp;<span style="color: #BA36A5;">a</span>, <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">T</span> &amp;<span style="color: #BA36A5;">b</span>);
@@ -739,8 +739,8 @@ permutation
 </div>
 </div>
 </div>
-<div id="outline-container-org09bf534" class="outline-2">
-<h2 id="org09bf534"><span class="section-number-2">10.</span> Numeric operations (&lt;numeric&gt;)</h2>
+<div id="outline-container-org7a0143a" class="outline-2">
+<h2 id="org7a0143a"><span class="section-number-2">10.</span> Numeric operations (&lt;numeric&gt;)</h2>
 <div class="outline-text-2" id="text-10">
 <p>
 range()
@@ -765,8 +765,8 @@ inner_product, adjacent_difference, partial_sum
 </p>
 </div>
 </div>
-<div id="outline-container-orga0698f6" class="outline-2">
-<h2 id="orga0698f6"><span class="section-number-2">11.</span> C library (&lt;cstdlib&gt;)</h2>
+<div id="outline-container-org8ad1af0" class="outline-2">
+<h2 id="org8ad1af0"><span class="section-number-2">11.</span> C library (&lt;cstdlib&gt;)</h2>
 <div class="outline-text-2" id="text-11">
 <ol class="org-ol">
 <li>ptr - pointer to the array to sort</li>
@@ -811,7 +811,7 @@ inner_product, adjacent_difference, partial_sum
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: scturtle</p>
-<p class="date">Created: 2023-06-19 Mon 17:49</p>
+<p class="date">Created: 2023-06-22 Thu 10:10</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -1,6 +1,10 @@
 :root {
   --base-color: #4169e1;
 }
+.title {
+  text-align: center;
+  margin-bottom: .2em;
+}
 body {
   margin: 0;
   line-height: 1.4rem;

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-06-19 Mon 17:49 -->
+<!-- 2023-06-22 Thu 10:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Note of "A Tour of C++"</title>
@@ -18,40 +18,40 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org31efa89">1. The Basics</a></li>
-<li><a href="#org32863a1">2. User-Defined Types</a></li>
-<li><a href="#org590b93f">3. Modularity</a></li>
-<li><a href="#orgf1b0c9f">4. Classes</a>
+<li><a href="#org912500c">1. The Basics</a></li>
+<li><a href="#orgf75c46a">2. User-Defined Types</a></li>
+<li><a href="#orgb5fe6de">3. Modularity</a></li>
+<li><a href="#orgbacfbcc">4. Classes</a>
 <ul>
-<li><a href="#org13a7ee3">4.1. Dynamic Casting</a></li>
-<li><a href="#org4133641">4.2. Copy and Move</a></li>
-<li><a href="#org592a8cb">4.3. Essential Operations</a></li>
+<li><a href="#orgde75bd5">4.1. Dynamic Casting</a></li>
+<li><a href="#orga0eff75">4.2. Copy and Move</a></li>
+<li><a href="#orgfda5950">4.3. Essential Operations</a></li>
 </ul>
 </li>
-<li><a href="#org57f40d4">5. Templates</a></li>
-<li><a href="#org5decddf">6. Library Overview</a></li>
-<li><a href="#org68f859b">7. Strings and Regular Expressions</a>
+<li><a href="#org2c6fc19">5. Templates</a></li>
+<li><a href="#org7a0143a">6. Library Overview</a></li>
+<li><a href="#orge9e4bf2">7. Strings and Regular Expressions</a>
 <ul>
-<li><a href="#org3187c9f">7.1. Regular Expressions</a></li>
+<li><a href="#org84bb2b1">7.1. Regular Expressions</a></li>
 </ul>
 </li>
-<li><a href="#org3c03d70">8. I/O Streams</a></li>
-<li><a href="#org65dad0b">9. Containers</a></li>
-<li><a href="#org07f9660">10. Algorithms</a></li>
-<li><a href="#orgb719a6f">11. Utilities</a>
+<li><a href="#org3be4fbd">8. I/O Streams</a></li>
+<li><a href="#orged99657">9. Containers</a></li>
+<li><a href="#org06586d3">10. Algorithms</a></li>
+<li><a href="#orgde02da4">11. Utilities</a>
 <ul>
-<li><a href="#orgd210c81">11.1. Smart Pointers</a></li>
-<li><a href="#org5af4942">11.2. Specialized Containers</a></li>
+<li><a href="#org9bce042">11.1. Smart Pointers</a></li>
+<li><a href="#org80d67b1">11.2. Specialized Containers</a></li>
 </ul>
 </li>
-<li><a href="#org2a6ed69">12. Numerics</a></li>
-<li><a href="#org781a4f4">13. Concurrency</a></li>
+<li><a href="#org73caaa1">12. Numerics</a></li>
+<li><a href="#org8986dd3">13. Concurrency</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org31efa89" class="outline-2">
-<h2 id="org31efa89"><span class="section-number-2">1.</span> The Basics</h2>
+<div id="outline-container-org912500c" class="outline-2">
+<h2 id="org912500c"><span class="section-number-2">1.</span> The Basics</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The minimal C++ program:
@@ -158,8 +158,8 @@ prefer the <code>=</code> syntax for the initialization in declarations using <c
 </div>
 </div>
 
-<div id="outline-container-org32863a1" class="outline-2">
-<h2 id="org32863a1"><span class="section-number-2">2.</span> User-Defined Types</h2>
+<div id="outline-container-orgf75c46a" class="outline-2">
+<h2 id="orgf75c46a"><span class="section-number-2">2.</span> User-Defined Types</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A <code>struct</code> is simply a class with members public by default:
@@ -217,8 +217,8 @@ You can remove the <code>class</code> from <code>enum</code> class to get a plai
 </div>
 </div>
 
-<div id="outline-container-org590b93f" class="outline-2">
-<h2 id="org590b93f"><span class="section-number-2">3.</span> Modularity</h2>
+<div id="outline-container-orgb5fe6de" class="outline-2">
+<h2 id="orgb5fe6de"><span class="section-number-2">3.</span> Modularity</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Declarations / interfaces, <code>Vector.h</code>:
@@ -338,8 +338,8 @@ Compile time check:
 </div>
 </div>
 
-<div id="outline-container-orgf1b0c9f" class="outline-2">
-<h2 id="orgf1b0c9f"><span class="section-number-2">4.</span> Classes</h2>
+<div id="outline-container-orgbacfbcc" class="outline-2">
+<h2 id="orgbacfbcc"><span class="section-number-2">4.</span> Classes</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 <code>const</code> function:
@@ -481,8 +481,8 @@ Explicitly state that a function is meant to override:
 </div>
 </div>
 
-<div id="outline-container-org13a7ee3" class="outline-3">
-<h3 id="org13a7ee3"><span class="section-number-3">4.1.</span> Dynamic Casting</h3>
+<div id="outline-container-orgde75bd5" class="outline-3">
+<h3 id="orgde75bd5"><span class="section-number-3">4.1.</span> Dynamic Casting</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Dynamic casting:
@@ -523,8 +523,8 @@ when it is no longer needed, that is, when its <code>unique_ptr</code> goes out 
 </div>
 </div>
 
-<div id="outline-container-org4133641" class="outline-3">
-<h3 id="org4133641"><span class="section-number-3">4.2.</span> Copy and Move</h3>
+<div id="outline-container-orga0eff75" class="outline-3">
+<h3 id="orga0eff75"><span class="section-number-3">4.2.</span> Copy and Move</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 By default, objects can be copied.
@@ -620,8 +620,8 @@ Manually move with <code>std::move</code>:
 </div>
 
 
-<div id="outline-container-org592a8cb" class="outline-3">
-<h3 id="org592a8cb"><span class="section-number-3">4.3.</span> Essential Operations</h3>
+<div id="outline-container-orgfda5950" class="outline-3">
+<h3 id="orgfda5950"><span class="section-number-3">4.3.</span> Essential Operations</h3>
 <div class="outline-text-3" id="text-4-3">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">class</span> <span style="color: #6434A3;">X</span> {
@@ -703,8 +703,8 @@ In the C++ standard library, RAII (Resource Acquisition Is Initialization) is pe
 </div>
 </div>
 
-<div id="outline-container-org57f40d4" class="outline-2">
-<h2 id="org57f40d4"><span class="section-number-2">5.</span> Templates</h2>
+<div id="outline-container-org2c6fc19" class="outline-2">
+<h2 id="org2c6fc19"><span class="section-number-2">5.</span> Templates</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-c++">  <span style="color: #0000FF;">template</span>&lt;<span style="color: #0000FF;">typename</span> <span style="color: #6434A3;">T</span>&gt;
@@ -899,8 +899,8 @@ only if it cannot be deduced or if there is no default:
 </div>
 </div>
 
-<div id="outline-container-org5decddf" class="outline-2">
-<h2 id="org5decddf"><span class="section-number-2">6.</span> Library Overview</h2>
+<div id="outline-container-org7a0143a" class="outline-2">
+<h2 id="org7a0143a"><span class="section-number-2">6.</span> Library Overview</h2>
 <div class="outline-text-2" id="text-6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 1:</span> Selected Standard Library Headers</caption>
@@ -1037,8 +1037,8 @@ only if it cannot be deduced or if there is no default:
 </div>
 </div>
 
-<div id="outline-container-org68f859b" class="outline-2">
-<h2 id="org68f859b"><span class="section-number-2">7.</span> Strings and Regular Expressions</h2>
+<div id="outline-container-orge9e4bf2" class="outline-2">
+<h2 id="orge9e4bf2"><span class="section-number-2">7.</span> Strings and Regular Expressions</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 A string is mutable: <code>=</code>, <code>+=</code>, <code>[]</code>.
@@ -1068,8 +1068,8 @@ with the character type <code>char</code>:
 </p>
 </div>
 
-<div id="outline-container-org3187c9f" class="outline-3">
-<h3 id="org3187c9f"><span class="section-number-3">7.1.</span> Regular Expressions</h3>
+<div id="outline-container-org84bb2b1" class="outline-3">
+<h3 id="org84bb2b1"><span class="section-number-3">7.1.</span> Regular Expressions</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
 Pattern:
@@ -1140,8 +1140,8 @@ for numeric conversion of strings.
 </div>
 </div>
 
-<div id="outline-container-org3c03d70" class="outline-2">
-<h2 id="org3c03d70"><span class="section-number-2">8.</span> I/O Streams</h2>
+<div id="outline-container-org3be4fbd" class="outline-2">
+<h2 id="org3be4fbd"><span class="section-number-2">8.</span> I/O Streams</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 By default, <code>&gt;&gt;</code> skips initial whitespace.
@@ -1262,8 +1262,8 @@ Use <code>stringstream</code> for in-memory formatting.
 </div>
 </div>
 
-<div id="outline-container-org65dad0b" class="outline-2">
-<h2 id="org65dad0b"><span class="section-number-2">9.</span> Containers</h2>
+<div id="outline-container-orged99657" class="outline-2">
+<h2 id="orged99657"><span class="section-number-2">9.</span> Containers</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 typical implementation of vector:
@@ -1374,8 +1374,8 @@ Pass a container by reference and return a container by value.
 </div>
 </div>
 
-<div id="outline-container-org07f9660" class="outline-2">
-<h2 id="org07f9660"><span class="section-number-2">10.</span> Algorithms</h2>
+<div id="outline-container-org06586d3" class="outline-2">
+<h2 id="org06586d3"><span class="section-number-2">10.</span> Algorithms</h2>
 <div class="outline-text-2" id="text-10">
 <div class="org-src-container">
 <pre class="src src-c++">  sort(vec.begin(), vec.end());
@@ -1500,12 +1500,12 @@ such as an <code>back_inserter</code> that knows about the container.
 </div>
 </div>
 
-<div id="outline-container-orgb719a6f" class="outline-2">
-<h2 id="orgb719a6f"><span class="section-number-2">11.</span> Utilities</h2>
+<div id="outline-container-orgde02da4" class="outline-2">
+<h2 id="orgde02da4"><span class="section-number-2">11.</span> Utilities</h2>
 <div class="outline-text-2" id="text-11">
 </div>
-<div id="outline-container-orgd210c81" class="outline-3">
-<h3 id="orgd210c81"><span class="section-number-3">11.1.</span> Smart Pointers</h3>
+<div id="outline-container-org9bce042" class="outline-3">
+<h3 id="org9bce042"><span class="section-number-3">11.1.</span> Smart Pointers</h3>
 <div class="outline-text-3" id="text-11-1">
 <p>
 In <code>&lt;memory&gt;</code>, the stan- dard library provides two 
@@ -1542,8 +1542,8 @@ Use <code>shared_ptr</code> to refer to shared objects.
 </div>
 </div>
 
-<div id="outline-container-org5af4942" class="outline-3">
-<h3 id="org5af4942"><span class="section-number-3">11.2.</span> Specialized Containers</h3>
+<div id="outline-container-org80d67b1" class="outline-3">
+<h3 id="org80d67b1"><span class="section-number-3">11.2.</span> Specialized Containers</h3>
 <div class="outline-text-3" id="text-11-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 2:</span> Almost Conainers</caption>
@@ -1603,8 +1603,8 @@ Use <code>shared_ptr</code> to refer to shared objects.
 </table>
 </div>
 
-<div id="outline-container-orga01f45d" class="outline-4">
-<h4 id="orga01f45d"><span class="section-number-4">11.2.1.</span> array</h4>
+<div id="outline-container-org603d9a6" class="outline-4">
+<h4 id="org603d9a6"><span class="section-number-4">11.2.1.</span> array</h4>
 <div class="outline-text-4" id="text-11-2-1">
 <p>
 An array, defined in <code>&lt;array&gt;</code>, is a fixed-size sequence of elements of a given type
@@ -1655,8 +1655,8 @@ an array can be explicitly passed to a C-style function that expects a pointer:
 </div>
 </div>
 
-<div id="outline-container-org9047520" class="outline-4">
-<h4 id="org9047520"><span class="section-number-4">11.2.2.</span> bitset</h4>
+<div id="outline-container-org4266a62" class="outline-4">
+<h4 id="org4266a62"><span class="section-number-4">11.2.2.</span> bitset</h4>
 <div class="outline-text-4" id="text-11-2-2">
 <p>
 A <code>bitset</code> can be initialized with an integer or a string:
@@ -1676,8 +1676,8 @@ A <code>bitset</code> can be initialized with an integer or a string:
 </div>
 </div>
 
-<div id="outline-container-org8e8c99a" class="outline-4">
-<h4 id="org8e8c99a"><span class="section-number-4">11.2.3.</span> pair and tuple</h4>
+<div id="outline-container-org28372b1" class="outline-4">
+<h4 id="org28372b1"><span class="section-number-4">11.2.3.</span> pair and tuple</h4>
 <div class="outline-text-4" id="text-11-2-3">
 <p>
 The make_pair() / make_tuple() function makes it easy to create
@@ -1690,8 +1690,8 @@ Elements of tuple can be accessed by <code>get&lt;0&gt;(t), get&lt;1&gt;(t), get
 </div>
 </div>
 
-<div id="outline-container-org9cff50d" class="outline-4">
-<h4 id="org9cff50d"><span class="section-number-4">11.2.4.</span> Time</h4>
+<div id="outline-container-org7276edf" class="outline-4">
+<h4 id="org7276edf"><span class="section-number-4">11.2.4.</span> Time</h4>
 <div class="outline-text-4" id="text-11-2-4">
 <p>
 The standard-library facilities for dealing with time
@@ -1712,8 +1712,8 @@ Timing something:
 </div>
 </div>
 
-<div id="outline-container-org4f3e598" class="outline-4">
-<h4 id="org4f3e598"><span class="section-number-4">11.2.5.</span> Function</h4>
+<div id="outline-container-orgc6b4f66" class="outline-4">
+<h4 id="orgc6b4f66"><span class="section-number-4">11.2.5.</span> Function</h4>
 <div class="outline-text-4" id="text-11-2-5">
 <p>
 A function adaptor takes a function as argument and returns a function object
@@ -1796,8 +1796,8 @@ has_virtual_destructor, and is_base_of.
 </div>
 </div>
 
-<div id="outline-container-org2a6ed69" class="outline-2">
-<h2 id="org2a6ed69"><span class="section-number-2">12.</span> Numerics</h2>
+<div id="outline-container-org73caaa1" class="outline-2">
+<h2 id="org73caaa1"><span class="section-number-2">12.</span> Numerics</h2>
 <div class="outline-text-2" id="text-12">
 <p>
 <code>&lt;math&gt;</code> for float, double, long double :
@@ -1912,8 +1912,8 @@ Use numeric_limits to check that the numeric types are adequate for their use.
 </div>
 </div>
 
-<div id="outline-container-org781a4f4" class="outline-2">
-<h2 id="org781a4f4"><span class="section-number-2">13.</span> Concurrency</h2>
+<div id="outline-container-org8986dd3" class="outline-2">
+<h2 id="org8986dd3"><span class="section-number-2">13.</span> Concurrency</h2>
 <div class="outline-text-2" id="text-13">
 <p>
 threads, mutexes, lock() operations, packaged_tasks, and futures.
@@ -2111,7 +2111,7 @@ Instead, you think just in terms of tasks that potentially compute their results
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: scturtle</p>
-<p class="date">Created: 2023-06-19 Mon 17:49</p>
+<p class="date">Created: 2023-06-22 Thu 10:10</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

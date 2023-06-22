@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-06-19 Mon 17:49 -->
+<!-- 2023-06-22 Thu 10:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>C++ Template Metaprogramming</title>
@@ -18,23 +18,23 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5645110">1. decltype 和 std::declval (C++11)</a></li>
-<li><a href="#org5d35c83">2. type trait</a></li>
-<li><a href="#org3c42593">3. integral_constant</a></li>
-<li><a href="#org863bf7a">4. type trait 实现的例子</a></li>
-<li><a href="#org6cc9254">5. function overload resolution</a></li>
-<li><a href="#org7944e54">6. 模板形参包和递归</a></li>
-<li><a href="#org9404109">7. fibnacci 的四种写法</a></li>
-<li><a href="#orgd99481a">8. SFINAE</a></li>
-<li><a href="#org8a07f6a">9. enable_if</a></li>
-<li><a href="#org8ca8e9d">10. integer_sequence (C++14)</a></li>
-<li><a href="#orgeba845b">11. void_t (C++17)</a></li>
+<li><a href="#org9b253d5">1. decltype 和 std::declval (C++11)</a></li>
+<li><a href="#org687707b">2. type trait</a></li>
+<li><a href="#org912500c">3. integral_constant</a></li>
+<li><a href="#org42b8269">4. type trait 实现的例子</a></li>
+<li><a href="#org458cdcc">5. function overload resolution</a></li>
+<li><a href="#org5feee66">6. 模板形参包和递归</a></li>
+<li><a href="#orga63e637">7. fibnacci 的四种写法</a></li>
+<li><a href="#org8733731">8. SFINAE</a></li>
+<li><a href="#org86a7852">9. enable_if</a></li>
+<li><a href="#orgc57d301">10. integer_sequence (C++14)</a></li>
+<li><a href="#org61fc29d">11. void_t (C++17)</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org5645110" class="outline-2">
-<h2 id="org5645110"><span class="section-number-2">1.</span> decltype 和 std::declval (C++11)</h2>
+<div id="outline-container-org9b253d5" class="outline-2">
+<h2 id="org9b253d5"><span class="section-number-2">1.</span> decltype 和 std::declval (C++11)</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 sizeof, typeid, decltype, noexcept 里的表达式都不会真正生成代码。
@@ -69,8 +69,8 @@ sizeof, typeid, decltype, noexcept 里的表达式都不会真正生成代码。
 </div>
 
 
-<div id="outline-container-org5d35c83" class="outline-2">
-<h2 id="org5d35c83"><span class="section-number-2">2.</span> type trait</h2>
+<div id="outline-container-org687707b" class="outline-2">
+<h2 id="org687707b"><span class="section-number-2">2.</span> type trait</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 元编程的大量脚手架都在 <a href="https://zh.cppreference.com/w/cpp/meta">&lt;type_traits&gt;</a> 。
@@ -97,8 +97,8 @@ Ref: <a href="https://www.youtube.com/watch?v=tiAVWcjIF6o">https://www.youtube.c
 </div>
 
 
-<div id="outline-container-org3c42593" class="outline-2">
-<h2 id="org3c42593"><span class="section-number-2">3.</span> integral_constant</h2>
+<div id="outline-container-org912500c" class="outline-2">
+<h2 id="org912500c"><span class="section-number-2">3.</span> integral_constant</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 最常用的是 <code>integral_constant</code> 和其特化 <code>bool_constant</code>:
@@ -200,8 +200,8 @@ C++ 一共有 14 种基础类型。 <code>&lt;type_traits&gt;</code> 定义了 1
 </div>
 
 
-<div id="outline-container-org863bf7a" class="outline-2">
-<h2 id="org863bf7a"><span class="section-number-2">4.</span> type trait 实现的例子</h2>
+<div id="outline-container-org42b8269" class="outline-2">
+<h2 id="org42b8269"><span class="section-number-2">4.</span> type trait 实现的例子</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 <code>is_void</code>:
@@ -228,8 +228,8 @@ C++ 一共有 14 种基础类型。 <code>&lt;type_traits&gt;</code> 定义了 1
 </div>
 
 
-<div id="outline-container-org6cc9254" class="outline-2">
-<h2 id="org6cc9254"><span class="section-number-2">5.</span> function overload resolution</h2>
+<div id="outline-container-org458cdcc" class="outline-2">
+<h2 id="org458cdcc"><span class="section-number-2">5.</span> function overload resolution</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 <a href="https://abseil.io/tips/148">https://abseil.io/tips/148</a>
@@ -268,8 +268,8 @@ func(integral_constant&lt;<span style="color: #6434A3;">bool</span>, 1 == 2&gt;{
 </div>
 
 
-<div id="outline-container-org7944e54" class="outline-2">
-<h2 id="org7944e54"><span class="section-number-2">6.</span> 模板形参包和递归</h2>
+<div id="outline-container-org5feee66" class="outline-2">
+<h2 id="org5feee66"><span class="section-number-2">6.</span> 模板形参包和递归</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 <a href="https://zh.cppreference.com/w/cpp/language/parameter_pack">https://zh.cppreference.com/w/cpp/language/parameter_pack</a>
@@ -290,8 +290,8 @@ func(integral_constant&lt;<span style="color: #6434A3;">bool</span>, 1 == 2&gt;{
 </div>
 
 
-<div id="outline-container-org9404109" class="outline-2">
-<h2 id="org9404109"><span class="section-number-2">7.</span> fibnacci 的四种写法</h2>
+<div id="outline-container-orga63e637" class="outline-2">
+<h2 id="orga63e637"><span class="section-number-2">7.</span> fibnacci 的四种写法</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #0000FF;">template</span>&lt;<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">n</span>&gt;
@@ -346,8 +346,8 @@ func(integral_constant&lt;<span style="color: #6434A3;">bool</span>, 1 == 2&gt;{
 </div>
 
 
-<div id="outline-container-orgd99481a" class="outline-2">
-<h2 id="orgd99481a"><span class="section-number-2">8.</span> SFINAE</h2>
+<div id="outline-container-org8733731" class="outline-2">
+<h2 id="org8733731"><span class="section-number-2">8.</span> SFINAE</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 <a href="https://zh.cppreference.com/w/cpp/language/function_template">https://zh.cppreference.com/w/cpp/language/function_template</a>
@@ -376,8 +376,8 @@ func(integral_constant&lt;<span style="color: #6434A3;">bool</span>, 1 == 2&gt;{
 </div>
 
 
-<div id="outline-container-org8a07f6a" class="outline-2">
-<h2 id="org8a07f6a"><span class="section-number-2">9.</span> enable_if</h2>
+<div id="outline-container-org86a7852" class="outline-2">
+<h2 id="org86a7852"><span class="section-number-2">9.</span> enable_if</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 当 B 为 true 的时候，有关联类型 type = T。
@@ -423,8 +423,8 @@ func(integral_constant&lt;<span style="color: #6434A3;">bool</span>, 1 == 2&gt;{
 </div>
 
 
-<div id="outline-container-org8ca8e9d" class="outline-2">
-<h2 id="org8ca8e9d"><span class="section-number-2">10.</span> integer_sequence (C++14)</h2>
+<div id="outline-container-orgc57d301" class="outline-2">
+<h2 id="orgc57d301"><span class="section-number-2">10.</span> integer_sequence (C++14)</h2>
 <div class="outline-text-2" id="text-10">
 <p>
 常用 <code>index_sequence</code> 为 <code>T = size_t</code> 的特化。
@@ -477,8 +477,8 @@ func(integral_constant&lt;<span style="color: #6434A3;">bool</span>, 1 == 2&gt;{
 </div>
 
 
-<div id="outline-container-orgeba845b" class="outline-2">
-<h2 id="orgeba845b"><span class="section-number-2">11.</span> void_t (C++17)</h2>
+<div id="outline-container-org61fc29d" class="outline-2">
+<h2 id="org61fc29d"><span class="section-number-2">11.</span> void_t (C++17)</h2>
 <div class="outline-text-2" id="text-11">
 <p>
 (since 2014 from Dr. Brown) <a href="https://www.youtube.com/watch?v=a0FliKwcwXE">https://www.youtube.com/watch?v=a0FliKwcwXE</a>
@@ -534,7 +534,7 @@ func(integral_constant&lt;<span style="color: #6434A3;">bool</span>, 1 == 2&gt;{
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: scturtle</p>
-<p class="date">Created: 2023-06-19 Mon 17:49</p>
+<p class="date">Created: 2023-06-22 Thu 10:10</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

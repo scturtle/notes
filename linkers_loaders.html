@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-06-19 Mon 17:49 -->
+<!-- 2023-06-22 Thu 10:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Note of Linkers and Loaders</title>
@@ -50,39 +50,39 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3525b9d">1. 构建过程</a>
+<li><a href="#org687707b">1. 构建过程</a>
 <ul>
-<li><a href="#org329039b">1.1. 预编译</a></li>
-<li><a href="#org80cfb5a">1.2. 编译</a></li>
-<li><a href="#orgad10239">1.3. 汇编</a></li>
-<li><a href="#org86e6a5d">1.4. 链接</a></li>
-<li><a href="#org71a1002">1.5. 完整过程</a></li>
+<li><a href="#org0d4249a">1.1. 预编译</a></li>
+<li><a href="#orga0f34f4">1.2. 编译</a></li>
+<li><a href="#org42938bc">1.3. 汇编</a></li>
+<li><a href="#org6458ca9">1.4. 链接</a></li>
+<li><a href="#org9b253d5">1.5. 完整过程</a></li>
 </ul>
 </li>
-<li><a href="#orga4c576c">2. 对象（object）文件</a></li>
-<li><a href="#org0ad7a6c">3. 静态链接</a>
+<li><a href="#org912500c">2. 对象（object）文件</a></li>
+<li><a href="#org78dc486">3. 静态链接</a>
 <ul>
-<li><a href="#orgf469e94">3.1. 重定位</a></li>
-<li><a href="#org56b7fef">3.2. &#x2026;</a></li>
+<li><a href="#org3f8735c">3.1. 重定位</a></li>
+<li><a href="#org64c3eee">3.2. &#x2026;</a></li>
 </ul>
 </li>
-<li><a href="#org3f943b0">4. 装载</a></li>
-<li><a href="#org094fe09">5. 动态链接</a>
+<li><a href="#org45135d1">4. 装载</a></li>
+<li><a href="#orgf75c46a">5. 动态链接</a>
 <ul>
-<li><a href="#orge63fa0e">5.1. GOT</a></li>
-<li><a href="#org0c1b33d">5.2. PLT</a></li>
-<li><a href="#orgddce685">5.3. 相关段</a></li>
-<li><a href="#org53b79b2">5.4. 链接步骤</a></li>
+<li><a href="#org42b8269">5.1. GOT</a></li>
+<li><a href="#orge4d735f">5.2. PLT</a></li>
+<li><a href="#org034d721">5.3. 相关段</a></li>
+<li><a href="#org8256295">5.4. 链接步骤</a></li>
 </ul>
 </li>
-<li><a href="#orgfd0426e">6. 共享库查找</a></li>
-<li><a href="#org6d00fe9">7. 程序运行</a></li>
+<li><a href="#org458cdcc">6. 共享库查找</a></li>
+<li><a href="#org8b1900b">7. 程序运行</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org3525b9d" class="outline-2">
-<h2 id="org3525b9d"><span class="section-number-2">1.</span> 构建过程</h2>
+<div id="outline-container-org687707b" class="outline-2">
+<h2 id="org687707b"><span class="section-number-2">1.</span> 构建过程</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 构建分为四个步骤: 预处理, 编译, 汇编, 链接。
@@ -97,8 +97,8 @@ a.out
 </p>
 </div>
 
-<div id="outline-container-org329039b" class="outline-3">
-<h3 id="org329039b"><span class="section-number-3">1.1.</span> 预编译</h3>
+<div id="outline-container-org0d4249a" class="outline-3">
+<h3 id="org0d4249a"><span class="section-number-3">1.1.</span> 预编译</h3>
 <div class="outline-text-3" id="text-1-1">
 <ol class="org-ol">
 <li>删除所有的 <code>#define</code>, 展开所有的宏定义。</li>
@@ -115,8 +115,8 @@ $ cpp hello.c &gt; hello.i
 </div>
 </div>
 
-<div id="outline-container-org80cfb5a" class="outline-3">
-<h3 id="org80cfb5a"><span class="section-number-3">1.2.</span> 编译</h3>
+<div id="outline-container-orga0f34f4" class="outline-3">
+<h3 id="orga0f34f4"><span class="section-number-3">1.2.</span> 编译</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-plain">$ gcc -S hello.i -o hello.s
@@ -133,8 +133,8 @@ C++ 的对应 cc1 的程序为 cc1plus。
 </div>
 </div>
 
-<div id="outline-container-orgad10239" class="outline-3">
-<h3 id="orgad10239"><span class="section-number-3">1.3.</span> 汇编</h3>
+<div id="outline-container-org42938bc" class="outline-3">
+<h3 id="org42938bc"><span class="section-number-3">1.3.</span> 汇编</h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-plain">$ as hello.s -o hello.o
@@ -145,8 +145,8 @@ $ gcc -c hello.s -o hello.o
 </div>
 </div>
 
-<div id="outline-container-org86e6a5d" class="outline-3">
-<h3 id="org86e6a5d"><span class="section-number-3">1.4.</span> 链接</h3>
+<div id="outline-container-org6458ca9" class="outline-3">
+<h3 id="org6458ca9"><span class="section-number-3">1.4.</span> 链接</h3>
 <div class="outline-text-3" id="text-1-4">
 <div class="org-src-container">
 <pre class="src src-plain">$ ld --dynamic-linker /lib64/ld-linux-x86-64.so.2 \
@@ -156,8 +156,8 @@ $ gcc -c hello.s -o hello.o
 </div>
 </div>
 
-<div id="outline-container-org71a1002" class="outline-3">
-<h3 id="org71a1002"><span class="section-number-3">1.5.</span> 完整过程</h3>
+<div id="outline-container-org9b253d5" class="outline-3">
+<h3 id="org9b253d5"><span class="section-number-3">1.5.</span> 完整过程</h3>
 <div class="outline-text-3" id="text-1-5">
 <div class="org-src-container">
 <pre class="src src-plain">$ gcc test.c --verbose
@@ -172,8 +172,8 @@ $ collect2 --dynamic-linker /lib64/ld-linux-x86-64.so.2 \
 </div>
 </div>
 
-<div id="outline-container-orga4c576c" class="outline-2">
-<h2 id="orga4c576c"><span class="section-number-2">2.</span> 对象（object）文件</h2>
+<div id="outline-container-org912500c" class="outline-2">
+<h2 id="org912500c"><span class="section-number-2">2.</span> 对象（object）文件</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Linux 的可执行程序（动态库/静态库）为 ELF 格式（Executable linkable Format）。
@@ -356,8 +356,8 @@ Linux 装载 ELF 过程：
 </div>
 </div>
 
-<div id="outline-container-org0ad7a6c" class="outline-2">
-<h2 id="org0ad7a6c"><span class="section-number-2">3.</span> 静态链接</h2>
+<div id="outline-container-org78dc486" class="outline-2">
+<h2 id="org78dc486"><span class="section-number-2">3.</span> 静态链接</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-plain">$ ld a.o b.o -o a.out
@@ -381,8 +381,8 @@ Linux 装载 ELF 过程：
 </p>
 </div>
 
-<div id="outline-container-orgf469e94" class="outline-3">
-<h3 id="orgf469e94"><span class="section-number-3">3.1.</span> 重定位</h3>
+<div id="outline-container-org3f8735c" class="outline-3">
+<h3 id="org3f8735c"><span class="section-number-3">3.1.</span> 重定位</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 在 test.c 里添加和使用 extern 后编译 test.o。
@@ -423,8 +423,8 @@ $ readelf -s test.o
 </div>
 </div>
 
-<div id="outline-container-org56b7fef" class="outline-3">
-<h3 id="org56b7fef"><span class="section-number-3">3.2.</span> &#x2026;</h3>
+<div id="outline-container-org64c3eee" class="outline-3">
+<h3 id="org64c3eee"><span class="section-number-3">3.2.</span> &#x2026;</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 静态库可以看做一组 object 文件的集合：
@@ -449,8 +449,8 @@ libc-start.o
 </div>
 </div>
 
-<div id="outline-container-org3f943b0" class="outline-2">
-<h2 id="org3f943b0"><span class="section-number-2">4.</span> 装载</h2>
+<div id="outline-container-org45135d1" class="outline-2">
+<h2 id="org45135d1"><span class="section-number-2">4.</span> 装载</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 基础知识：虚拟内存和页映射。
@@ -531,8 +531,8 @@ Section to Segment mapping:
 </div>
 
 
-<div id="outline-container-org094fe09" class="outline-2">
-<h2 id="org094fe09"><span class="section-number-2">5.</span> 动态链接</h2>
+<div id="outline-container-orgf75c46a" class="outline-2">
+<h2 id="orgf75c46a"><span class="section-number-2">5.</span> 动态链接</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-plain">$ gcc lib.c -fPIC -shared -o lib.so
@@ -548,8 +548,8 @@ $ ./a.out
 </p>
 </div>
 
-<div id="outline-container-orge63fa0e" class="outline-3">
-<h3 id="orge63fa0e"><span class="section-number-3">5.1.</span> GOT</h3>
+<div id="outline-container-org42b8269" class="outline-3">
+<h3 id="org42b8269"><span class="section-number-3">5.1.</span> GOT</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 全局偏移表（GOT, Global Offset Table）：在 <b><b>数据段</b></b> 里建立指向跨模块全局变量/函数的指针数组。
@@ -571,8 +571,8 @@ $ objdump -R pic.so  # 查看重定位项
 </div>
 </div>
 
-<div id="outline-container-org0c1b33d" class="outline-3">
-<h3 id="org0c1b33d"><span class="section-number-3">5.2.</span> PLT</h3>
+<div id="outline-container-orge4d735f" class="outline-3">
+<h3 id="orge4d735f"><span class="section-number-3">5.2.</span> PLT</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 延迟绑定：使用PLT（Procedure Linkage Table）来实现当函数第一次被用到时才进行绑定，加快启动速度。
@@ -612,8 +612,8 @@ PLT 存在 <code>.plt</code> 包含上面的跳转代码。
 </div>
 </div>
 
-<div id="outline-container-orgddce685" class="outline-3">
-<h3 id="orgddce685"><span class="section-number-3">5.3.</span> 相关段</h3>
+<div id="outline-container-org034d721" class="outline-3">
+<h3 id="org034d721"><span class="section-number-3">5.3.</span> 相关段</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 动态链接时，操作系统在装载完可执行程序之后，先启动动态链接器 (<code>ld.so</code>)。
@@ -659,8 +659,8 @@ $ readelf -sD lib.so
 </div>
 </div>
 
-<div id="outline-container-org53b79b2" class="outline-3">
-<h3 id="org53b79b2"><span class="section-number-3">5.4.</span> 链接步骤</h3>
+<div id="outline-container-org8256295" class="outline-3">
+<h3 id="org8256295"><span class="section-number-3">5.4.</span> 链接步骤</h3>
 <div class="outline-text-3" id="text-5-4">
 <ol class="org-ol">
 <li>动态链接器自举。
@@ -685,8 +685,8 @@ $ readelf -sD lib.so
 </div>
 
 
-<div id="outline-container-orgfd0426e" class="outline-2">
-<h2 id="orgfd0426e"><span class="section-number-2">6.</span> 共享库查找</h2>
+<div id="outline-container-org458cdcc" class="outline-2">
+<h2 id="org458cdcc"><span class="section-number-2">6.</span> 共享库查找</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 如果 <code>.dynamic</code> 中 <code>NEED</code> 项存的是绝对路径，则直接按照这个路径去查找。
@@ -716,8 +716,8 @@ $ readelf -sD lib.so
 </div>
 
 
-<div id="outline-container-org6d00fe9" class="outline-2">
-<h2 id="org6d00fe9"><span class="section-number-2">7.</span> 程序运行</h2>
+<div id="outline-container-org8b1900b" class="outline-2">
+<h2 id="org8b1900b"><span class="section-number-2">7.</span> 程序运行</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Linux 下程序的入口为 <code>_start()</code>, 为 glibc 的一部分。
@@ -778,7 +778,7 @@ $ objdump -dr /usr/lib/crtn.o
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: scturtle</p>
-<p class="date">Created: 2023-06-19 Mon 17:49</p>
+<p class="date">Created: 2023-06-22 Thu 10:10</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
