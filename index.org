@@ -5,6 +5,7 @@
 
 * Archive
 
+- [[file:mlir.org][MLIR Cheatsheet]]
 - [[file:cpp_meta.org][Note of C++ Metaprogramming]]
 - [[file:cpp_tools.org][Note of C++ Tools]]
 - [[file:linkers_loaders.org][Note of Linkers and Loaders]]

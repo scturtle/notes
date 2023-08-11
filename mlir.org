@@ -1,0 +1,203 @@
+#+TITLE: MLIR cheatsheet
+#+OPTIONS: toc:2 num:3 H:4 ^:nil pri:t
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="org.css"/>
+
+* foo-opt
+
+Create =CMakeLists.txt=:
+#+begin_src cmake
+cmake_minimum_required(VERSION 3.25)
+project(foo)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+find_package(MLIR REQUIRED CONFIG)
+message(STATUS "Using MLIRConfig.cmake in: ${MLIR_DIR}")
+message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
+
+set(LLVM_RUNTIME_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/bin)
+set(LLVM_LIBRARY_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/lib)
+set(MLIR_BINARY_DIR ${CMAKE_BINARY_DIR})
+
+list(APPEND CMAKE_MODULE_PATH "${MLIR_CMAKE_DIR}")
+list(APPEND CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR}")
+include(TableGen)
+include(AddLLVM)
+include(AddMLIR)
+include(HandleLLVMOptions)
+
+include_directories(${LLVM_INCLUDE_DIRS})
+include_directories(${MLIR_INCLUDE_DIRS})
+include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_BINARY_DIR}/include)
+link_directories(${LLVM_BUILD_LIBRARY_DIR})
+add_definitions(${LLVM_DEFINITIONS})
+
+add_llvm_executable(foo-opt tools/FooOpt.cpp)
+llvm_update_compile_flags(foo-opt)
+target_link_libraries(foo-opt PRIVATE
+  MLIROptLib
+)
+mlir_check_all_link_libraries(foo-opt)
+#+end_src
+
+Create =tools/FooOpt.cpp=:
+#+begin_src c++
+#include "mlir/Tools/mlir-opt/MlirOptMain.h"
+
+int main(int argc, char **argv) {
+  mlir::DialectRegistry registry;
+
+  return mlir::asMainReturnCode(
+      mlir::MlirOptMain(argc, argv, "foo opt\n", registry));
+}
+#+end_src
+
+=build.sh=:
+#+begin_src bash
+cmake -H. -Bbuild -GNinja \
+	-DMLIR_DIR=${PATH_TO_MLIR_BUILD}/build/lib/cmake/mlir \
+	-DLLVM_DIR=${PATH_TO_MLIR_BUILD}/build/lib/cmake/llvm
+#+end_src
+
+* register built-in dialects
+
+Change =CMakeLists.txt=:
+#+begin_src diff
+ link_directories(${LLVM_BUILD_LIBRARY_DIR})
+ add_definitions(${LLVM_DEFINITIONS})
+ 
++get_property(dialect_libs GLOBAL PROPERTY MLIR_DIALECT_LIBS)
+ add_llvm_executable(foo-opt tools/FooOpt.cpp)
+ llvm_update_compile_flags(foo-opt)
+ target_link_libraries(foo-opt PRIVATE
+   MLIROptLib
++  ${dialect_libs}
+ )
+ mlir_check_all_link_libraries(foo-opt)
+#+end_src
+
+Change =tools/FooOpt.cpp=:
+#+begin_src diff
+ #include "mlir/Tools/mlir-opt/MlirOptMain.h"
++#include "mlir/IR/DialectRegistry.h"
++#include "mlir/InitAllDialects.h"
+ 
+ int main(int argc, char **argv) {
+   mlir::DialectRegistry registry;
++  mlir::registerAllDialects(registry);
+ 
+   return mlir::asMainReturnCode(
+       mlir::MlirOptMain(argc, argv, "foo opt\n", registry));
+#+end_src
+
+* register built-in passes
+
+Change =CMakeLists.txt=:
+#+begin_src diff
+ get_property(dialect_libs GLOBAL PROPERTY MLIR_DIALECT_LIBS)
++get_property(conversion_libs GLOBAL PROPERTY MLIR_CONVERSION_LIBS)
+ add_llvm_executable(foo-opt tools/FooOpt.cpp)
+ llvm_update_compile_flags(foo-opt)
+ target_link_libraries(foo-opt PRIVATE
+   MLIROptLib
+   ${dialect_libs}
++  ${conversion_libs}
+ )
+#+end_src
+
+Change =tools/FooOpt.cpp=:
+#+begin_src diff
+ #include "mlir/Tools/mlir-opt/MlirOptMain.h"
+ #include "mlir/IR/DialectRegistry.h"
+ #include "mlir/InitAllDialects.h"
++#include "mlir/InitAllPasses.h"
+ 
+ int main(int argc, char **argv) {
+   mlir::DialectRegistry registry;
+   mlir::registerAllDialects(registry);
++  mlir::registerAllPasses();
+ 
+   return mlir::asMainReturnCode(
+       mlir::MlirOptMain(argc, argv, "foo opt\n", registry));
+#+end_src
+
+
+* add unit tests
+
+Change =CMakeLists.txt=:
+#+begin_src diff
+ ${conversion_libs}
+ )
+ mlir_check_all_link_libraries(foo-opt)
++
++add_subdirectory(tests)
+  
+#+end_src
+
+Make =tests= directory, add =tests/CMakeLists.txt=:
+#+begin_src cmake
+configure_lit_site_cfg(
+  ${CMAKE_CURRENT_SOURCE_DIR}/lit.site.cfg.py.in
+  ${CMAKE_CURRENT_BINARY_DIR}/lit.site.cfg.py
+  MAIN_CONFIG
+  ${CMAKE_CURRENT_SOURCE_DIR}/lit.cfg.py
+)
+
+add_lit_testsuite(check-foo
+  "Running the lit tests"
+  ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDS foo-opt)
+set_target_properties(check-foo PROPERTIES FOLDER "Tests")
+#+end_src
+
+Add =tests/lit.site.cfg.py.in=:
+#+begin_src python
+config.foo_tools_dir = "@CMAKE_BINARY_DIR@/bin"
+
+import lit.llvm
+lit.llvm.initialize(lit_config, config)
+
+lit_config.load_config(config, "@CMAKE_CURRENT_SOURCE_DIR@/lit.cfg.py")
+#+end_src
+
+Add =tests/lit.cfg.py=:
+#+begin_src python
+import os
+
+from lit.formats import ShTest
+from lit.llvm import llvm_config
+
+config.name = "foo"
+config.test_format = ShTest()
+config.suffixes = [".mlir"]
+config.test_source_root = os.path.dirname(__file__)
+tool_dirs = [config.foo_tools_dir]
+tools = ['foo-opt']
+llvm_config.add_tool_substitutions(tools, tool_dirs)
+#+end_src
+
+Add a simple unit test, =tests/add.mlir=:
+#+begin_src mlir
+// RUN: foo-opt %s -canonicalize | FileCheck %s
+
+func.func @add(%arg: i32) -> i32 {
+  %0 = arith.constant 1 : i32
+  %1 = arith.constant 1 : i32
+  %2 = arith.addi %0, %1 : i32
+  func.return %2 : i32
+}
+
+// CHECK-LABEL: func.func @add
+// CHECK-NEXT: %[[C:.*]] = arith.constant 2
+// CHECK-NEXT: return %[[C]]
+#+end_src
+
+You can run tests with:
+#+begin_src shell
+$ cmake --build build --target check-foo
+# or
+$ llvm-lit build/tests
+#+end_src

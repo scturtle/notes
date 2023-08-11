@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-08-11 Fri 19:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MLIR cheatsheet</title>
+<meta name="author" content="scturtle" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="org.css"/>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">MLIR cheatsheet</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org34cf0ed">1. foo-opt</a></li>
+<li><a href="#org8f2b0e8">2. register built-in dialects</a></li>
+<li><a href="#org64c3eee">3. register built-in passes</a></li>
+<li><a href="#org8f8a8d1">4. add unit tests</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org34cf0ed" class="outline-2">
+<h2 id="org34cf0ed"><span class="section-number-2">1.</span> foo-opt</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Create <code>CMakeLists.txt</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-cmake"><span style="color: #006699;">cmake_minimum_required</span>(VERSION 3.25)
+<span style="color: #006699;">project</span>(foo)
+
+<span style="color: #006699;">set</span>(CMAKE_CXX_STANDARD 17)
+<span style="color: #006699;">set</span>(CMAKE_INCLUDE_CURRENT_DIR ON)
+<span style="color: #006699;">set</span>(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+<span style="color: #006699;">find_package</span>(MLIR REQUIRED CONFIG)
+<span style="color: #006699;">message</span>(STATUS <span style="color: #008000;">"Using MLIRConfig.cmake in: ${</span><span style="color: #BA36A5;">MLIR_DIR</span><span style="color: #008000;">}"</span>)
+<span style="color: #006699;">message</span>(STATUS <span style="color: #008000;">"Using LLVMConfig.cmake in: ${</span><span style="color: #BA36A5;">LLVM_DIR</span><span style="color: #008000;">}"</span>)
+
+<span style="color: #006699;">set</span>(LLVM_RUNTIME_OUTPUT_INTDIR ${<span style="color: #BA36A5;">CMAKE_BINARY_DIR</span>}/bin)
+<span style="color: #006699;">set</span>(LLVM_LIBRARY_OUTPUT_INTDIR ${<span style="color: #BA36A5;">CMAKE_BINARY_DIR</span>}/lib)
+<span style="color: #006699;">set</span>(MLIR_BINARY_DIR ${<span style="color: #BA36A5;">CMAKE_BINARY_DIR</span>})
+
+<span style="color: #006699;">list</span>(APPEND CMAKE_MODULE_PATH <span style="color: #008000;">"${</span><span style="color: #BA36A5;">MLIR_CMAKE_DIR</span><span style="color: #008000;">}"</span>)
+<span style="color: #006699;">list</span>(APPEND CMAKE_MODULE_PATH <span style="color: #008000;">"${</span><span style="color: #BA36A5;">LLVM_CMAKE_DIR</span><span style="color: #008000;">}"</span>)
+<span style="color: #006699;">include</span>(TableGen)
+<span style="color: #006699;">include</span>(AddLLVM)
+<span style="color: #006699;">include</span>(AddMLIR)
+<span style="color: #006699;">include</span>(HandleLLVMOptions)
+
+<span style="color: #006699;">include_directories</span>(${<span style="color: #BA36A5;">LLVM_INCLUDE_DIRS</span>})
+<span style="color: #006699;">include_directories</span>(${<span style="color: #BA36A5;">MLIR_INCLUDE_DIRS</span>})
+<span style="color: #006699;">include_directories</span>(${<span style="color: #BA36A5;">PROJECT_SOURCE_DIR</span>}/include)
+<span style="color: #006699;">include_directories</span>(${<span style="color: #BA36A5;">PROJECT_BINARY_DIR</span>}/include)
+<span style="color: #006699;">link_directories</span>(${<span style="color: #BA36A5;">LLVM_BUILD_LIBRARY_DIR</span>})
+<span style="color: #006699;">add_definitions</span>(${<span style="color: #BA36A5;">LLVM_DEFINITIONS</span>})
+
+<span style="color: #006699;">add_llvm_executable</span>(foo-opt tools/FooOpt.cpp)
+<span style="color: #006699;">llvm_update_compile_flags</span>(foo-opt)
+<span style="color: #006699;">target_link_libraries</span>(foo-opt PRIVATE
+  MLIROptLib
+)
+<span style="color: #006699;">mlir_check_all_link_libraries</span>(foo-opt)
+</pre>
+</div>
+
+<p>
+Create <code>tools/FooOpt.cpp</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"mlir/Tools/mlir-opt/MlirOptMain.h"</span>
+
+<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">argc</span>, <span style="color: #6434A3;">char</span> **<span style="color: #BA36A5;">argv</span>) {
+  <span style="color: #D0372D;">mlir</span>::<span style="color: #6434A3;">DialectRegistry</span> <span style="color: #BA36A5;">registry</span>;
+
+  <span style="color: #0000FF;">return</span> <span style="color: #D0372D;">mlir</span>::asMainReturnCode(
+      <span style="color: #D0372D;">mlir</span>::MlirOptMain(argc, argv, <span style="color: #008000;">"foo opt\n"</span>, registry));
+}
+</pre>
+</div>
+
+<p>
+<code>build.sh</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">cmake -H. -Bbuild -GNinja <span style="color: #008000;">\</span>
+  -DMLIR_DIR=${<span style="color: #BA36A5;">PATH_TO_MLIR_BUILD</span>}/build/lib/cmake/mlir <span style="color: #008000;">\</span>
+  -DLLVM_DIR=${<span style="color: #BA36A5;">PATH_TO_MLIR_BUILD</span>}/build/lib/cmake/llvm
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8f2b0e8" class="outline-2">
+<h2 id="org8f2b0e8"><span class="section-number-2">2.</span> register built-in dialects</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Change <code>CMakeLists.txt</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #888888;"> link_directories(${LLVM_BUILD_LIBRARY_DIR})</span>
+<span style="color: #888888;"> add_definitions(${LLVM_DEFINITIONS})</span>
+<span style="color: #888888;"> </span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">get_property(dialect_libs GLOBAL PROPERTY MLIR_DIALECT_LIBS)</span>
+<span style="color: #888888;"> add_llvm_executable(foo-opt tools/FooOpt.cpp)</span>
+<span style="color: #888888;"> llvm_update_compile_flags(foo-opt)</span>
+<span style="color: #888888;"> target_link_libraries(foo-opt PRIVATE</span>
+<span style="color: #888888;">   MLIROptLib</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">  ${dialect_libs}</span>
+<span style="color: #888888;"> )</span>
+ mlir_check_all_link_libraries(foo-opt)
+</pre>
+</div>
+
+<p>
+Change <code>tools/FooOpt.cpp</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #888888;"> #include "mlir/Tools/mlir-opt/MlirOptMain.h"</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">#include "mlir/IR/DialectRegistry.h"</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">#include "mlir/InitAllDialects.h"</span>
+<span style="color: #888888;"> </span>
+<span style="color: #888888;"> int main(int argc, char **argv) {</span>
+<span style="color: #888888;">   mlir::DialectRegistry registry;</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">  mlir::registerAllDialects(registry);</span>
+<span style="color: #888888;"> </span>
+<span style="color: #888888;">   return mlir::asMainReturnCode(</span>
+       mlir::MlirOptMain(argc, argv, "foo opt\n", registry));
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org64c3eee" class="outline-2">
+<h2 id="org64c3eee"><span class="section-number-2">3.</span> register built-in passes</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Change <code>CMakeLists.txt</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #888888;"> get_property(dialect_libs GLOBAL PROPERTY MLIR_DIALECT_LIBS)</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">get_property(conversion_libs GLOBAL PROPERTY MLIR_CONVERSION_LIBS)</span>
+<span style="color: #888888;"> add_llvm_executable(foo-opt tools/FooOpt.cpp)</span>
+<span style="color: #888888;"> llvm_update_compile_flags(foo-opt)</span>
+<span style="color: #888888;"> target_link_libraries(foo-opt PRIVATE</span>
+<span style="color: #888888;">   MLIROptLib</span>
+<span style="color: #888888;">   ${dialect_libs}</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">  ${conversion_libs}</span>
+ )
+</pre>
+</div>
+
+<p>
+Change <code>tools/FooOpt.cpp</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #888888;"> #include "mlir/Tools/mlir-opt/MlirOptMain.h"</span>
+<span style="color: #888888;"> #include "mlir/IR/DialectRegistry.h"</span>
+<span style="color: #888888;"> #include "mlir/InitAllDialects.h"</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">#include "mlir/InitAllPasses.h"</span>
+<span style="color: #888888;"> </span>
+<span style="color: #888888;"> int main(int argc, char **argv) {</span>
+<span style="color: #888888;">   mlir::DialectRegistry registry;</span>
+<span style="color: #888888;">   mlir::registerAllDialects(registry);</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">  mlir::registerAllPasses();</span>
+<span style="color: #888888;"> </span>
+<span style="color: #888888;">   return mlir::asMainReturnCode(</span>
+       mlir::MlirOptMain(argc, argv, "foo opt\n", registry));
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org8f8a8d1" class="outline-2">
+<h2 id="org8f8a8d1"><span class="section-number-2">4.</span> add unit tests</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Change <code>CMakeLists.txt</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-diff"><span style="color: #888888;"> ${conversion_libs}</span>
+<span style="color: #888888;"> )</span>
+<span style="color: #888888;"> mlir_check_all_link_libraries(foo-opt)</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">add_subdirectory(tests)</span>
+  
+</pre>
+</div>
+
+<p>
+Make <code>tests</code> directory, add <code>tests/CMakeLists.txt</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-cmake"><span style="color: #006699;">configure_lit_site_cfg</span>(
+  ${<span style="color: #BA36A5;">CMAKE_CURRENT_SOURCE_DIR</span>}/lit.site.cfg.py.in
+  ${<span style="color: #BA36A5;">CMAKE_CURRENT_BINARY_DIR</span>}/lit.site.cfg.py
+  MAIN_CONFIG
+  ${<span style="color: #BA36A5;">CMAKE_CURRENT_SOURCE_DIR</span>}/lit.cfg.py
+)
+
+<span style="color: #006699;">add_lit_testsuite</span>(check-foo
+  <span style="color: #008000;">"Running the lit tests"</span>
+  ${<span style="color: #BA36A5;">CMAKE_CURRENT_BINARY_DIR</span>}
+  DEPENDS foo-opt)
+<span style="color: #006699;">set_target_properties</span>(check-foo PROPERTIES FOLDER <span style="color: #008000;">"Tests"</span>)
+</pre>
+</div>
+
+<p>
+Add <code>tests/lit.site.cfg.py.in</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-python">config.<span style="color: #BA36A5;">foo_tools_dir</span> = <span style="color: #008000;">"@CMAKE_BINARY_DIR@/bin"</span>
+
+<span style="color: #0000FF;">import</span> lit.llvm
+lit.llvm.initialize(lit_config, config)
+
+lit_config.load_config(config, <span style="color: #008000;">"@CMAKE_CURRENT_SOURCE_DIR@/lit.cfg.py"</span>)
+</pre>
+</div>
+
+<p>
+Add <code>tests/lit.cfg.py</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #0000FF;">import</span> os
+
+<span style="color: #0000FF;">from</span> lit.formats <span style="color: #0000FF;">import</span> ShTest
+<span style="color: #0000FF;">from</span> lit.llvm <span style="color: #0000FF;">import</span> llvm_config
+
+config.<span style="color: #BA36A5;">name</span> = <span style="color: #008000;">"foo"</span>
+config.<span style="color: #BA36A5;">test_format</span> = ShTest()
+config.<span style="color: #BA36A5;">suffixes</span> = [<span style="color: #008000;">".mlir"</span>]
+config.<span style="color: #BA36A5;">test_source_root</span> = os.path.dirname(__file__)
+<span style="color: #BA36A5;">tool_dirs</span> = [config.foo_tools_dir]
+<span style="color: #BA36A5;">tools</span> = [<span style="color: #008000;">'foo-opt'</span>]
+llvm_config.add_tool_substitutions(tools, tool_dirs)
+</pre>
+</div>
+
+<p>
+Add a simple unit test, <code>tests/add.mlir</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-mlir"><span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">RUN: foo-opt %s -canonicalize | FileCheck %s</span>
+
+func.func <span style="color: #006699;">@add</span>(<span style="color: #BA36A5;">%arg</span>: <span style="color: #6434A3;">i32</span>) -&gt; <span style="color: #6434A3;">i32</span> {
+  <span style="color: #BA36A5;">%0</span> = arith.constant <span style="color: #808080; font-weight: bold;">1</span> : <span style="color: #6434A3;">i32</span>
+  <span style="color: #BA36A5;">%1</span> = arith.constant <span style="color: #808080; font-weight: bold;">1</span> : <span style="color: #6434A3;">i32</span>
+  <span style="color: #BA36A5;">%2</span> = arith.addi <span style="color: #BA36A5;">%0</span>, <span style="color: #BA36A5;">%1</span> : <span style="color: #6434A3;">i32</span>
+  func.return <span style="color: #BA36A5;">%2</span> : <span style="color: #6434A3;">i32</span>
+}
+
+<span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">CHECK-LABEL: func.func @add</span>
+<span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">CHECK-NEXT: %[[C:.*]] = arith.constant 2</span>
+<span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">CHECK-NEXT: return %[[C]]</span>
+</pre>
+</div>
+
+<p>
+You can run tests with:
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">$ cmake --build build --target check-foo
+<span style="color: #8D8D84; font-style: italic;"># </span><span style="color: #8D8D84; font-style: italic;">or</span>
+$ llvm-lit build/tests
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: scturtle</p>
+<p class="date">Created: 2023-08-11 Fri 19:24</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

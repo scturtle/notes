@@ -15,6 +15,5 @@ Notes for sharing.
 
 * Reference
 
-- [[https://gongzhitaao.org/orgcss][OrgCSS]]
 - [[https://github.com/fniessen/refcard-org-mode][Org Mode Refcard]]
 - [[https://orgmode.org/manual/Export-Settings.html][Org Mode Export Setting]]
