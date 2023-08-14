@@ -64,7 +64,7 @@ cmake -H. -Bbuild -GNinja \
 
 * register built-in dialects
 
-Change =CMakeLists.txt=:
+Modify =CMakeLists.txt=:
 #+begin_src diff
  link_directories(${LLVM_BUILD_LIBRARY_DIR})
  add_definitions(${LLVM_DEFINITIONS})
@@ -79,7 +79,7 @@ Change =CMakeLists.txt=:
  mlir_check_all_link_libraries(foo-opt)
 #+end_src
 
-Change =tools/FooOpt.cpp=:
+Modify =tools/FooOpt.cpp=:
 #+begin_src diff
  #include "mlir/Tools/mlir-opt/MlirOptMain.h"
 +#include "mlir/IR/DialectRegistry.h"
@@ -95,7 +95,7 @@ Change =tools/FooOpt.cpp=:
 
 * register built-in passes
 
-Change =CMakeLists.txt=:
+Modify =CMakeLists.txt=:
 #+begin_src diff
  get_property(dialect_libs GLOBAL PROPERTY MLIR_DIALECT_LIBS)
 +get_property(conversion_libs GLOBAL PROPERTY MLIR_CONVERSION_LIBS)
@@ -108,7 +108,7 @@ Change =CMakeLists.txt=:
  )
 #+end_src
 
-Change =tools/FooOpt.cpp=:
+Modify =tools/FooOpt.cpp=:
 #+begin_src diff
  #include "mlir/Tools/mlir-opt/MlirOptMain.h"
  #include "mlir/IR/DialectRegistry.h"
@@ -127,7 +127,7 @@ Change =tools/FooOpt.cpp=:
 
 * add unit tests
 
-Change =CMakeLists.txt=:
+Modify =CMakeLists.txt=:
 #+begin_src diff
  ${conversion_libs}
  )
@@ -200,4 +200,167 @@ You can run tests with:
 $ cmake --build build --target check-foo
 # or
 $ llvm-lit build/tests
+#+end_src
+
+* add pass
+
+Add =lib/Transform/Arith/Passes.td=:
+#+begin_src tablegen
+#ifndef TRANSFORM_ARITH_PASSES
+#define TRANSFORM_ARITH_PASSES
+
+include "mlir/Pass/PassBase.td"
+
+def MyFirstConstantFolding : Pass<"my-first-constant-folding"> {
+}
+
+#endif // TRANSFORM_ARITH_PASSES
+#+end_src
+
+Add =lib/Transform/Arith/Passes.h=:
+#+begin_src c++
+#pragma once
+
+#include "lib/Transform/Arith/MyFirstConstantFolding.h"
+
+namespace mlir {
+namespace foo {
+
+#define GEN_PASS_REGISTRATION
+#include "lib/Transform/Arith/Passes.h.inc"
+
+} // namespace foo
+} // namespace mlir
+#+end_src
+
+Add =lib/Transform/Arith/MyFirstConstantFolding.h=:
+#+begin_src c++
+#pragma once
+
+#include "mlir/Pass/Pass.h"
+
+namespace mlir {
+namespace foo {
+
+#define GEN_PASS_DECL_MYFIRSTCONSTANTFOLDING
+#include "lib/Transform/Arith/Passes.h.inc"
+
+} // namespace foo
+} // namespace mlir
+#+end_src
+
+Add =lib/Transform/Arith/MyFirstConstantFolding.cpp=:
+#+begin_src c++
+#include "lib/Transform/Arith/MyFirstConstantFolding.h"
+
+#include "mlir/Dialect/Arith/IR/Arith.h"
+#include "mlir/IR/PatternMatch.h"
+#include "mlir/Pass/Pass.h"
+#include "mlir/Transforms/GreedyPatternRewriteDriver.h"
+
+namespace mlir {
+namespace foo {
+
+#define GEN_PASS_DEF_MYFIRSTCONSTANTFOLDING
+#include "lib/Transform/Arith/Passes.h.inc"
+
+struct MyFirstConstantFoldingPattern : public OpRewritePattern<arith::AddIOp> {
+  MyFirstConstantFoldingPattern(mlir::MLIRContext *context)
+      : OpRewritePattern<arith::AddIOp>(context) {}
+
+  LogicalResult matchAndRewrite(arith::AddIOp op,
+                                PatternRewriter &rewriter) const override {
+    auto constLhs = op.getLhs().getDefiningOp<arith::ConstantIntOp>();
+    auto constRhs = op.getRhs().getDefiningOp<arith::ConstantIntOp>();
+    if (!constLhs || !constRhs)
+      return failure();
+    auto result = constLhs.value() + constRhs.value();
+    rewriter.replaceOpWithNewOp<arith::ConstantIntOp>(op, result, op.getType());
+    return success();
+  }
+};
+
+struct MyFirstConstantFolding
+    : impl::MyFirstConstantFoldingBase<MyFirstConstantFolding> {
+  using MyFirstConstantFoldingBase::MyFirstConstantFoldingBase;
+
+  void runOnOperation() override {
+    mlir::RewritePatternSet patterns(&getContext());
+    patterns.add<MyFirstConstantFoldingPattern>(&getContext());
+    (void)applyPatternsAndFoldGreedily(getOperation(), std::move(patterns));
+  }
+};
+
+} // namespace foo
+} // namespace mlir
+#+end_src
+
+Add =lib/Transform/Arith/CMakeLists.txt=:
+#+begin_src c++
+set(LLVM_TARGET_DEFINITIONS Passes.td)
+mlir_tablegen(Passes.h.inc -gen-pass-decls -name Arith)
+add_public_tablegen_target(ArithPassIncGen)
+
+add_mlir_library(
+  ArithPass
+  MyFirstConstantFolding.cpp
+  DEPENDS
+  ArithPassIncGen
+)
+#+end_src
+
+Modify =CMakeLists.txt=:
+#+begin_src diff
+@@ -22,11 +22,13 @@ include(HandleLLVMOptions)
+ 
+ include_directories(${LLVM_INCLUDE_DIRS})
+ include_directories(${MLIR_INCLUDE_DIRS})
+-include_directories(${PROJECT_SOURCE_DIR}/include)
+-include_directories(${PROJECT_BINARY_DIR}/include)
++include_directories(${PROJECT_SOURCE_DIR})
++include_directories(${PROJECT_BINARY_DIR})
+ link_directories(${LLVM_BUILD_LIBRARY_DIR})
+ add_definitions(${LLVM_DEFINITIONS})
+ 
++add_subdirectory(lib/Transform/Arith)
++
+ get_property(dialect_libs GLOBAL PROPERTY MLIR_DIALECT_LIBS)
+ get_property(conversion_libs GLOBAL PROPERTY MLIR_CONVERSION_LIBS)
+ add_llvm_executable(foo-opt tools/FooOpt.cpp)
+@@ -35,6 +37,7 @@ target_link_libraries(foo-opt PRIVATE
+   MLIROptLib
+   ${dialect_libs}
+   ${conversion_libs}
++  ArithPass
+ )
+ mlir_check_all_link_libraries(foo-opt)
+#+end_src
+
+Modify =tools/FooOpt.cpp=:
+#+begin_src diff
+@@ -1,4 +1,4 @@
+ #include "mlir/IR/DialectRegistry.h"
+ #include "mlir/InitAllDialects.h"
+ #include "mlir/InitAllPasses.h"
++#include "lib/Transform/Arith/Passes.h"
+ 
+ int main(int argc, char **argv) {
+   mlir::DialectRegistry registry;
+   mlir::registerAllDialects(registry);
+   mlir::registerAllPasses();
+ 
++  mlir::foo::registerArithPasses();
++
+   return mlir::asMainReturnCode(
+       mlir::MlirOptMain(argc, argv, "foo opt\n", registry));
+ }
+#+end_src
+
+Modify =tests/add.mlir=:
+#+begin_src diff
+-// RUN: foo-opt %s -canonicalize | FileCheck %s
++// RUN: foo-opt %s -my-first-constant-folding | FileCheck %s
+ 
+ func.func @add(%arg: i32) -> i32 {
+   %0 = arith.constant 1 : i32
 #+end_src
