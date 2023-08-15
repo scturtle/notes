@@ -153,7 +153,7 @@ add_lit_testsuite(check-foo
 set_target_properties(check-foo PROPERTIES FOLDER "Tests")
 #+end_src
 
-Add =tests/lit.site.cfg.py.in=:
+Create =tests/lit.site.cfg.py.in=:
 #+begin_src python
 config.foo_tools_dir = "@CMAKE_BINARY_DIR@/bin"
 
@@ -163,7 +163,7 @@ lit.llvm.initialize(lit_config, config)
 lit_config.load_config(config, "@CMAKE_CURRENT_SOURCE_DIR@/lit.cfg.py")
 #+end_src
 
-Add =tests/lit.cfg.py=:
+Create =tests/lit.cfg.py=:
 #+begin_src python
 import os
 
@@ -179,7 +179,7 @@ tools = ['foo-opt']
 llvm_config.add_tool_substitutions(tools, tool_dirs)
 #+end_src
 
-Add a simple unit test, =tests/add.mlir=:
+Create a simple unit test, =tests/add.mlir=:
 #+begin_src mlir
 // RUN: foo-opt %s -canonicalize | FileCheck %s
 
@@ -204,7 +204,7 @@ $ llvm-lit build/tests
 
 * add pass
 
-Add =lib/Transform/Arith/Passes.td=:
+Create =lib/Transform/Arith/Passes.td=:
 #+begin_src tablegen
 #ifndef TRANSFORM_ARITH_PASSES
 #define TRANSFORM_ARITH_PASSES
@@ -217,23 +217,23 @@ def MyFirstConstantFolding : Pass<"my-first-constant-folding"> {
 #endif // TRANSFORM_ARITH_PASSES
 #+end_src
 
-Add =lib/Transform/Arith/Passes.h=:
+Create =lib/Transform/Arith/Passes.h=:
 #+begin_src c++
 #pragma once
 
-#include "lib/Transform/Arith/MyFirstConstantFolding.h"
+#include "Transform/Arith/MyFirstConstantFolding.h"
 
 namespace mlir {
 namespace foo {
 
 #define GEN_PASS_REGISTRATION
-#include "lib/Transform/Arith/Passes.h.inc"
+#include "Transform/Arith/Passes.h.inc"
 
 } // namespace foo
 } // namespace mlir
 #+end_src
 
-Add =lib/Transform/Arith/MyFirstConstantFolding.h=:
+Create =lib/Transform/Arith/MyFirstConstantFolding.h=:
 #+begin_src c++
 #pragma once
 
@@ -243,15 +243,15 @@ namespace mlir {
 namespace foo {
 
 #define GEN_PASS_DECL_MYFIRSTCONSTANTFOLDING
-#include "lib/Transform/Arith/Passes.h.inc"
+#include "Transform/Arith/Passes.h.inc"
 
 } // namespace foo
 } // namespace mlir
 #+end_src
 
-Add =lib/Transform/Arith/MyFirstConstantFolding.cpp=:
+Create =lib/Transform/Arith/MyFirstConstantFolding.cpp=:
 #+begin_src c++
-#include "lib/Transform/Arith/MyFirstConstantFolding.h"
+#include "Transform/Arith/MyFirstConstantFolding.h"
 
 #include "mlir/Dialect/Arith/IR/Arith.h"
 #include "mlir/IR/PatternMatch.h"
@@ -262,7 +262,7 @@ namespace mlir {
 namespace foo {
 
 #define GEN_PASS_DEF_MYFIRSTCONSTANTFOLDING
-#include "lib/Transform/Arith/Passes.h.inc"
+#include "Transform/Arith/Passes.h.inc"
 
 struct MyFirstConstantFoldingPattern : public OpRewritePattern<arith::AddIOp> {
   MyFirstConstantFoldingPattern(mlir::MLIRContext *context)
@@ -295,8 +295,8 @@ struct MyFirstConstantFolding
 } // namespace mlir
 #+end_src
 
-Add =lib/Transform/Arith/CMakeLists.txt=:
-#+begin_src c++
+Create =lib/Transform/Arith/CMakeLists.txt=:
+#+begin_src cmake
 set(LLVM_TARGET_DEFINITIONS Passes.td)
 mlir_tablegen(Passes.h.inc -gen-pass-decls -name Arith)
 add_public_tablegen_target(ArithPassIncGen)
@@ -304,7 +304,7 @@ add_public_tablegen_target(ArithPassIncGen)
 add_mlir_library(
   ArithPass
   MyFirstConstantFolding.cpp
-  DEPENDS
+DEPENDS
   ArithPassIncGen
 )
 #+end_src
@@ -317,8 +317,8 @@ Modify =CMakeLists.txt=:
  include_directories(${MLIR_INCLUDE_DIRS})
 -include_directories(${PROJECT_SOURCE_DIR}/include)
 -include_directories(${PROJECT_BINARY_DIR}/include)
-+include_directories(${PROJECT_SOURCE_DIR})
-+include_directories(${PROJECT_BINARY_DIR})
++include_directories(${PROJECT_SOURCE_DIR}/lib)
++include_directories(${PROJECT_BINARY_DIR}/lib)
  link_directories(${LLVM_BUILD_LIBRARY_DIR})
  add_definitions(${LLVM_DEFINITIONS})
  
@@ -342,7 +342,7 @@ Modify =tools/FooOpt.cpp=:
  #include "mlir/IR/DialectRegistry.h"
  #include "mlir/InitAllDialects.h"
  #include "mlir/InitAllPasses.h"
-+#include "lib/Transform/Arith/Passes.h"
++#include "Transform/Arith/Passes.h"
  
  int main(int argc, char **argv) {
    mlir::DialectRegistry registry;
@@ -363,4 +363,68 @@ Modify =tests/add.mlir=:
  
  func.func @add(%arg: i32) -> i32 {
    %0 = arith.constant 1 : i32
+#+end_src
+
+* add dialect
+
+Create =lib/Dialect/Foo/FooBase.td=:
+#+begin_src tablegen
+#ifndef DIALECT_FOOBASE_TD
+#define DIALECT_FOOBASE_TD
+
+include "mlir/IR/OpBase.td"
+
+def Foo_Dialect : Dialect {
+  let name = "foo";
+  let cppNamespace = "::mlir::foo";
+}
+
+class Foo_Op<string mnemonic, list<Trait> traits = []>
+        : Op<Foo_Dialect, mnemonic, traits>;
+
+#endif
+#+end_src
+
+Create =lib/Dialect/Foo/FooOps.td=:
+#+begin_src tablegen
+#ifndef DIALECT_FOOOPS_TD
+#define DIALECT_FOOOPS_TD
+
+include "FooBase.td"
+
+def Foo_AddOp: Foo_Op<"add"> {
+  let arguments = (ins AnyTensor:$lhs, AnyTensor:$rhs);
+  let results = (outs AnyTensor:$output);
+}
+
+#endif
+#+end_src
+
+Create =lib/Dialect/Foo/FooOps.h=:
+#+begin_src c++
+#pragma once
+
+#include "mlir/IR/BuiltinOps.h"
+
+#include "Dialect/Foo/FooOpsDialect.h.inc"
+
+#define GET_OP_CLASSES
+#include "Dialect/Foo/FooOps.h.inc"
+#+end_src
+
+Create =lib/Dialect/Foo/FooOps.cpp=:
+#+begin_src c++
+#include "Dialect/Foo/FooOps.h"
+
+#include "Dialect/Foo/FooOpsDialect.cpp.inc"
+
+void mlir::foo::FooDialect::initialize() {
+  addOperations<
+#define GET_OP_LIST
+#include "Dialect/Foo/FooOps.cpp.inc"
+      >();
+}
+
+#define GET_OP_CLASSES
+#include "Dialect/Foo/FooOps.cpp.inc"
 #+end_src

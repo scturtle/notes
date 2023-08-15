@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2023-08-14 Mon 21:46 -->
+<!-- 2023-08-15 Tue 14:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MLIR cheatsheet</title>
@@ -23,6 +23,7 @@
 <li><a href="#org64c3eee">3. register built-in passes</a></li>
 <li><a href="#org8f8a8d1">4. add unit tests</a></li>
 <li><a href="#org9845cdd">5. add pass</a></li>
+<li><a href="#org8b3a2d2">6. add dialect</a></li>
 </ul>
 </div>
 </div>
@@ -216,7 +217,7 @@ Make <code>tests</code> directory, add <code>tests/CMakeLists.txt</code>:
 </div>
 
 <p>
-Add <code>tests/lit.site.cfg.py.in</code>:
+Create <code>tests/lit.site.cfg.py.in</code>:
 </p>
 <div class="org-src-container">
 <pre class="src src-python">config.<span style="color: #BA36A5;">foo_tools_dir</span> = <span style="color: #008000;">"@CMAKE_BINARY_DIR@/bin"</span>
@@ -229,7 +230,7 @@ lit_config.load_config(config, <span style="color: #008000;">"@CMAKE_CURRENT_SOU
 </div>
 
 <p>
-Add <code>tests/lit.cfg.py</code>:
+Create <code>tests/lit.cfg.py</code>:
 </p>
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #0000FF;">import</span> os
@@ -248,7 +249,7 @@ llvm_config.add_tool_substitutions(tools, tool_dirs)
 </div>
 
 <p>
-Add a simple unit test, <code>tests/add.mlir</code>:
+Create a simple unit test, <code>tests/add.mlir</code>:
 </p>
 <div class="org-src-container">
 <pre class="src src-mlir"><span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">RUN: foo-opt %s -canonicalize | FileCheck %s</span>
@@ -282,7 +283,7 @@ $ llvm-lit build/tests
 <h2 id="org9845cdd"><span class="section-number-2">5.</span> add pass</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-Add <code>lib/Transform/Arith/Passes.td</code>:
+Create <code>lib/Transform/Arith/Passes.td</code>:
 </p>
 <div class="org-src-container">
 <pre class="src src-tablegen">#ifndef TRANSFORM_ARITH_PASSES
@@ -298,18 +299,18 @@ Add <code>lib/Transform/Arith/Passes.td</code>:
 </div>
 
 <p>
-Add <code>lib/Transform/Arith/Passes.h</code>:
+Create <code>lib/Transform/Arith/Passes.h</code>:
 </p>
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #808080; font-weight: bold;">#pragma</span> once
 
-<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"lib/Transform/Arith/MyFirstConstantFolding.h"</span>
+<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Transform/Arith/MyFirstConstantFolding.h"</span>
 
 <span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">mlir</span> {
 <span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">foo</span> {
 
 <span style="color: #808080; font-weight: bold;">#define</span> <span style="color: #BA36A5;">GEN_PASS_REGISTRATION</span>
-<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"lib/Transform/Arith/Passes.h.inc"</span>
+<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Transform/Arith/Passes.h.inc"</span>
 
 } <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">namespace foo</span>
 } <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">namespace mlir</span>
@@ -317,7 +318,7 @@ Add <code>lib/Transform/Arith/Passes.h</code>:
 </div>
 
 <p>
-Add <code>lib/Transform/Arith/MyFirstConstantFolding.h</code>:
+Create <code>lib/Transform/Arith/MyFirstConstantFolding.h</code>:
 </p>
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #808080; font-weight: bold;">#pragma</span> once
@@ -328,7 +329,7 @@ Add <code>lib/Transform/Arith/MyFirstConstantFolding.h</code>:
 <span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">foo</span> {
 
 <span style="color: #808080; font-weight: bold;">#define</span> <span style="color: #BA36A5;">GEN_PASS_DECL_MYFIRSTCONSTANTFOLDING</span>
-<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"lib/Transform/Arith/Passes.h.inc"</span>
+<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Transform/Arith/Passes.h.inc"</span>
 
 } <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">namespace foo</span>
 } <span style="color: #8D8D84; font-style: italic;">// </span><span style="color: #8D8D84; font-style: italic;">namespace mlir</span>
@@ -336,10 +337,10 @@ Add <code>lib/Transform/Arith/MyFirstConstantFolding.h</code>:
 </div>
 
 <p>
-Add <code>lib/Transform/Arith/MyFirstConstantFolding.cpp</code>:
+Create <code>lib/Transform/Arith/MyFirstConstantFolding.cpp</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++"><span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"lib/Transform/Arith/MyFirstConstantFolding.h"</span>
+<pre class="src src-c++"><span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Transform/Arith/MyFirstConstantFolding.h"</span>
 
 <span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"mlir/Dialect/Arith/IR/Arith.h"</span>
 <span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"mlir/IR/PatternMatch.h"</span>
@@ -350,7 +351,7 @@ Add <code>lib/Transform/Arith/MyFirstConstantFolding.cpp</code>:
 <span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">foo</span> {
 
 <span style="color: #808080; font-weight: bold;">#define</span> <span style="color: #BA36A5;">GEN_PASS_DEF_MYFIRSTCONSTANTFOLDING</span>
-<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"lib/Transform/Arith/Passes.h.inc"</span>
+<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Transform/Arith/Passes.h.inc"</span>
 
 <span style="color: #0000FF;">struct</span> <span style="color: #6434A3;">MyFirstConstantFoldingPattern</span> : <span style="color: #0000FF;">public</span> <span style="color: #6434A3;">OpRewritePattern</span>&lt;<span style="color: #D0372D;">arith</span>::AddIOp&gt; {
   <span style="color: #006699;">MyFirstConstantFoldingPattern</span>(<span style="color: #D0372D;">mlir</span>::<span style="color: #6434A3;">MLIRContext</span> *<span style="color: #BA36A5;">context</span>)
@@ -385,17 +386,17 @@ Add <code>lib/Transform/Arith/MyFirstConstantFolding.cpp</code>:
 </div>
 
 <p>
-Add <code>lib/Transform/Arith/CMakeLists.txt</code>:
+Create <code>lib/Transform/Arith/CMakeLists.txt</code>:
 </p>
 <div class="org-src-container">
-<pre class="src src-c++"><span style="color: #006699;">set</span>(<span style="color: #6434A3;">LLVM_TARGET_DEFINITIONS</span> <span style="color: #BA36A5;">Passes</span>.td)
-mlir_tablegen(Passes.h.inc -gen-pass-decls -name Arith)
-add_public_tablegen_target(ArithPassIncGen)
+<pre class="src src-cmake"><span style="color: #006699;">set</span>(LLVM_TARGET_DEFINITIONS Passes.td)
+<span style="color: #006699;">mlir_tablegen</span>(Passes.h.inc -gen-pass-decls -name Arith)
+<span style="color: #006699;">add_public_tablegen_target</span>(ArithPassIncGen)
 
-add_mlir_library(
+<span style="color: #006699;">add_mlir_library</span>(
   ArithPass
   MyFirstConstantFolding.cpp
-  DEPENDS
+DEPENDS
   ArithPassIncGen
 )
 </pre>
@@ -411,8 +412,8 @@ Modify <code>CMakeLists.txt</code>:
 <span style="color: #888888;"> include_directories(${MLIR_INCLUDE_DIRS})</span>
 <span style="color: #CC3333; background-color: #FFDCE0;">-</span><span style="color: #CC3333; background-color: #FFDCE0;">include_directories(${PROJECT_SOURCE_DIR}/include)</span>
 <span style="color: #CC3333; background-color: #FFDCE0;">-</span><span style="color: #CC3333; background-color: #FFDCE0;">include_directories(${PROJECT_BINARY_DIR}/include)</span>
-<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">include_directories(${PROJECT_SOURCE_DIR})</span>
-<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">include_directories(${PROJECT_BINARY_DIR})</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">include_directories(${PROJECT_SOURCE_DIR}/lib)</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">include_directories(${PROJECT_BINARY_DIR}/lib)</span>
 <span style="color: #888888;"> link_directories(${LLVM_BUILD_LIBRARY_DIR})</span>
 <span style="color: #888888;"> add_definitions(${LLVM_DEFINITIONS})</span>
 <span style="color: #888888;"> </span>
@@ -439,7 +440,7 @@ Modify <code>tools/FooOpt.cpp</code>:
 <span style="color: #888888;"> #include "mlir/IR/DialectRegistry.h"</span>
 <span style="color: #888888;"> #include "mlir/InitAllDialects.h"</span>
 <span style="color: #888888;"> #include "mlir/InitAllPasses.h"</span>
-<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">#include "lib/Transform/Arith/Passes.h"</span>
+<span style="color: #3A993A; background-color: #CDFFD8;">+</span><span style="color: #3A993A; background-color: #CDFFD8;">#include "Transform/Arith/Passes.h"</span>
 <span style="color: #888888;"> </span>
 <span style="color: #888888;"> int main(int argc, char **argv) {</span>
 <span style="color: #888888;">   mlir::DialectRegistry registry;</span>
@@ -467,10 +468,89 @@ Modify <code>tests/add.mlir</code>:
 </div>
 </div>
 </div>
+
+<div id="outline-container-org8b3a2d2" class="outline-2">
+<h2 id="org8b3a2d2"><span class="section-number-2">6.</span> add dialect</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Create <code>lib/Dialect/Foo/FooBase.td</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-tablegen">#ifndef DIALECT_FOOBASE_TD
+#define DIALECT_FOOBASE_TD
+
+<span style="color: #0000FF;">include</span> <span style="color: #008000;">"mlir/IR/OpBase.td"</span>
+
+<span style="color: #0000FF;">def</span> Foo_Dialect : Dialect {
+  <span style="color: #0000FF;">let</span> name = <span style="color: #008000;">"foo"</span>;
+  <span style="color: #0000FF;">let</span> cppNamespace = <span style="color: #008000;">"::mlir::foo"</span>;
+}
+
+<span style="color: #0000FF;">class</span> Foo_Op&lt;<span style="color: #0000FF;">string</span> mnemonic, <span style="color: #0000FF;">list</span>&lt;Trait&gt; traits = []&gt;
+        : Op&lt;Foo_Dialect, mnemonic, traits&gt;;
+
+#endif
+</pre>
+</div>
+
+<p>
+Create <code>lib/Dialect/Foo/FooOps.td</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-tablegen">#ifndef DIALECT_FOOOPS_TD
+#define DIALECT_FOOOPS_TD
+
+<span style="color: #0000FF;">include</span> <span style="color: #008000;">"FooBase.td"</span>
+
+<span style="color: #0000FF;">def</span> Foo_AddOp: Foo_Op&lt;<span style="color: #008000;">"add"</span>&gt; {
+  <span style="color: #0000FF;">let</span> arguments = (ins AnyTensor:$lhs, AnyTensor:$rhs);
+  <span style="color: #0000FF;">let</span> results = (outs AnyTensor:$output);
+}
+
+#endif
+</pre>
+</div>
+
+<p>
+Create <code>lib/Dialect/Foo/FooOps.h</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #808080; font-weight: bold;">#pragma</span> once
+
+<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"mlir/IR/BuiltinOps.h"</span>
+
+<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Dialect/Foo/FooOpsDialect.h.inc"</span>
+
+<span style="color: #808080; font-weight: bold;">#define</span> <span style="color: #BA36A5;">GET_OP_CLASSES</span>
+<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Dialect/Foo/FooOps.h.inc"</span>
+</pre>
+</div>
+
+<p>
+Create <code>lib/Dialect/Foo/FooOps.cpp</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Dialect/Foo/FooOps.h"</span>
+
+<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Dialect/Foo/FooOpsDialect.cpp.inc"</span>
+
+<span style="color: #6434A3;">void</span> <span style="color: #D0372D;">mlir</span>::<span style="color: #D0372D;">foo</span>::<span style="color: #D0372D;">FooDialect</span>::<span style="color: #006699;">initialize</span>() {
+  addOperations&lt;
+<span style="color: #808080; font-weight: bold;">#define</span> <span style="color: #BA36A5;">GET_OP_LIST</span>
+<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Dialect/Foo/FooOps.cpp.inc"</span>
+      &gt;();
+}
+
+<span style="color: #808080; font-weight: bold;">#define</span> <span style="color: #BA36A5;">GET_OP_CLASSES</span>
+<span style="color: #808080; font-weight: bold;">#include</span> <span style="color: #008000;">"Dialect/Foo/FooOps.cpp.inc"</span>
+</pre>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: scturtle</p>
-<p class="date">Created: 2023-08-14 Mon 21:46</p>
+<p class="date">Created: 2023-08-15 Tue 14:32</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
